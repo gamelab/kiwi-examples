@@ -20,11 +20,11 @@
 * 4 - subfolder {String} The folder that the loading graphics are located at. 
 */
 
-var CreateAndUpdate = CreateAndUpdate || {};
+var PlayingInReverse = PlayingInReverse || {};
 
-CreateAndUpdate.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
+PlayingInReverse.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
 
-CreateAndUpdate.Loading.preload = function () {
+PlayingInReverse.Loading.preload = function () {
     
     //Make sure to call the super at the top.
     //Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
@@ -34,6 +34,6 @@ CreateAndUpdate.Loading.preload = function () {
     * Replace with your own in-assets to load.
     **/
     this.addImage('kiwiName', '../../assets/img/kiwijs-name.png');
-    this.addSpriteSheet('icons', '../../assets/img/kiwijs-icons.png', 100, 90);
+    this.addSpriteSheet('zombie', '../../assets/img/spritesheets/zombie.png', 150, 117);
 
 };

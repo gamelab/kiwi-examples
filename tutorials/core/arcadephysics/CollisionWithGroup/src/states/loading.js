@@ -20,11 +20,11 @@
 * 4 - subfolder {String} The folder that the loading graphics are located at. 
 */
 
-var CreateAndUpdate = CreateAndUpdate || {};
+var CollisionWithGroup = CollisionWithGroup || {};
 
-CreateAndUpdate.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
+CollisionWithGroup.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
 
-CreateAndUpdate.Loading.preload = function () {
+CollisionWithGroup.Loading.preload = function () {
     
     //Make sure to call the super at the top.
     //Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
@@ -34,6 +34,7 @@ CreateAndUpdate.Loading.preload = function () {
     * Replace with your own in-assets to load.
     **/
     this.addImage('kiwiName', '../../assets/img/kiwijs-name.png');
-    this.addSpriteSheet('icons', '../../assets/img/kiwijs-icons.png', 100, 90);
+    this.addImage('missile', '../../assets/img/static/bullet-rocket.png');
+    this.addSpriteSheet('choppa', '../../assets/img/war/characters/choppa.png', 150, 117);
 
 };
