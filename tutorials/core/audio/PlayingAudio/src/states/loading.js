@@ -20,11 +20,11 @@
 * 4 - subfolder {String} The folder that the loading graphics are located at. 
 */
 
-var Rotation = Rotation || {};
+var PlayingAudio = PlayingAudio || {};
 
-Rotation.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
+PlayingAudio.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
 
-Rotation.Loading.preload = function () {
+PlayingAudio.Loading.preload = function () {
     
     //Make sure to call the super at the top.
     //Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
@@ -36,6 +36,6 @@ Rotation.Loading.preload = function () {
     this.addImage('kiwiName', '../../assets/img/kiwijs-name.png');
     this.addSpriteSheet('icons', '../../assets/img/kiwijs-icons.png', 100, 90);
 
-    this.addSpriteSheet('rocket', '../../assets/img/static/bullet-rocket.png', 100, 90);
+    this.addAudio('loop', '../../assets/audio/boom.mp3');
 
 };

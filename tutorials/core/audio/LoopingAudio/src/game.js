@@ -1,6 +1,6 @@
 
 /**
-* The core Rotation game file.
+* The core LoopingAudio game file.
 * 
 * This file is only used to initalise (start-up) the main Kiwi Game 
 * and add all of the relevant states to that Game.
@@ -15,11 +15,11 @@ var gameOptions = {
 	height: 200
 }
 
-var game = new Kiwi.Game('content', 'Rotation', null, gameOptions);
+var game = new Kiwi.Game('content', 'LoopingAudio', null, gameOptions);
 
 //Add all the States we are going to use.
-game.states.addState(Rotation.Loading);
-game.states.addState(Rotation.Intro);
-game.states.addState(Rotation.Play);
+game.states.addState(LoopingAudio.Loading);
+game.states.addState(LoopingAudio.Intro);
+game.states.addState(LoopingAudio.Play);
 
 game.states.switchState("Loading");

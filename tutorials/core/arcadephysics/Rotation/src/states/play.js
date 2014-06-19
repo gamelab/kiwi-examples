@@ -15,42 +15,35 @@ Rotation.Play = new Kiwi.State('Play');
 */
 Rotation.Play.create = function () {
 
-	/*
-	* Replace with your own game creation code here...
-	*/
   	this.name = new Kiwi.GameObjects.StaticImage(this, this.textures.kiwiName, 10, 10);
-  		
-
-  	this.heart = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 10, 10);
-  	this.heart.cellIndex = 8;
-  	this.heart.y = this.game.stage.height - this.heart.height - 10;
-
-
-  	this.sheild = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 200, 200);
-  	this.sheild.cellIndex = 9;
-  	this.sheild.y = this.game.stage.height * 0.5 - this.sheild.height * 0.5;
-  	this.sheild.x = this.game.stage.width * 0.5 - this.sheild.width * 0.5;
+  	this.addChild(this.name);
+    this.rocket = new CustomRocket(this, this.textures.rocket, 55, 62);
+    this.addChild(this.rocket);
+    this.rocket.physics.angularAcceleration = 0.05;
+    this.rocket.physics.maxAngular = 5;
 
 
-  	this.crown = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 10, 10);
-  	this.crown.cellIndex = 10; 
-  	this.crown.x = this.game.stage.width - this.crown.width - 10;
-  	this.crown.y = this.game.stage.height - this.crown.height - 10;
-
-
-  	this.bomb = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 0, 10);
-  	this.bomb.x = this.game.stage.width - this.bomb.width  -10;
-
-
-  	//Add the GameObjects to the stage
-  	this.addChild(this.heart);
-  	this.addChild(this.crown);
-  	this.addChild(this.sheild);
-  	this.addChild(this.bomb);
-	  this.addChild(this.name);
   
 }
 
+Rotation.Play.update = function(){
+  Kiwi.State.prototype.update.call(this);
+  
 
+}
+
+var CustomRocket = function(state,texture, x, y){
+  Kiwi.GameObjects.Sprite.call(this, state, texture, x, y);
+  this.state = state;
+  this.physics = this.components.add(new Kiwi.Components.ArcadePhysics(this, this.box));
+
+}
+Kiwi.extend(CustomRocket, Kiwi.GameObjects.Sprite);
+
+CustomRocket.prototype.update = function() {
+  Kiwi.GameObjects.Sprite.prototype.update.call(this);
+  this.physics.update();
+  console.log("This must happen")
+};
 
 

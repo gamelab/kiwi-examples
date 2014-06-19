@@ -20,11 +20,11 @@
 * 4 - subfolder {String} The folder that the loading graphics are located at. 
 */
 
-var Rotation = Rotation || {};
+var TilemapPhysics = TilemapPhysics || {};
 
-Rotation.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
+TilemapPhysics.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
 
-Rotation.Loading.preload = function () {
+TilemapPhysics.Loading.preload = function () {
     
     //Make sure to call the super at the top.
     //Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
@@ -35,7 +35,7 @@ Rotation.Loading.preload = function () {
     **/
     this.addImage('kiwiName', '../../assets/img/kiwijs-name.png');
     this.addSpriteSheet('icons', '../../assets/img/kiwijs-icons.png', 100, 90);
-
-    this.addSpriteSheet('rocket', '../../assets/img/static/bullet-rocket.png', 100, 90);
+    this.addSpriteSheet('desertSpritesheet', '../../assets/img/war/tiles/tile-spritesheet.png', 48, 48);
+    this.addSpriteSheet('desertSoldier', '../../assets/img/war/characters/desert-soldier.png', 150, 117);
 
 };

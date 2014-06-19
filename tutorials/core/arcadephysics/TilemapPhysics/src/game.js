@@ -1,6 +1,6 @@
 
 /**
-* The core Rotation game file.
+* The core TilemapPhysics game file.
 * 
 * This file is only used to initalise (start-up) the main Kiwi Game 
 * and add all of the relevant states to that Game.
@@ -11,15 +11,15 @@
 
 var gameOptions = {
 	renderer: Kiwi.RENDERER_WEBGL, 
-	width: 200,
-	height: 200
+	width: 800,
+	height: 250
 }
 
-var game = new Kiwi.Game('content', 'Rotation', null, gameOptions);
+var game = new Kiwi.Game('content', 'TilemapPhysics', null, gameOptions);
 
 //Add all the States we are going to use.
-game.states.addState(Rotation.Loading);
-game.states.addState(Rotation.Intro);
-game.states.addState(Rotation.Play);
+game.states.addState(TilemapPhysics.Loading);
+game.states.addState(TilemapPhysics.Intro);
+game.states.addState(TilemapPhysics.Play);
 
 game.states.switchState("Loading");

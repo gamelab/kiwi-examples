@@ -1,6 +1,6 @@
 
 /**
-* The core Rotation game file.
+* The core General game file.
 * 
 * This file is only used to initalise (start-up) the main Kiwi Game 
 * and add all of the relevant states to that Game.
@@ -11,15 +11,15 @@
 
 var gameOptions = {
 	renderer: Kiwi.RENDERER_WEBGL, 
-	width: 200,
-	height: 200
+	width: 800,
+	height: 600
 }
 
-var game = new Kiwi.Game('content', 'Rotation', null, gameOptions);
+var game = new Kiwi.Game('content', 'General', null, gameOptions);
 
 //Add all the States we are going to use.
-game.states.addState(Rotation.Loading);
-game.states.addState(Rotation.Intro);
-game.states.addState(Rotation.Play);
+game.states.addState(General.Loading);
+game.states.addState(General.Intro);
+game.states.addState(General.Play);
 
 game.states.switchState("Loading");
