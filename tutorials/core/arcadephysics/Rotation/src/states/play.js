@@ -43,7 +43,7 @@ Kiwi.extend(CustomRocket, Kiwi.GameObjects.Sprite);
 CustomRocket.prototype.update = function() {
   Kiwi.GameObjects.Sprite.prototype.update.call(this);
   this.physics.update();
-  console.log("This must happen")
+
 };
 
 
