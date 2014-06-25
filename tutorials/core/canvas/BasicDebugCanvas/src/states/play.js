@@ -32,9 +32,6 @@ BasicDebugCanvas.Play.create = function () {
   	this.sheild.y = this.game.stage.height * 0.5 - this.sheild.height * 0.5;
   	this.sheild.x = this.game.stage.width * 0.66 - this.sheild.width * 0.5;
 
-
-
-
   	//Add the GameObjects to the stage
   	this.addChild(this.heart);
   	this.addChild(this.sheild);
@@ -47,7 +44,6 @@ BasicDebugCanvas.Play.update = function(){
   Kiwi.State.prototype.update.call(this);
   this.heart.rotation += 0.01;
 
-  idth, game.stage.height);
   game.stage.clearDebugCanvas();
 
   this.heart.box.draw(game.stage.dctx);
