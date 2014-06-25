@@ -45,12 +45,10 @@ BasicDebugCanvas.Play.create = function () {
 
 BasicDebugCanvas.Play.update = function(){
   Kiwi.State.prototype.update.call(this);
-  this.heart.rotation += 0.01
-  game.stage.dctx.width = game.stage.dctx.width;
+  this.heart.rotation += 0.01;
 
-  game.stage.dctx.clearRect ( 0 , 0 , game.stage.width, game.stage.height);
-  game.stage.dctx.fillStyle = "rgba(255, 0, 0, 0.1)";
-  game.stage.dctx.fillRect(0, 0, game.stage.width, game.stage.height);
+  idth, game.stage.height);
+  game.stage.clearDebugCanvas();
 
   this.heart.box.draw(game.stage.dctx);
   this.sheild.box.draw(game.stage.dctx);
