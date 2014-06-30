@@ -20,11 +20,11 @@
 * 4 - subfolder {String} The folder that the loading graphics are located at. 
 */
 
-var ManipulatingGroupMembers = ManipulatingGroupMembers || {};
+var SwitchingStates = SwitchingStates || {};
 
-ManipulatingGroupMembers.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
+SwitchingStates.Loading = new KiwiLoadingScreen('Loading', 'Intro', '../../assets/img/loading/');
 
-ManipulatingGroupMembers.Loading.preload = function () {
+SwitchingStates.Loading.preload = function () {
     
     //Make sure to call the super at the top.
     //Otherwise the loading graphics will load last, and that defies the whole point in loading them. 
@@ -35,5 +35,8 @@ ManipulatingGroupMembers.Loading.preload = function () {
     **/
     this.addImage('kiwiName', '../../assets/img/kiwijs-name.png');
     this.addSpriteSheet('icons', '../../assets/img/kiwijs-icons.png', 100, 90);
+
+    this.addImage('state1', '../../assets/img/misc/State1.png');
+    this.addImage('state2', '../../assets/img/misc/State2.png');
 
 };

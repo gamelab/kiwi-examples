@@ -15,40 +15,66 @@ ManipulatingGroupMembers.Play = new Kiwi.State('Play');
 */
 ManipulatingGroupMembers.Play.create = function () {
 
-	/*
-	* Replace with your own game creation code here...
-	*/
   	this.name = new Kiwi.GameObjects.StaticImage(this, this.textures.kiwiName, 10, 10);
+    this.addChild(this.name);
   		
 
-  	this.heart = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 10, 10);
-  	this.heart.cellIndex = 8;
-  	this.heart.y = this.game.stage.height - this.heart.height - 10;
+  	var heart = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 10, 10);
+  	heart.cellIndex = 8;
+  	heart.y = game.stage.height - heart.height - 10;
 
 
-  	this.sheild = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 200, 200);
-  	this.sheild.cellIndex = 9;
-  	this.sheild.y = this.game.stage.height * 0.5 - this.sheild.height * 0.5;
-  	this.sheild.x = this.game.stage.width * 0.5 - this.sheild.width * 0.5;
+  	var shield = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 200, 200);
+  	shield.cellIndex = 9;
+  	shield.y = game.stage.height * 0.5 - shield.height * 0.5;
+  	shield.x = game.stage.width * 0.5 - shield.width * 0.5;
 
 
-  	this.crown = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 10, 10);
-  	this.crown.cellIndex = 10; 
-  	this.crown.x = this.game.stage.width - this.crown.width - 10;
-  	this.crown.y = this.game.stage.height - this.crown.height - 10;
+  	var crown = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 10, 10);
+  	crown.cellIndex = 10; 
+  	crown.x = game.stage.width - crown.width - 10;
+  	crown.y = game.stage.height - crown.height - 10;
 
 
-  	this.bomb = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 0, 10);
-  	this.bomb.x = this.game.stage.width - this.bomb.width  -10;
+  	var bomb = new Kiwi.GameObjects.Sprite(this, this.textures.icons, 0, 10);
+  	bomb.x = game.stage.width - bomb.width  -10;
+
+    //Create group
+    this.myGroup = new Kiwi.Group(this);
+
+    //Add group to stage
+    this.addChild(this.myGroup);
 
 
-  	//Add the GameObjects to the stage
-  	this.addChild(this.heart);
-  	this.addChild(this.crown);
-  	this.addChild(this.sheild);
-  	this.addChild(this.bomb);
-	  this.addChild(this.name);
+
+  	//Add the GameObjects to the group
+  	this.myGroup.addChild(heart);
+  	this.myGroup.addChild(crown);
+  	this.myGroup.addChild(shield);
+  	this.myGroup.addChild(bomb);
+
+    this.step = 4;
+
+    //Manipulate single entity 
+    this.myGroup.members[0].scaleX = 2;
+    this.myGroup.members[0].scaleY = 2;
+	  
   
+}
+
+ManipulatingGroupMembers.Play.update = function(){
+  Kiwi.State.prototype.update.call(this);
+
+  //Manipulate single entity 
+  if(this.myGroup.members[2].x  >= game.stage.width - this.myGroup.members[2].width || this.myGroup.members[2].x <= 0){
+    this.step *= -1;
+  }
+  this.myGroup.members[2].x += this.step;
+
+  //Manipulate entire group
+  for (var i = this.myGroup.members.length - 1; i >= 0; i--) {
+    this.myGroup.members[i].rotation += 0.01;
+  };
 }
 
 
