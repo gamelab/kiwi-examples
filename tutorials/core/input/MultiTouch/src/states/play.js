@@ -59,7 +59,6 @@ MultiTouch.Play.create = function () {
 MultiTouch.Play.spawn = function (x, y, timeDown, timeUp, duration, pointer) {
   this.pointers.push(pointer);
   this.addChild(this.characters[this.pointers.length - 1]);
-  //console.log("I'm here Ben!");
 }
 MultiTouch.Play.removePointer = function (pointer) {
   for (var i = 0; i < this.pointers.length; i++) {
