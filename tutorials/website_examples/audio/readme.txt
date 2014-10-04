@@ -1,0 +1,1 @@
+To test audio in kiwi.js make sure you are running the game through a localhost.
