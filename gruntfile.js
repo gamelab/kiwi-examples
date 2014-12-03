@@ -1,25 +1,42 @@
 module.exports = function(grunt) {
 
+	grunt.loadNpmTasks('grunt-contrib-connect');
 
-  // Project configuration.
-  grunt.initConfig({
+	grunt.loadTasks('./tasks');
 
-    
+	grunt.initConfig({
 
-    connect: {
-        root: {
-            options: {
-                keepalive: true,
-                hostname: '*',
-                port: 8001
-            }
-        }
-    }
+		examples: {
+
+			all: {
+				
+				options: {
+					base: 'examples',
+					excludes: ['_site','plugins']
+				},
+
+				src: ['examples/**/*.js'],
+				dest: 'examples/_site/examples.json'
+
+			}
+
+		},
+
+		connect: {
+
+				root: {
+						options: {
+								keepalive: true,
+								hostname: '*',
+								port: 8001
+						}
+				}
+
+		}
 
 
-  });
+	});
 
-  grunt.loadNpmTasks('grunt-contrib-connect');
 
 
 };
