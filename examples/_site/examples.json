@@ -1,0 +1,25 @@
+{
+
+	"basics": {
+
+
+		"dependencies": [
+			"./cp.js",
+			"./chipmunk-physics-0.8.0.js"
+		],
+
+		"examples": [
+				{
+					"file": "./basics/loading-an-image.js",
+					"title": "Loading an image"
+				},
+				{
+					"file": "./basics/loading-another-image.js",
+					"title": "Loading another image"
+				}
+			]
+
+	}
+
+
+}
