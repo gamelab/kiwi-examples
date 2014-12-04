@@ -170,6 +170,39 @@ a:hover {
 	margin: 0 auto;
 }
 
+#source-code {
+	display: none;
+
+	&.visible {
+		display: block;
+	}
+}
+
+#error {
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 9;
+	margin-top: 0.2em;
+	color: $text-light-blue;
+	padding-left: $panel-width; 
+	width: 100%;
+	text-align: center;
+
+	@include box-sizing();
+
+	.help {
+		font-size: 0.5em;
+		line-height: 1.2em;
+		color: #fff;
+		max-width: 500px;
+		display: block;
+		margin: 0 auto;
+		margin-top: 1em;
+	}
+
+}
+
 //Example Page
 .example {
 
@@ -184,6 +217,20 @@ a:hover {
 		margin-bottom: 0.2em;
 		color: $text-light-blue;
 		text-align: center;
+
+		.help {
+			font-size: 0.5em;
+			line-height: 1.2em;
+			color: #fff;
+			max-width: 500px;
+			display: block;
+			margin: 0 auto;
+			margin-top: 1em;
+		}
+
+		.code {
+			color: $text-light-blue;
+		}
 	}
 
 	.description {

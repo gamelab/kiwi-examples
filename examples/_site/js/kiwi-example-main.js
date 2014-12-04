@@ -1,28 +1,45 @@
 (function(){
 
+
 	var exampleJson = {};
+
+
+	$( document ).ready( function() {
 		
-	//Attempt to load in the json
-	$.ajax( './_site/examples.json', {
+		//Attempt to load in the json
+		$.ajax( './_site/examples.json', {
 
-		dataType: "json",
+			dataType: "json",
 
-		success: function( data ) {
+			success: function( data ) {
 
-			exampleJson = data;
+				exampleJson = data;
 
-			displayExamples();
+				displayExamples();
 
-		},
+			},
 
-		error: function() {
-			displayError('Could not load in the example json.');
-		}
+			error: function() {
+				displayError( "<h1>Couldn't load in the example json. <br /><span class=\"help\">Please try again. Make sure you are running this example through a web server.</span></h1>" );
+			}
 
-	} );
+		} );
 
+
+	});
 
 	function displayExamples() {
+
+		//Add the basic/games categories if they are there.
+		if( exampleJson['basics'] ) {
+			addCategory( exampleJson['basics'], 'basics' );
+			delete exampleJson['basics'];
+		}
+
+		if( exampleJson['games'] ) {
+			addCategory( exampleJson['games'], 'games' );
+			delete exampleJson['games'];
+		}
 
 		//Loop through the example json
 		for( var index in exampleJson ) {
@@ -69,16 +86,22 @@
 	}
 
 
-	function displayError( message ) {
-		
-		//$('#game-container').addClass('error').html( message );
+	function displayError( text ) {
+			
+		$( 'body' ).append( 
+			
+			$( '<div>', { id: 'error' } ).html( text )
 
+		);
 	}
 	
 
 	function loadExample( event ) {
 
  	 	event.preventDefault();
+
+ 	 	$( '.active' ).removeClass( 'active' );
+ 	 	$( this ).addClass( 'active' );
 
 		$('#viewing-area').attr( 'src', this.href );
 

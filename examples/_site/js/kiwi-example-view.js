@@ -18,7 +18,7 @@
 		if( !category ) {
 			//Cannot find example.
 			//404 game here.
-			displayError('No category was passed. No example can be loaded.');
+			displayError( 'Category could not be found. <br /><span class="help">Please try again. If the problem persists then you may need to rebuild the examples using <span class="code">grunt</span></span>' );
 			return;
 		}
 
@@ -40,7 +40,7 @@
 			},
 
 			error: function() {
-				displayError('Could not load in the example json.');
+				displayError( 'Could not load the JSON file. <br /><span class="help">Please try again. Make sure you are running this example through a web server.</span>' );
 			}
 
 		} );
@@ -52,7 +52,8 @@
 
 		//If there is a category
 		if( !exampleJson[ category ] ) {
-			displayError( 'Category passed was not found.' );
+			displayError( 'Category could not be found. <br /><span class="help">Please try again. If the problem persists then you may need to rebuild the examples using <span class="code">grunt</span></span>' );
+			return;
 		}
 
 		var ex = exampleJson[category].examples[index];
@@ -87,13 +88,15 @@
 
 		} ).fail( function() {
 
-			displayError( 'Failured to load example javascript.' );
+			displayError( 'Example JavaScript could not load. <br /><span class="help">Please try again. If the problem persists then you may need to rebuild the examples using <span class="code">grunt</span></span>' );
 
 		} );
 
 	}
 
 	function displayCode( code ) {
+
+		$('#source-code').addClass('visible');
 
 		$('#source-code pre code').text( code ).each( function(i, block) {
 
@@ -137,7 +140,7 @@
 
 		}).fail( function() {
 
-			displayError( 'Failure loading dependencies.' );
+			displayError( 'Failed to load a dependency. <br /><span class="help">Please try again. If the problem persists then you may need to rebuild the examples using <span class="code">grunt examples</span></span>' );
 
 		});
 
@@ -146,7 +149,7 @@
 
 	function displayError( message ) {
 		
-		$('#game-container').addClass('error').html( message );
+		$('#title').addClass('error').html( message );
 
 	}
 

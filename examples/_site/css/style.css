@@ -100,6 +100,36 @@ a:hover {
   box-shadow: 0 3px 10px black;
   margin: 0 auto; }
 
+#source-code {
+  display: none; }
+  #source-code.visible {
+    display: block; }
+
+#error {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 9;
+  margin-top: 0.2em;
+  color: #69deff;
+  padding-left: 340px;
+  width: 100%;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */ }
+  #error .help {
+    font-size: 0.5em;
+    line-height: 1.2em;
+    color: #fff;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em; }
+
 .example {
   background-color: #051029;
   color: #fff;
@@ -115,6 +145,16 @@ a:hover {
     margin-bottom: 0.2em;
     color: #69deff;
     text-align: center; }
+    .example #title .help {
+      font-size: 0.5em;
+      line-height: 1.2em;
+      color: #fff;
+      max-width: 500px;
+      display: block;
+      margin: 0 auto;
+      margin-top: 1em; }
+    .example #title .code {
+      color: #69deff; }
   .example .description {
     font-style: italic;
     font-size: 13px;
