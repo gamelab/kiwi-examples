@@ -5,21 +5,21 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addImage('rocket', './assets/logo/rocket.png');
+    this.addImage('sky', './assets/anime/sky-bg.png');
 
 };
 
 state.create = function () {
 
-	this.name = new Kiwi.GameObjects.StaticImage(this, this.textures.rocket, 10, 10);
-	this.addChild(this.name);
+	this.sky = new Kiwi.GameObjects.Sprite(this, this.textures.sky, 0, 0);
+	this.addChild(this.sky);
   
 };
 
 
 var gameOptions = {
-	width: 400,
-	height: 200
+	width: 768,
+	height: 512
 };
 
 var game = new Kiwi.Game('game-container', 'LoadingAnImage', state, gameOptions);
