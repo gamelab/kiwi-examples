@@ -22,7 +22,7 @@ State.preload = function() {
 	this.addImage('k', './assets/logo/k.png');
 	this.addImage('i', './assets/logo/i.png');
 	this.addImage('w', './assets/logo/w.png');
-	this.addImage('dot', './assets/logo/..png');
+	this.addImage('dot', './assets/logo/dot.png');
 	this.addImage('j', './assets/logo/j.png');
 	this.addImage('s', './assets/logo/s.png');
 	this.addImage('underline', './assets/logo/underline.png');
