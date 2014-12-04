@@ -14,8 +14,7 @@ function merge( objectA, objectB ) {
 }
 
 module.exports = function(grunt) {
-
-
+ 
 	grunt.registerMultiTask('examples', 'Builds json file used by the example site.', function() {
 
 		//Get the options and set default values.
@@ -71,12 +70,14 @@ module.exports = function(grunt) {
 				} 
 
 				//Get the filename for the file.
-				var fileName = filePath.substr( filePath.lastIndexOf('/') );
+				var fileName = filePath.substr( filePath.lastIndexOf('/') + 1 );
+				fileName = fileName.substr( 0, fileName.length - 3 ).replace(/[-+._]/g, ' ');
+
 
 				//Add the file examples
 				result[ directory ].examples.push( {
 					
-					file: filePath.slice( options.base.length + 1 ),
+					file: filePath.slice( options.base.length + 1 ), 
 					title: fileName.charAt(0).toUpperCase() + fileName.slice(1)
 
 				} );

@@ -1,3 +1,147 @@
 main, header, footer, nav {
-	display: block;
-}
+  display: block; }
+
+html {
+  width: 100%;
+  height: 100%; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  height: 100%;
+  background-color: #051029; }
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1em; }
+
+a {
+  text-decoration: none;
+  color: #36549d; }
+
+a:hover {
+  text-decoration: underline; }
+
+#panel {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 340px;
+  height: 100%;
+  padding: 0.75em 1em;
+  overflow-y: scroll;
+  color: #36549d;
+  background-color: #e0edf1; }
+  #panel header {
+    margin-bottom: 2em; }
+  #panel footer {
+    margin-top: 2em; }
+  #panel h1 {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em; }
+  #panel .versions p {
+    margin: 0 0 0.2em 0;
+    color: #555555;
+    font-size: 13px;
+    width: 48%;
+    text-indent: 2px; }
+  #panel .version {
+    float: right; }
+  #panel #example-list section {
+    margin: 0.75em 0;
+    font-size: 0.9em; }
+    #panel #example-list section h1 {
+      font-size: 1.5em; }
+    #panel #example-list section ul {
+      padding-bottom: 0.5em; }
+    #panel #example-list section li {
+      padding: 0.1em;
+      text-indent: 0.5em; }
+    #panel #example-list section li:first-child {
+      padding-top: 0; }
+    #panel #example-list section li:last-child {
+      padding-bottom: 0; }
+  #panel ul, #panel li {
+    padding: 0;
+    margin: 0;
+    list-style: none; }
+  #panel .external-links {
+    font-size: 0.9em; }
+    #panel .external-links li {
+      margin-bottom: 0.2em;
+      text-indent: 2px; }
+
+#viewing-area {
+  border: none;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  margin-left: 340px;
+  display: block;
+  width: -webkit-calc(100% - 340px);
+  width: calc(100% - 340px);
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */ }
+
+.example {
+  background-color: #051029;
+  color: #fff;
+  padding: 1em;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */ }
+  .example #title {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    color: #69deff; }
+  .example .description {
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0; }
+  .example main h1 {
+    margin-top: 1.5em;
+    margin-bottom: 0; }
+  .example pre {
+    display: block;
+    background-color: #333333;
+    width: 100%;
+    padding: 1em;
+    border-radius: 9px;
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.5), inset 0 0 5px rgba(100, 100, 100, 0.2);
+    margin: 1em 0;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */ }
+  .example a {
+    color: #69deff; }
+  .example #dependencies {
+    display: none; }
+    .example #dependencies.active {
+      display: block; }
+    .example #dependencies ul {
+      margin-top: 1em;
+      padding: 0; }
+    .example #dependencies li {
+      list-style: none;
+      text-indent: 1em;
+      margin-bottom: 0.5em; }

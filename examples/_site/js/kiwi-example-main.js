@@ -54,7 +54,7 @@
 
 			$anchor = $('<a>', { 
 				href: './view.html?category=' + index + '&index=' + i + '&title=' + example.title
-			}).text( example.title );
+			}).text( example.title ).click( loadExample );
 
 			$listItem = $('<li>').append( $anchor );
 			$list.append( $listItem );
@@ -73,6 +73,16 @@
 		
 		//$('#game-container').addClass('error').html( message );
 
+	}
+	
+
+	function loadExample( event ) {
+
+ 	 	event.preventDefault();
+
+		$('#viewing-area').attr( 'src', this.href );
+
+		return false;
 	}
 
 

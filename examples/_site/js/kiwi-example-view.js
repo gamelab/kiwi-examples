@@ -108,6 +108,7 @@
 
 			}
 
+			$('#dependencies').addClass('active');
 
 		}
 
