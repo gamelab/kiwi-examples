@@ -1,10 +1,5 @@
 {
 
-	"title": "Intro",
-
-	"dependencies": [
-		"./plugins/cp.js",
-		"./plugins/chipmunk-physics-0.8.0.js"
-	]
+	"title": "Basics"
 
 }

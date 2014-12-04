@@ -1,0 +1,11 @@
+{
+
+	"title": "Chipmunk Physics",
+
+	"dependencies": [
+		"./plugins/cp.js",
+		"./plugins/chipmunk-physics-0.8.0.js",
+		"./plugins/chipmunk-physics-debug-0.8.0.js"
+	]
+
+}

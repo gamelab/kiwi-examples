@@ -95,7 +95,11 @@
 
 	function displayCode( code ) {
 
-		$('#source-code pre').text( code );
+		$('#source-code pre code').text( code ).each( function(i, block) {
+
+			hljs.highlightBlock( block );
+			
+		} );
 
 		if( dependencies ) {
 
