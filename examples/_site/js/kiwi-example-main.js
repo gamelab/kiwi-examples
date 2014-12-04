@@ -6,6 +6,10 @@
 
 	$( document ).ready( function() {
 		
+		//Version check
+		$( '#current-version a' ).text( Kiwi.VERSION ).attr( 'href', 'https://github.com/gamelab/kiwi.js/tree/v' + Kiwi.VERSION );
+		$( '.versions' ).removeClass( 'not-visible' );
+
 		//Attempt to load in the json
 		$.ajax( './_site/examples.json', {
 

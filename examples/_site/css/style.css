@@ -130,6 +130,9 @@ a:hover {
     margin: 0 auto;
     margin-top: 1em; }
 
+.not-visible {
+  display: none; }
+
 .example {
   background-color: #051029;
   color: #fff;
