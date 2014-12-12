@@ -5,7 +5,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addImage('space', './assets/solar-system/bg.png');
+    this.addImage('space', './assets/img/solar-system/bg.png');
 
 };
 

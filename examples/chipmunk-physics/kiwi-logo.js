@@ -19,48 +19,48 @@ State.preload = function() {
 
 
 	//kiwi.js
-	this.addImage('k', './assets/logo/k.png');
-	this.addImage('i', './assets/logo/i.png');
-	this.addImage('w', './assets/logo/w.png');
-	this.addImage('dot', './assets/logo/dot.png');
-	this.addImage('j', './assets/logo/j.png');
-	this.addImage('s', './assets/logo/s.png');
-	this.addImage('underline', './assets/logo/underline.png');
+	this.addImage('k', './assets/img/logo/k.png');
+	this.addImage('i', './assets/img/logo/i.png');
+	this.addImage('w', './assets/img/logo/w.png');
+	this.addImage('dot', './assets/img/logo/dot.png');
+	this.addImage('j', './assets/img/logo/j.png');
+	this.addImage('s', './assets/img/logo/s.png');
+	this.addImage('underline', './assets/img/logo/underline.png');
 
 
 	//Logo
-	this.addImage('bomb', './assets/logo/bomb.png');
-	this.addImage('castle', './assets/logo/castle.png');
-	this.addImage('controller-1', './assets/logo/controller-1.png');
-	this.addImage('controller-2-left', './assets/logo/controller-2-left.png');
-	this.addImage('controller-2-right', './assets/logo/controller-2-right.png');
-	this.addImage('crown', './assets/logo/crown.png');
+	this.addImage('bomb', './assets/img/logo/bomb.png');
+	this.addImage('castle', './assets/img/logo/castle.png');
+	this.addImage('controller-1', './assets/img/logo/controller-1.png');
+	this.addImage('controller-2-left', './assets/img/logo/controller-2-left.png');
+	this.addImage('controller-2-right', './assets/img/logo/controller-2-right.png');
+	this.addImage('crown', './assets/img/logo/crown.png');
 
-	this.addImage('fingers', './assets/logo/fingers.png');
+	this.addImage('fingers', './assets/img/logo/fingers.png');
 
-	this.addImage('heart-1', './assets/logo/heart.png');
-	this.addImage('heart-2', './assets/logo/heart-2.png');
-	this.addImage('jigsaw-1', './assets/logo/jigsaw.png');
-	this.addImage('jigsaw-2', './assets/logo/jigsaw-2.png');
+	this.addImage('heart-1', './assets/img/logo/heart.png');
+	this.addImage('heart-2', './assets/img/logo/heart-2.png');
+	this.addImage('jigsaw-1', './assets/img/logo/jigsaw.png');
+	this.addImage('jigsaw-2', './assets/img/logo/jigsaw-2.png');
 
-	this.addImage('key', './assets/logo/key.png');
+	this.addImage('key', './assets/img/logo/key.png');
 
-	this.addImage('lighting-1-left', './assets/logo/lighting-bolt-left.png');
-	this.addImage('lighting-1-right', './assets/logo/lighting-bolt-right.png');
-	this.addImage('lighting-2-left', './assets/logo/lighting-bolt-2-left.png');
-	this.addImage('lighting-2-right', './assets/logo/lighting-bolt-2-right.png');
-	this.addImage('lighting-3', './assets/logo/lighting-bolt-3.png');
+	this.addImage('lighting-1-left', './assets/img/logo/lighting-bolt-left.png');
+	this.addImage('lighting-1-right', './assets/img/logo/lighting-bolt-right.png');
+	this.addImage('lighting-2-left', './assets/img/logo/lighting-bolt-2-left.png');
+	this.addImage('lighting-2-right', './assets/img/logo/lighting-bolt-2-right.png');
+	this.addImage('lighting-3', './assets/img/logo/lighting-bolt-3.png');
 
-	this.addImage('mouse', './assets/logo/mouse.png');
-	this.addImage('pacman', './assets/logo/pacman.png');
-	this.addImage('rocket', './assets/logo/rocket.png');
-	this.addImage('shield', './assets/logo/shield.png');
-	this.addImage('spade', './assets/logo/spade.png');
-	this.addImage('speech', './assets/logo/speech-bubble.png');
+	this.addImage('mouse', './assets/img/logo/mouse.png');
+	this.addImage('pacman', './assets/img/logo/pacman.png');
+	this.addImage('rocket', './assets/img/logo/rocket.png');
+	this.addImage('shield', './assets/img/logo/shield.png');
+	this.addImage('spade', './assets/img/logo/spade.png');
+	this.addImage('speech', './assets/img/logo/speech-bubble.png');
 
-	this.addImage('sword', './assets/logo/sword.png');
-	this.addImage('sword-2-left', './assets/logo/sword-2-left.png');
-	this.addImage('sword-2-right', './assets/logo/sword-2-right.png');
+	this.addImage('sword', './assets/img/logo/sword.png');
+	this.addImage('sword-2-left', './assets/img/logo/sword-2-left.png');
+	this.addImage('sword-2-right', './assets/img/logo/sword-2-right.png');
 
 }
 

@@ -5,7 +5,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addImage('sky', './assets/anime/sky-bg.png');
+    this.addImage('sky', './assets/img/anime/sky-bg.png');
 
 };
 
