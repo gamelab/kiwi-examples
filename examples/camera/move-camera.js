@@ -27,10 +27,6 @@ state.create = function () {
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 
-	if( this.aKey.isDown ){
-		console.log("Keyboard is working");
-	}
-
 	if( this.leftKey.isDown ){
 		this.game.cameras.defaultCamera.transform.x += this.cameraStep;
 	}
