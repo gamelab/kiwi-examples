@@ -24,5 +24,3 @@ var gameOptions = {
 };
 
 var game = new Kiwi.Game('game-container', 'PlayMusic', state, gameOptions);
-
-
