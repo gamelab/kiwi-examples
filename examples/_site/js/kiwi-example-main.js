@@ -108,6 +108,7 @@
  	 	$( this ).addClass( 'active' );
 
 		$('#viewing-area').attr( 'src', this.href );
+		$('iframe')[0].contentWindow.focus();
 
 		return false;
 	}
