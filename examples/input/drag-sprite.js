@@ -14,6 +14,8 @@ state.create = function () {
 
 	this.addChild(this.player);
 
+	this.player.input.enableDrag();
+
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
 
 
@@ -34,6 +36,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'PlayAnimation', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'DragSprite', state, gameOptions);
 
 

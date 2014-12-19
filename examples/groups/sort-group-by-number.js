@@ -45,8 +45,8 @@ state.create = function () {
 
 
 
-	///////////////////////////////////////////////
-	// FOR KIWI JS TEAM // SORY BY STRING FUNCTION
+	/////////////////////////////////////
+	// FOR KIWI JS TEAM // SORY BY STRING
 
 	// var byName = arrayOfObjects.slice(0);
 	// byName.sort(function(a,b) {
