@@ -1,7 +1,7 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    this.addSpriteSheet( 'sprite', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117 );
+    this.addSpriteSheet( 'sprite', './assets/img/anime/girl-sheet-princess-3.png', 150, 117 );
 };
 
 state.create = function () {
@@ -11,14 +11,17 @@ state.create = function () {
 	this.sprite2 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 300, 150);
 	this.addChild(this.sprite2);
 
-	this.sprite3 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 425, 150);
-	this.addChild(this.sprite3);
+	this.sprite1.visible = true;
+	this.sprite2.visible = false;
 
-
-	this.sprite1.alpha = 1;
-	this.sprite2.alpha = 0.5;
-	this.sprite3.alpha = 0.25;
+	this.game.input.mouse.onDown.add( this.mouseDown, this );
 };
+
+state.mouseDown = function () {
+	this.sprite1.visible = !this.sprite1.visible;
+	this.sprite2.visible = !this.sprite2.visible;
+
+}
 
 var gameOptions = {
 	width: 768,
