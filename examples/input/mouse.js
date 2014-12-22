@@ -52,7 +52,7 @@ state.onUp = function () {
 	
 };
 
-state.onWheel = function () {
+state.onWheel = function ( scrollX, scrollY, mouse ) {
 	this.wheelCount += 1;
 	
 };

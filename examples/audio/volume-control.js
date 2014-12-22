@@ -18,11 +18,13 @@ state.create = function () {
 
 	this.game.input.keyboard.onKeyDown.add( this.keyDown, this );
 
+	var text = new Kiwi.GameObjects.Textfield( this, "Use the left and right arrow keys to control the games volume.", 15, 15, '#000', 16 );
+	this.addChild( text );
+
 
 };
 
 state.keyDown = function(keyCode, key) {
-    console.log("Keydown",  this.game.audio.volume);
 
     if( keyCode === Kiwi.Input.Keycodes.LEFT){
     	if( this.game.audio.volume > 0 ){
