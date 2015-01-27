@@ -1,9 +1,8 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-	
-	this.addImage( 'grid', './assets/img/grids/large-debug-grid' );
-}; 
+	this.addImage( 'grid', './assets/img/grids/large-debug-grid.png' );
+};
 
 state.create = function () {
 
@@ -19,8 +18,6 @@ state.create = function () {
 	this.downKey = this.game.input.keyboard.addKey( Kiwi.Input.Keycodes.DOWN, true );
 	this.rightKey = this.game.input.keyboard.addKey( Kiwi.Input.Keycodes.RIGHT, true );
 	this.leftKey = this.game.input.keyboard.addKey( Kiwi.Input.Keycodes.LEFT, true );
-
-
 };
 
 
@@ -32,14 +29,13 @@ state.update = function () {
 	}
 	if( this.rightKey.isDown ){
 		this.game.cameras.defaultCamera.transform.x -= this.cameraStep;
-	} 
+	}
 	if( this.upKey.isDown ){
 		this.game.cameras.defaultCamera.transform.y += this.cameraStep;
-	} 
+	}
 	if( this.downKey.isDown ){
 		this.game.cameras.defaultCamera.transform.y -= this.cameraStep;
 	}
-
 };
 
 
@@ -49,5 +45,3 @@ var gameOptions = {
 };
 
 var game = new Kiwi.Game('game-container', 'MoveCamera', state, gameOptions);
-
-
