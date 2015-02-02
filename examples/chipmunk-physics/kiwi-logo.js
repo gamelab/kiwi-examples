@@ -16,7 +16,7 @@ var State = new Kiwi.State('GameState');
 
 //Large Preload to load all of the assets in. Would definately be better to use a texture atlas.
 State.preload = function() {
-
+	
 
 	//kiwi.js
 	this.addImage('k', './assets/img/logo/k.png');
@@ -66,6 +66,8 @@ State.preload = function() {
 
 
 State.create = function() {
+
+	
 
 	this.toggleDebug();
 

@@ -4,7 +4,7 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    this.addJSON('tilemap', './assets/img/tiles/tilemap-json.json');
+    this.addJSON('tilemap', './assets/data/tiles/tilemap-json.json');
     this.addSpriteSheet( 'tiles', './assets/img/tiles/tileset-basic.png', 48, 48 );
 };
 
