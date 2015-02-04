@@ -35,9 +35,12 @@ state.create = function () {
 state.mouseClicked = function () {
 	var myArray = [];
 
+	// Use the getAllChildren method of the group to put the children of that group in an array.
 	this.group.getAllChildren( false, myArray );
 
 	for (var i = myArray.length - 1; i >= 0; i--) {
+
+		// Rotates all members of the group.
 		myArray[i].rotation += Math.PI * 0.25;
 	};
 };

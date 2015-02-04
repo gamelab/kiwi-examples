@@ -32,6 +32,8 @@ state.create = function () {
 };
 
 state.mouseDown = function () {
+
+	// On mouse click the group will 'clear'. This means it will become empty.
 	this.group.clear();
 }
 

@@ -15,6 +15,8 @@ state.create = function () {
 	this.addChild(this.sprite3);
 
 
+
+	// Changes the Alpha property of the three sprites.
 	this.sprite1.alpha = 1;
 	this.sprite2.alpha = 0.5;
 	this.sprite3.alpha = 0.25;

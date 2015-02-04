@@ -39,7 +39,6 @@ state.create = function () {
 
 state.update = function () {
 
-	// console.log ( this.game.input.mouse.x );
 	if (this.myScale < 0.1 || this.myScale > 1 ){
 		this.myScaleStep *= -1;
 	}

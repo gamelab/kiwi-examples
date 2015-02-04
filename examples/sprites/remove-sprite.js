@@ -16,6 +16,8 @@ state.create = function () {
 };
 
 state.mouseUp = function () {
+
+	// On mouse click it will remove sprite1 and sprite2 from the game in different ways.
 	this.sprite1.exists = false;
 	this.sprite2.destroy();
 }

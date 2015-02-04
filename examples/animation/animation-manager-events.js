@@ -8,23 +8,25 @@ state.preload = function () {
 
 state.create = function () {
 
+	// This sprite will be given two animations "Run" and "Crouch" that 
+	// the sprite will switch between once it has reached 20 frames played.
 	this.player = new Kiwi.GameObjects.Sprite(this, this.textures.player, 275, 150);
 
-	this.player.animation.add( 'idle', [ 0 ], 0.1, false );
 	this.player.animation.add( 'run', [  01, 02, 03, 04, 05, 06 ], 0.1, true );
 	this.player.animation.add( 'crouch', [  07, 08 ], 0.1, true );
 	this.player.animation.play( 'run' );
 
+	// Create four animation events that will fire this corresponding function on
+	// the stopping, changing of frame, playing, and update of a Sprites animation.
 	this.player.animation.onStop.add(this.stoppedAnimation, this);
 	this.player.animation.onChange.add(this.changedAnimation, this);
 	this.player.animation.onPlay.add(this.playedAnimation, this);
 	this.player.animation.onUpdate.add(this.updatedAnimation, this);
 
-
-
-
 	this.addChild(this.player);
 
+
+	// Variables to keep track of the frames played and the times the sprites animation has changed.
 	this.counter = 0;
 	this.timesChanged = 0;
 
@@ -41,18 +43,23 @@ state.create = function () {
   
 };
 
+// This function runs only when an animation has changed frame. It will
+// increment the variable keeping track of the frames played by one.
 state.changedAnimation = function ( name, object ) {
 	this.timesChanged += 1;
 	this.changedText.text = "Times Changed: " + this.timesChanged; 
   
 };
-state.playedAnimation = function ( object ) {
 
+// This function runs when a new animation has been played. 
+// It resets the frame counter variable and updates the TextField.
+state.playedAnimation = function ( object ) {
 	this.counter = 0;
 	this.playedText.text = "Current Animation: " + object.name; 
-
   
 };
+
+// This function gets called when an animation has stopped playing.
 state.stoppedAnimation = function ( currAnimation ) {
 	this.stoppedText.text = "Last Animation: " + currAnimation.name; 
 	if ( this.player.animation.currentAnimation.name == 'run' ) {
@@ -64,6 +71,8 @@ state.stoppedAnimation = function ( currAnimation ) {
 
   
 };
+
+// This function is called any time that the animation components cellIndex has been updated.
 state.updatedAnimation = function () {
 	this.counter += 1;
 	this.updateText.text = "Frames Played: " + this.counter; 

@@ -59,6 +59,8 @@ state.keyUp = function(keyCode, key) {
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
+
+	// Checks every frame what key is down and moves player in the correct direction.
 	if( this.rightKey.isDown || this.rightArrowKey.isDown ){
 		this.player.x += this.speed;
 	} 

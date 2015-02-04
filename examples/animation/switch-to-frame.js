@@ -22,6 +22,8 @@ state.nextFrame = function (){
 
 	var randomFrame = Math.floor( Math.random() * this.player.animation.length );
 
+
+	// This will switch to a randomly selected frame on the texture atlas of the sprite.
 	this.player.animation.switchTo( randomFrame );
 	this.leftCellIndexText.text = "Animation Frame Index: " + this.player.animation.frameIndex;
 

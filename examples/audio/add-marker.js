@@ -13,15 +13,20 @@ state.create = function () {
 	this.addChild(this.player);
 
 	this.sfx = new Kiwi.Sound.Audio(this.game, 'sfx', 1, true);
+	
+	// Adds market to the 'this.sfx' Audio object.
 	this.sfx.addMarker( 'coin', 2.50, 4.22, false );
 	this.sfx.play( 'coin', true );
 
+	// Adds method to run to the onDown signal of the game.input.mouse.
 	this.game.input.mouse.onDown.add( this.mouseDown, this );
 
 
 };
 
 state.mouseDown = function (){
+
+	// Plays 'coin' sound effect
 	this.sfx.play( 'coin', true );
 }
 

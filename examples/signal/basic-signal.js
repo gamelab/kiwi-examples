@@ -25,10 +25,12 @@ state.create = function () {
 
 	this.counterStep = 1;
 
+	// Creating three signals
 	this.signal1 = new Kiwi.Signal();
 	this.signal2 = new Kiwi.Signal();
 	this.signal3 = new Kiwi.Signal();
 
+	// Adding function to be ran when the signal is dispatched.
 	this.signal1.add( this.signal1Incrementor, this );
 	this.signal2.add( this.signal2Incrementor, this );
 	this.signal3.add( this.signal3Incrementor, this );

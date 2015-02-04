@@ -30,29 +30,19 @@ this.game.input.onDown.add(this.tweenBall, this);
     
 
     this.blueBar = new Kiwi.GameObjects.Sprite(this, this.textures.blueBar, -5, 30);
-    this.blueBar.scaleX = 0.95;
-    this.blueBar.scaleY = 0.95;
     this.addChild(this.blueBar);
 
     this.greenBar = new Kiwi.GameObjects.Sprite(this, this.textures.greenBar, -5, 80);
-    this.greenBar.scaleX = 0.95;
-    this.greenBar.scaleY = 0.95;
     this.addChild(this.greenBar);
 
     this.pinkBar = new Kiwi.GameObjects.Sprite(this, this.textures.pinkBar, -5, 130);
-    this.pinkBar.scaleX = 0.95;
-    this.pinkBar.scaleY = 0.95;
     this.addChild(this.pinkBar);
 
     this.redBar = new Kiwi.GameObjects.Sprite(this, this.textures.redBar, -5, 180);
-    this.redBar.scaleX = 0.95;
-    this.redBar.scaleY = 0.95;
     this.addChild(this.redBar);
 
 
     this.yellowBar = new Kiwi.GameObjects.Sprite(this, this.textures.yellowBar, -5, 230);
-    this.yellowBar.scaleX = 0.95;
-    this.yellowBar.scaleY = 0.95;
     this.addChild(this.yellowBar);
 
 
@@ -75,6 +65,9 @@ this.game.input.onDown.add(this.tweenBall, this);
 };
 
 state.tweenBall = function(){
+
+    // When mouse is click it creates a tween for every bar and then starts them.
+    // The only difference is the way the tween is tweened. 
 
 	this.sinX = this.game.tweens.create(this.ballSin);
     this.sinX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);

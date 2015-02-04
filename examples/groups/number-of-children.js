@@ -42,6 +42,7 @@ state.mouseClicked = function () {
 
 	this.group.addChild( tempSprite );
 
+	// On mouse click the number of sprites will be counted and displayed with the 'numChildren' method of the group.
 	this.numberText.text =  "Number of Sprites: " + this.group.numChildren();
 }
 

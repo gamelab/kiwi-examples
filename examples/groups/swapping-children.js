@@ -34,6 +34,7 @@ state.create = function () {
 
 state.mouseClicked = function () {
 
+	// Swaps the position of the children in the group.
 	this.group.swapChildren( this.group.getChildAt( 0 ), this.group.getChildAt( 1 ) );
 }
 

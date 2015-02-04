@@ -7,6 +7,7 @@ state.preload = function () {
 
 state.create = function () {
 
+	// Add to sprites to the stage. One with an animation and one with just a texture atlas.
 	this.player1 = new Kiwi.GameObjects.Sprite(this, this.textures.playerSpriteSheet, 200, 150);
 	this.addChild(this.player1);
 
@@ -27,9 +28,13 @@ state.create = function () {
 
 state.nextFrame = function (){
 
+	// On mouse click the animation will switch to previous cell.
+	// This sprite will play through the default animation of the animation compenent.
+	// This animation is every single frame in the texture atlas.
 	this.player1.animation.prevFrame();
 	this.leftCellIndexText.text = "Left Cell Index: " + this.player1.cellIndex;
 
+	// This sprite will play in reverse through the 'run' animation that we have added to it.
 	this.player2.animation.prevFrame();
 	this.rightCellIndexText.text = "Right Cell Index: " + this.player2.cellIndex;
 };

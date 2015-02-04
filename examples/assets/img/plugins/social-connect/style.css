@@ -1,0 +1,9 @@
+#game-container {
+	margin: 0 auto;
+}
+
+body {
+	margin: 0;
+	padding: 1em;
+	background-color: #3B5998;
+}

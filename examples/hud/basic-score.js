@@ -2,6 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
 	
+	// Adds a basic score widget to the defaultHUD of the game.
 	this.score = new Kiwi.HUD.Widget.BasicScore( this.game, 50, 50, 0 );
 	this.game.huds.defaultHUD.addWidget( this.score );
 

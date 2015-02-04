@@ -35,6 +35,7 @@ state.create = function () {
 state.mouseClicked = function () {
 	var myNumber = Math.floor( Math.random() * 10 );
 
+	// Gets a child from the group at a specific index.
 	var child = this.group.getChildAt( myNumber );
 	child.rotation += Math.PI * 0.25;
 };

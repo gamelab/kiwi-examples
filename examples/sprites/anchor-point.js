@@ -11,12 +11,14 @@ state.create = function () {
 	this.sprite2 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 300, 150);
 	this.addChild(this.sprite2);
 
+	// Changes the Anchor Point of the sprite to the top left corner.
 	this.sprite2.anchorPointX = 0;
 	this.sprite2.anchorPointY = 0;
 
 	this.sprite3 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 425, 150);
 	this.addChild(this.sprite3);
 
+	// Changes the Anchor Point of the sprite to the bottom right corner.
 	this.sprite3.anchorPointX = this.sprite3.width;
 	this.sprite3.anchorPointY = this.sprite3.height;
 

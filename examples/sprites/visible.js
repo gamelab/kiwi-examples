@@ -11,6 +11,7 @@ state.create = function () {
 	this.sprite2 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 300, 150);
 	this.addChild(this.sprite2);
 
+	// Set the visible property of a sprite.
 	this.sprite1.visible = true;
 	this.sprite2.visible = false;
 
@@ -18,6 +19,8 @@ state.create = function () {
 };
 
 state.mouseDown = function () {
+
+	// Switches the visiblity of the sprite.
 	this.sprite1.visible = !this.sprite1.visible;
 	this.sprite2.visible = !this.sprite2.visible;
 

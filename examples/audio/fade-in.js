@@ -14,6 +14,8 @@ state.create = function () {
 
 	this.music = new Kiwi.Sound.Audio(this.game, 'music', 0, true);
 	this.music.play();
+
+	// Sets the games volume to 0 to begin with.
 	this.volume = 0;
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
@@ -22,6 +24,9 @@ state.create = function () {
 };
 state.update = function () {
 	Kiwi.State.prototype.update.call(this);
+
+
+	// Increases the volume of the game by 0.001 to 1 in the update loop of the state. 
 	if ( this.volume < 1 ){
 		this.volume += 0.001;
 		this.music.volume = this.volume;

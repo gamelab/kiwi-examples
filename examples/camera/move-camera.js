@@ -12,7 +12,6 @@ state.create = function () {
 
 	this.cameraStep = 3;
 
-	// this.game.input.keyboard.onKeyDown.add( this.myKeyDown, this );
 
 	this.upKey = this.game.input.keyboard.addKey( Kiwi.Input.Keycodes.UP, true );
 	this.downKey = this.game.input.keyboard.addKey( Kiwi.Input.Keycodes.DOWN, true );
@@ -24,6 +23,8 @@ state.create = function () {
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 
+
+	// Move the camera with the arrow keys.
 	if( this.leftKey.isDown ){
 		this.game.cameras.defaultCamera.transform.x += this.cameraStep;
 	}

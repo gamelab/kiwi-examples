@@ -38,6 +38,8 @@ state.create = function () {
 
 	this.addButtons();
 
+	// Each sprite that is added to the group is given multiple tags of the colors that exist on their texture atlas. 
+
 	var apocalypse = new Kiwi.GameObjects.Sprite( this, this.textures.apocalypse, 50, 50 );
 	apocalypse.addTag( 'green' );
 	apocalypse.addTag( 'red' );
@@ -124,6 +126,9 @@ var gameOptions = {
 
 var Button = function ( state, x, y, color ) {
 	this.state = state;
+
+	// When a button is clicked all of the sprites with the tag of the tag of
+	// the color of the button are toggled between visible and not.
 	Kiwi.GameObjects.Sprite.call(this, this.state, this.state.textures[ color + "Button" ], x, y);
 
 	this.color = color;

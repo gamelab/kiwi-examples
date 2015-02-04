@@ -1,0 +1,9 @@
+{
+
+	"title": "Plugin Social Connect",
+
+	"dependencies": [
+		"./plugins/socialconnect-0.8.0.min.js"
+	]
+
+}

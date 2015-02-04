@@ -34,7 +34,9 @@ state.create = function () {
    
 };
 
-state.mouseClicked = function () {
+state.mouseClicked = function () {\
+
+	// Everytime the mouse has been clicked it will remove the first child of the Group.
 	this.group.removeChild( this.group.getChildAt( 0 ), true );
 	this.group.removeChildAt( 0 );
 	this.group.removeChildren( 0, this.group.numChildren(), true );

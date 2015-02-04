@@ -22,14 +22,13 @@ state.update = function () {
 	var mousePos = this.game.input.mouse.x / this.game.stage.width,
 		timeScale = ( mousePos - 0.5 ) * 4;
 
+
+	// Adjust the time scale of the clock depending on the mouse position. 
+	// This will change the clock to play anywhere between -2 and 2. 
 	this.game.time.clock.timeScale = timeScale;
 	
 }
 
-state.mouseClicked = function () {
-	
-
-};
 
 var gameOptions = {
 	width: 768,

@@ -33,6 +33,8 @@ state.create = function () {
 };
 
 state.mouseClicked = function () {
+
+	// Everytime the mouse is clicked the first child in the group will be set to the last.
 	this.group.setChildIndex( this.group.getChildAt( 0 ), this.group.numChildren() );
 }
 

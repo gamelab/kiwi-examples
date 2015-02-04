@@ -1,0 +1,9 @@
+{
+
+	"title": "Plugin Gamepad",
+
+	"dependencies": [
+		"./plugins/gamepad-plugin-1.0.0.min.js"
+	]
+
+}

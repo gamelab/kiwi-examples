@@ -21,6 +21,8 @@ state.create = function () {
 };
 
 state.mouseClicked = function () {
+
+	// Every time that the mouse is clicked the game will switch the music to play if it is not playing or vice versa.
 	if( this.music.isPlaying ){
 		this.music.pause();
 	} else {

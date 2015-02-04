@@ -14,6 +14,7 @@ state.create = function () {
 
 	this.addChild(this.player);
 
+	// Enables the player to be dragged.
 	this.player.input.enableDrag();
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );

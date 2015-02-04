@@ -14,6 +14,8 @@ state.create = function () {
 	this.sprite3 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 425, 150);
 	this.addChild(this.sprite3);
 
+
+	// Sets the rotation property of the sprite.
 	this.sprite1.rotation = 0;
 	this.sprite2.rotation = Math.PI * 0.5;
 	this.sprite3.rotation = Math.PI;

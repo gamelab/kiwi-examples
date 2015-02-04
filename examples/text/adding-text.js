@@ -2,8 +2,10 @@ var state = new Kiwi.State('Play');
 
 state.create = function () {
 
+	// Create a TextField GameObject.
 	this.text = new Kiwi.GameObjects.Textfield( this, "Text goes here.", 50, 50, "#000", 32, 'normal', 'Impact' );
 
+	// Add text to the state
 	this.addChild( this.text );
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
@@ -15,6 +17,8 @@ state.create = function () {
 };
 
 state.mouseClicked = function () {
+
+	// On mouse click changes the font of the text.
 	if(this.text.fontFamily === 'serif' ){
 		this.text.fontFamily = 'Impact';
 	} else {
@@ -26,6 +30,8 @@ state.mouseClicked = function () {
 };
 
 state.mouseWheeled = function ( scrollX, scrollY, mouse ) {
+
+	// Mouse wheel will cahnge the font size of the text.
 	if( scrollY > 0 ){
 		this.text.fontSize += 1;
 	} else {

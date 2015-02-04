@@ -13,6 +13,8 @@ state.create = function () {
 
 	this.text = new Kiwi.GameObjects.Textfield( this, "Earth!", 55, 0, "#FF0000", 16, 'normal', 'Impact' );
 	this.text.textAlign = 'center';
+
+	// Adds child to the same group as the sprite.
 	this.group.addChild( this.text );
 
 
@@ -29,6 +31,8 @@ state.create = function () {
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 
+
+	// Updating the transform of the group will change the transform of the text and sprite.
 	if( this.group.x > game.stage.width ){
 		this.group.x = -110;
 	}

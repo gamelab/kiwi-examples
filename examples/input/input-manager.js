@@ -8,7 +8,7 @@ state.create = function () {
 
 
 	
-
+	// Add methods to be dispatched on the games input object.
 	this.game.input.onDown.add( this.onDown, this );
 	this.game.input.onReleased.add( this.onReleased, this );
 	this.game.input.onUp.add( this.onUp, this );

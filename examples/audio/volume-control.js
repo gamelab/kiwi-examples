@@ -26,6 +26,8 @@ state.create = function () {
 
 state.keyDown = function(keyCode, key) {
 
+
+	// Use the left and right keys to adjust the volume of the game.
     if( keyCode === Kiwi.Input.Keycodes.LEFT){
     	if( this.game.audio.volume > 0 ){
 	    	this.game.audio.volume -= 0.05;

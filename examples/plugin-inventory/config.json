@@ -1,0 +1,9 @@
+{
+
+	"title": "Plugin Inventory",
+
+	"dependencies": [
+		"./plugins/Inventory-1.0.0.min.js"
+	]
+
+}

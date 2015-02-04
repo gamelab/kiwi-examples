@@ -11,14 +11,14 @@ state.create = function () {
 	this.sprite2 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 300, 150);
 	this.addChild(this.sprite2);
 
+	// Sets the scaleX property of the sprite.
 	this.sprite2.scaleX = 0.5;
 
 	this.sprite3 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 425, 150);
 	this.addChild(this.sprite3);
 
+	// Sets the scaleY property of the sprite.
 	this.sprite3.scaleY = 0.5;
-
-
 	
 };
 

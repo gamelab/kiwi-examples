@@ -10,6 +10,7 @@ state.preload = function () {
 };
 
 state.create = function () {
+	
 	//Create our character
 	this.character = new Kiwi.GameObjects.Sprite(this, this.textures.character, 0, 0);
 

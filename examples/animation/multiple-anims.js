@@ -10,6 +10,9 @@ state.create = function () {
 
 	this.player = new Kiwi.GameObjects.Sprite(this, this.textures.player, 275, 150);
 
+
+	// Sprites can have multiple animation.
+	// Simply add as many as you want to the sprites animation component.
 	this.player.animation.add( 'idle', [ 0 ], 0.1, false );
 	this.player.animation.add( 'run', [  01, 02, 03, 04, 06 ], 0.1, true );
 	this.player.animation.add( 'crouch', [  07, 08 ], 0.1, true );
@@ -51,6 +54,9 @@ state.mouseClicked = function () {
 			anim = 'run';
 	}
 
+
+	// Play ani of the animations by calling the play function of the animation component of the sprite.
+	// Remember to pass the string of the animation you want to play.
 	this.player.animation.play( anim );
 
 	this.currentAnimationText.text = "Current Animation: " + this.player.animation.currentAnimation.name;

@@ -23,6 +23,8 @@ state.create = function () {
 };
 
 state.mouseClicked = function () {
+
+	// This will stop the animation playing on the 'this.player' sprite.
 	this.player.animation.stop();
 
 }

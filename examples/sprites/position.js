@@ -14,14 +14,16 @@ state.create = function () {
 	this.sprite3 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 0, 0);
 	this.addChild(this.sprite3);
 
-
+	// Set the position of the sprite to the center of the stage
 	// This sprite will not appear in the middle because positions are taken from the top left corner of the sprite.
 	this.sprite1.x = this.game.stage.width * 0.5;
 	this.sprite1.y = this.game.stage.height * 0.5;
 
+	// Set the position of the sprite to X: 150 Y: -50.
 	this.sprite2.x = 150;
 	this.sprite2.y = -50;
 
+	// Set the position of the sprite to X: 500 Y: 200.
 	this.sprite3.x = 500;
 	this.sprite3.y = 200;
 

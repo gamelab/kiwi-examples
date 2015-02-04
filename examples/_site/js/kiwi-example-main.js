@@ -34,6 +34,16 @@
 
 	function displayExamples() {
 
+		var addToEnd = [ 'plugin', 'plugin-chipmunk-physics', 'plugin-save-manager', 
+		'plugin-primitives', 'plugin-damage-pipeline', 'plugin-gamepad', 'plugin-social-connect',
+		'plugin-fullscreen', 'plugin-uber-shader', 'plugin-achievement', 'plugin-inventory',
+		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles" ];
+
+		// This example is hidden until it is fixed.
+		if( exampleJson['geom'] ) {
+			delete exampleJson['geom'];
+		}
+
 		//Add the basic/games categories if they are there.
 		if( exampleJson['basics'] ) {
 			addCategory( exampleJson['basics'], 'basics' );
@@ -47,10 +57,25 @@
 
 		//Loop through the example json
 		for( var index in exampleJson ) {
+			var skip = false;
+			for (var i = addToEnd.length - 1; i >= 0; i--) {
+				if ( addToEnd[i] == index ) {
+					skip = true;
+				}
+			};
+			if ( skip ) {
+				continue;
+			}
+			addCategory( exampleJson[index], index );
+			delete exampleJson[index];
 
+		}
+		for( var index in exampleJson ) {
 			addCategory( exampleJson[index], index );
 
 		}
+
+		
 
 	}
 

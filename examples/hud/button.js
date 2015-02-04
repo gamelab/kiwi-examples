@@ -2,6 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.create = function () {
     
+    // Adds a button widget to the defaultHUD of the game.
     this.myButton = new Kiwi.HUD.Widget.Button( this.game, 'Button One', 50, 50 );
     this.game.huds.defaultHUD.addWidget( this.myButton );
 

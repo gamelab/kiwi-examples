@@ -21,6 +21,8 @@ state.create = function () {
 };
 
 state.mouseClicked = function () {
+
+	// Every time the mouse is click the this.music will stop and play again from the start.
 	this.music.stop();
 	this.music.play( 'default', true );
 	

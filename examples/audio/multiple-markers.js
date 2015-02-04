@@ -14,6 +14,7 @@ state.create = function () {
 
 	this.sfx = new Kiwi.Sound.Audio(this.game, 'sfx', 1, true);
 
+	// Adding multiple markers to the 'this.sfx' object.
 	this.sfx.addMarker( 'paperCrunch', 0, 0.96, false );
 	this.sfx.addMarker( 'click', 1, 1.39, false );
 	this.sfx.addMarker( 'woosh', 2, 2.29, false );
@@ -45,7 +46,7 @@ state.mouseDown = function (){
 			choice = 'coin';
 	}
 
-
+	// Plays a random audio clip.
 	this.sfx.play( choice, true );
 }
 

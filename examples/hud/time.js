@@ -2,7 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    // this.addImage('time', './assets/img/logo/heart.png' );
+    // Adds a Time widget to the defaultHUD of the game.
     this.myTime = new Kiwi.HUD.Widget.Time( this.game, '', 50, 50 );
     this.game.huds.defaultHUD.addWidget( this.myTime );
 

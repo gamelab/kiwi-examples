@@ -10,6 +10,8 @@ state.create = function () {
 	this.player1 = new Kiwi.GameObjects.Sprite(this, this.textures.playerSpriteSheet, 200, 150);
 	this.addChild(this.player1);
 
+
+	// Add to sprites to the stage. One with an animation and one with just a texture atlas.
 	this.player2 = new Kiwi.GameObjects.Sprite(this, this.textures.playerSpriteSheet, 400, 150);
 	this.player2.animation.add( 'run', [ 01, 02, 03, 04, 05, 06 ], 1 );
 	this.player2.animation.switchTo( 'run', false );
@@ -27,9 +29,13 @@ state.create = function () {
 
 state.nextFrame = function (){
 
+	// On mouse click the animation will switch to next cell.
+	// This sprite will play through the default animation of the animation compenent.
+	// This animation is every single frame in the texture atlas.
 	this.player1.animation.nextFrame();
 	this.leftCellIndexText.text = "Left Cell Index: " + this.player1.cellIndex;
 
+	// This sprite will play through the 'run' animation that we have added to it.
 	this.player2.animation.nextFrame();
 	this.rightCellIndexText.text = "Right Cell Index: " + this.player2.cellIndex;
 };

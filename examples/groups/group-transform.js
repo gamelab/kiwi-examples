@@ -40,6 +40,7 @@ state.update = function () {
 		this.speed *= -1;
 	}
 
+	// Uses the transform component of a group to move it around on the state.
 	this.group.x += this.speed;
 	this.group.rotation += Math.PI * 0.005;
 

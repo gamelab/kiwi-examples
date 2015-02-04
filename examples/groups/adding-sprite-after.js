@@ -18,6 +18,8 @@ state.create = function () {
 	this.spriteWidth = 150;
 	this.spriteHeight = 117;
 
+
+	// Adds a group of sprite to the middle of the stage.
 	for ( var i = 0; i < 10; i ++ ){
 		var x = i * 20 + 200,
 			y = 200;
@@ -28,6 +30,8 @@ state.create = function () {
 
 	}
 
+
+	// Adds one aditional sprite and places it after the group of sprites.
 	var afterSprite = new Kiwi.GameObjects.Sprite( this, this.textures.spartan, 290, 250 );
 
 	this.group.addChildAfter( afterSprite, this.group.getChildAt( this.group.numChildren() - 1 ) );

@@ -18,6 +18,7 @@ state.create = function () {
 	this.spriteWidth = 150;
 	this.spriteHeight = 117;
 
+	// Places a group of sprites in the center of the stage.
 	for ( var i = 0; i < 10; i ++ ){
 		var x = i * 20 + 200,
 			y = 200;
@@ -28,6 +29,7 @@ state.create = function () {
 
 	}
 
+	// Adds a sprite that is placed before the group of sprites.
 	var beforeSprite = new Kiwi.GameObjects.Sprite( this, this.textures.spartan, 290, 160 );
 
 	this.group.addChildAfter( beforeSprite, this.group.getChildAt( 0 ) );

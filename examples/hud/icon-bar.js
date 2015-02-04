@@ -8,6 +8,7 @@ state.preload = function () {
 
 state.create = function () {
 
+	// Adds a icon bar widget to the defaultHUD of the game.
 	this.iconBar = new Kiwi.HUD.Widget.IconBar( this.game, this.textures.icon, 5, 10, 50, 50 );
     this.game.huds.defaultHUD.addWidget( this.iconBar );
 

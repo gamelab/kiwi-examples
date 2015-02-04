@@ -4,6 +4,8 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
+
+	// Loads a JSON file to the game.
     this.addJSON('tilemap', './assets/data/tiles/tilemap-json.json');
     this.addSpriteSheet( 'tiles', './assets/img/tiles/tileset-basic.png', 48, 48 );
 };

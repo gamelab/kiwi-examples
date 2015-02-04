@@ -12,7 +12,17 @@ state.create = function () {
 	this.player.animation.add( 'walk', [ 1, 2, 3, 4, 5, 6 ], 0.035, true, true );
 	this.addChild(this.player);
 
+	
+	/*
+	* Adds Audio object to the game.
+	* Param 1: The game that this piece of audio belongs to.
+	* Param 2: The key to which which piece of audio should be loaded from the AudioLibrary.
+	* Param 3: A number between 0 (silence) and 1 (loud).
+	* Param 4: If the audio should loop when it is finished or just stop.
+	*/
 	this.music = new Kiwi.Sound.Audio(this.game, 'music', 1, true);
+
+	// Plays the Audio.
 	this.music.play();
 
 

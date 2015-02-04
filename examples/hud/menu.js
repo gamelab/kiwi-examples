@@ -2,7 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.create = function () {
 
-    
+    // Adds a menu widget to the defaultHUD of the game.
     this.myButton1 = new Kiwi.HUD.Widget.MenuItem( this.game, 'Move Menu Left', 50, 50 );
     this.myButton1.style.color = 'blue';
     this.myButton1.style.backgroundColor = 'red';
