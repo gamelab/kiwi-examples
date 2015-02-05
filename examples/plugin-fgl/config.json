@@ -1,0 +1,13 @@
+{
+
+	"title": "Plugin FGL",
+
+	"dependencies": [
+		"./plugins/kiwipreloader.js",
+		"./plugins/save-manager-1.0.2.js",
+		"./plugins/fgl.js",
+		"./plugins/FGL-1.0.0.min.js"
+		
+	]
+
+}

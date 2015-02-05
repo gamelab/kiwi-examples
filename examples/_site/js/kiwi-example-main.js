@@ -37,9 +37,10 @@
 		var addToEnd = [ 'plugin', 'plugin-chipmunk-physics', 'plugin-save-manager', 
 		'plugin-primitives', 'plugin-damage-pipeline', 'plugin-gamepad', 'plugin-social-connect',
 		'plugin-fullscreen', 'plugin-uber-shader', 'plugin-achievement', 'plugin-inventory',
-		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles" ];
+		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles",
+		'plugin-fgl' ];
 
-		// This example is hidden until it is fixed.
+		//This example is hidden until it is fixed.
 		if( exampleJson['geom'] ) {
 			delete exampleJson['geom'];
 		}

@@ -1,5 +1,7 @@
 var state = new Kiwi.State('Play');
 
+// This example is currently not working. Please ignore this file.
+
 state.preload = function () {
     this.addSpriteSheet( 'square', './assets/img/shapes/square.png', 70, 70 );
     this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
