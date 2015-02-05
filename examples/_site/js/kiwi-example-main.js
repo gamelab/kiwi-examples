@@ -38,7 +38,7 @@
 		'plugin-primitives', 'plugin-damage-pipeline', 'plugin-gamepad', 'plugin-social-connect',
 		'plugin-fullscreen', 'plugin-uber-shader', 'plugin-achievement', 'plugin-inventory',
 		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles",
-		'plugin-fgl' ];
+		'plugin-fgl', 'plugin-quest-manager' ];
 
 		//This example is hidden until it is fixed.
 		if( exampleJson['geom'] ) {

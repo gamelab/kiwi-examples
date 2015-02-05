@@ -28,6 +28,13 @@ MyState.create = function() {
 	particle.startEmitting( true, false );
 	particle.setConfigProp( "startAngle", 0, true, false )
 	this.addChild( particle );
+
+	this.myText1 = new Kiwi.GameObjects.TextField( this, "Pre-built Particle packs have already been made for you!", 50, 50, "#F00", 16 );
+	this.addChild( this.myText1 );
+
+	this.myText2 = new Kiwi.GameObjects.TextField( this, "Check them out on the kiwi.js website here: http://www.kiwijs.org/plugins/particles/ ", 50, 80, "#F00", 16 );
+	this.addChild( this.myText2 );
+
 };
 
 
