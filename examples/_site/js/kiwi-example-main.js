@@ -40,11 +40,6 @@
 		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles",
 		'plugin-fgl', 'plugin-quest-manager' ];
 
-		//This example is hidden until it is fixed.
-		if( exampleJson['geom'] ) {
-			delete exampleJson['geom'];
-		}
-
 		//Add the basic/games categories if they are there.
 		if( exampleJson['basics'] ) {
 			addCategory( exampleJson['basics'], 'basics' );

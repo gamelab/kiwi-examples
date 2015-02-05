@@ -5,7 +5,7 @@ var state = new Kiwi.State('Play');
 state.preload = function () {
 
 	// Adds texture atlas for the sprite to use
-    this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
+	this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
 };
 
 state.create = function () {
@@ -22,26 +22,34 @@ state.create = function () {
 	this.addChild( this.cursor );
 
 	this.moveCursor();
-	
-
-
-
 };
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 	this.moveCursor();
 
-	this.checkCollisions()
-}
+	this.checkCollisions();
+};
 
 state.checkCollisions = function () {
 
 	// console.log( "Bounds:", this.cursorBounds )
-	var lineResult = Kiwi.Geom.Intersect.lineToCircle ( this.myLine1, this.cursorBounds );
+	var lineResult1 = Kiwi.Geom.Intersect.lineToCircle (
+		this.myLine1, this.cursorBounds );
+	// var lineResult2 = Kiwi.Geom.Intersect.lineToCircle (
+	// 	this.myLine2, this.cursorBounds );
+	var lineResult3 = Kiwi.Geom.Intersect.lineSegmentToCircle (
+		this.myLine3, this.cursorBounds );
 
-	console.dir( "Intersect:", lineResult, "Circle Position:",this.cursor.x, this.cursor.y );
-}
+	// console.dir( "Intersect:", lineResult, "Circle Position:",this.cursor.x, this.cursor.y );
+	// Kiwi.Log.log( "Intersect:", lineResult1, lineResult2, lineResult3 );
+
+	if ( lineResult1.result || lineResult3.result ) {
+		this.cursor.cellIndex = 2;
+	} else {
+		this.cursor.cellIndex = 0;
+	}
+};
 
 state.moveCursor = function () {
 	this.cursor.x = this.mouse.x - this.cursor.width * 0.5;
@@ -49,8 +57,7 @@ state.moveCursor = function () {
 
 	this.cursorBounds.x = this.mouse.x;
 	this.cursorBounds.y = this.mouse.y;
-
-}
+};
 
 state.drawLines = function () {
 	var params = {
@@ -88,7 +95,7 @@ state.drawLines = function () {
 
 	this.line3 = new Kiwi.Plugins.Primitives.Line( params );
 	this.addChild( this.line3 );
-}
+};
 
 var gameOptions = {
 	width: 768,

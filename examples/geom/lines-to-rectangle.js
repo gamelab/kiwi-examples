@@ -5,7 +5,7 @@ var state = new Kiwi.State('Play');
 state.preload = function () {
 
 	// Adds texture atlas for the sprite to use
-    this.addSpriteSheet( 'square', './assets/img/shapes/square.png', 70, 70 );
+	this.addSpriteSheet( 'square', './assets/img/shapes/square.png', 70, 70 );
 };
 
 state.create = function () {
@@ -21,30 +21,34 @@ state.create = function () {
 	this.addChild( this.cursor );
 
 	this.moveCursor();
-	
-
-
-
 };
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 	this.moveCursor();
 
-	this.checkCollisions()
-}
+	this.checkCollisions();
+};
 
 state.checkCollisions = function () {
-	var lineResult = Kiwi.Geom.Intersect.lineToRectangle ( this.myLine1, this.cursor.box.bounds );
+	var lineResult1 = Kiwi.Geom.Intersect.lineToRectangle (
+		this.myLine1, this.cursor.box.bounds );
+	var lineResult2 = Kiwi.Geom.Intersect.rayToRectangle (
+		this.myLine2, this.cursor.box.bounds );
+	var lineResult3 = Kiwi.Geom.Intersect.lineSegmentToRectangle (
+		this.myLine3, this.cursor.box.bounds );
 
-	console.log( "Intersect:", lineResult.result, lineResult.x, lineResult.y, "Box Position:",this.cursor.x, this.cursor.y );
-}
+	if ( lineResult1.result || lineResult2.result || lineResult3.result ) {
+		this.cursor.cellIndex = 2;
+	} else {
+		this.cursor.cellIndex = 0;
+	}
+};
 
 state.moveCursor = function () {
 	this.cursor.x = this.mouse.x - this.cursor.width * 0.5;
 	this.cursor.y = this.mouse.y - this.cursor.height * 0.5;
-
-}
+};
 
 state.drawLines = function () {
 	var params = {
@@ -90,5 +94,3 @@ var gameOptions = {
 };
 
 var game = new Kiwi.Game('game-container', 'AddSprite', state, gameOptions);
-
-
