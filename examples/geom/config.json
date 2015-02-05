@@ -1,0 +1,8 @@
+{
+
+	"title": "Geom",
+
+	"dependencies": [
+		"./plugins/primitives-1.0.2.min.js"
+	]
+}
