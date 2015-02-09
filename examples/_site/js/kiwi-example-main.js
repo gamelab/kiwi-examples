@@ -38,7 +38,14 @@
 		'plugin-primitives', 'plugin-damage-pipeline', 'plugin-gamepad', 'plugin-social-connect',
 		'plugin-fullscreen', 'plugin-uber-shader', 'plugin-achievement', 'plugin-inventory',
 		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles",
-		'plugin-fgl', 'plugin-quest-manager' ];
+		'plugin-fgl', 'plugin-quest-manager', "plugin-pointer-lock", "plugin-pointer-filter", 
+		"plugin-repeating-texture" ];
+
+		// Hide these categories
+		if( exampleJson['geom'] ) {
+			delete exampleJson['geom'];
+		}
+
 
 		//Add the basic/games categories if they are there.
 		if( exampleJson['basics'] ) {

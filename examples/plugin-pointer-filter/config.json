@@ -1,0 +1,10 @@
+{
+
+	"title": "Plugin Pointer Filter",
+
+	"dependencies": [
+		"./plugins/pointer-filter-0.1.0.min.js",
+		"./plugins/primitives-1.0.2.min.js"
+	]
+
+}

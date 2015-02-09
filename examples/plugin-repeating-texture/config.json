@@ -1,0 +1,9 @@
+{
+
+	"title": "Plugin Repeating Texture",
+
+	"dependencies": [
+		"./plugins/repeating-texture-1.0.0.js"
+	]
+
+}
