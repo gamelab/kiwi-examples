@@ -6,6 +6,8 @@
 		"./plugins/cp.js",
 		"./plugins/chipmunk-physics-0.8.0.js",
 		"./plugins/chipmunk-physics-debug-0.8.0.js"
-	]
+	],
+
+	"notes": "<p>This example makes use of the Chipmunk Physics Plugin for Kiwi.JS. Make sure that you include the javascript files listed in the <strong>dependencies</strong> list to get the examples working.</p>"
 
 }

@@ -63,6 +63,10 @@
 			$('#title').text( ex.title );
 		}
 
+		if( cate.notes ) {
+			displayNotes( cate.notes );
+		}
+
 		//Load in the dependencies...
 		if( cate.dependencies ) {
 
@@ -118,6 +122,13 @@
 			$('#dependencies').addClass('active');
 
 		}
+
+	}
+
+
+	function displayNotes( notes ) {
+		
+		$('#notes').append( notes );
 
 	}
 

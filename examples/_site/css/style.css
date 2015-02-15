@@ -199,6 +199,8 @@ a:hover {
       list-style: none;
       text-indent: 1em;
       margin-bottom: 0.5em; }
+  .example #notes ul {
+    padding-left: 1.5em; }
 
 /*
 
