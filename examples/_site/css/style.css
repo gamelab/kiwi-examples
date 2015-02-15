@@ -130,6 +130,11 @@ a:hover {
     margin: 0 auto;
     margin-top: 1em; }
 
+#tabs a {
+  display: block;
+  cursor: pointer;
+  padding: 0.2em 0; }
+
 .not-visible {
   display: none; }
 

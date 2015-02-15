@@ -203,6 +203,16 @@ a:hover {
 
 }
 
+#tabs {
+
+	a {
+		display: block;
+		cursor: pointer;
+		padding: 0.2em 0;
+	}
+
+}
+
 .not-visible {
 	display: none;
 }

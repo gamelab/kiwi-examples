@@ -2,9 +2,11 @@
 
 
 	var exampleJson = {};
-	var defaultTab = 'Default';
+	var defaultTab = 'Core';
 	var $examplesList = [];
 
+
+	createTab( defaultTab );
 
 	function displayError( text ) {
 			
@@ -128,14 +130,12 @@
 
 		if( !$tab.length ) {
 			
-			$tab = $('<span>', {
+			$tab = $('<a>', {
 				id: name,
 				'data-tab': name
-			}).text( name );
+			}).text( name ).click( toggleVisibleTabs );
 
 			$('#tabs').append( $tab );
-
-			$tab.click( toggleVisibleTabs ); 
 
 		}
 
@@ -144,6 +144,10 @@
 	}
 
 	function toggleVisibleTabs( event ) {
+
+		if( event ) {
+ 	 		event.preventDefault();
+ 	 	}
 
 		var activeTab = defaultTab;
 
@@ -165,11 +169,12 @@
 
 		}
 
+		return false;
 	}
 
 	function hideExample( $section ) {
 		$section.addClass('visible');
-		$section.addClass('invisible');
+		$section.removeClass('invisible');
 		$section.css( 'display', 'none' );
 	}
 
