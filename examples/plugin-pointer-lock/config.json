@@ -1,10 +1,12 @@
 {
 
-	"title": "Plugin Pointer Lock",
+	"title": "Pointer Lock",
 
 	"dependencies": [
 		"./plugins/pointer-lock.min.js",
 		"./plugins/primitives-1.0.2.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

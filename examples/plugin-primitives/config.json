@@ -1,9 +1,11 @@
 {
 
-	"title": "Plugin Primitives",
+	"title": "Primitives",
 
 	"dependencies": [
 		"./plugins/primitives-1.0.2.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

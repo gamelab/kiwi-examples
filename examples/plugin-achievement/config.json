@@ -1,9 +1,11 @@
 {
 
-	"title": "Plugin Achievement",
+	"title": "Achievement",
 
 	"dependencies": [
 		"./plugins/Achievements-1.0.0.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

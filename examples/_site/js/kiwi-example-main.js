@@ -63,6 +63,12 @@
 			delete exampleJson['games'];
 		}
 
+		// This will appear in the "Plugins" "tab"
+		if( exampleJson['plugin'] ) {
+			addCategory( exampleJson['plugin'], 'plugin' );
+			delete exampleJson['plugin'];
+		}
+
 		//Loop through the example json
 		for( var index in exampleJson ) {
 

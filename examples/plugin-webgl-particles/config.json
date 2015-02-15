@@ -1,6 +1,6 @@
 {
 
-	"title": "Plugin WebGL Stateless Particles",
+	"title": "WebGL Stateless Particles",
 
 	"dependencies": [
 		"./plugins/particlesgl-1.2.0.min.js"

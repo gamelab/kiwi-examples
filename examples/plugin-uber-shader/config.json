@@ -1,6 +1,6 @@
 {
 
-	"title": "Plugin Uber Shader",
+	"title": "Uber Shader",
 
 	"dependencies": [
 		"./plugins/kiwipreloader.js",

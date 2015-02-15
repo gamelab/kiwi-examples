@@ -1,10 +1,12 @@
 {
 
-	"title": "Plugin LEAP Controller",
+	"title": "LEAP Controller",
 
 	"dependencies": [
 		"http://js.leapmotion.com/leap-0.6.0.js",
 		"./plugins/LEAPController-0.1.4.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

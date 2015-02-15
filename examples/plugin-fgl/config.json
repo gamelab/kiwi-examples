@@ -1,6 +1,6 @@
 {
 
-	"title": "Plugin FGL",
+	"title": "FGL",
 
 	"dependencies": [
 		"./plugins/kiwipreloader.js",
@@ -8,6 +8,8 @@
 		"./plugins/fgl.js",
 		"./plugins/FGL-1.0.0.min.js"
 		
-	]
+	],
+
+	"tab": "Plugin"
 
 }

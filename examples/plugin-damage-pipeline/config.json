@@ -1,10 +1,12 @@
 {
 
-	"title": "Plugin Damage Pipeline",
+	"title": "Damage Pipeline",
 
 	"dependencies": [
 		"./plugins/damage-pipeline-1.0.0.min.js",
 		"./plugins/primitives-1.0.2.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

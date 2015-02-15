@@ -1,9 +1,11 @@
 {
 
-	"title": "Plugin Fullscreen",
+	"title": "Fullscreen",
 
 	"dependencies": [
 		"./plugins/fullscreen-1.0.0.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }
