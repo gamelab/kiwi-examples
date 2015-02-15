@@ -2,7 +2,18 @@
 
 
 	var exampleJson = {};
+	var defaultTab = 'Default';
+	var $examplesList = [];
 
+
+	function displayError( text ) {
+			
+		$( 'body' ).append( 
+			
+			$( '<div>', { id: 'error' } ).html( text )
+
+		);
+	}
 
 	$( document ).ready( function() {
 		
@@ -34,18 +45,10 @@
 
 	function displayExamples() {
 
-		var addToEnd = [ 'plugin', 'plugin-chipmunk-physics', 'plugin-save-manager', 
-		'plugin-primitives', 'plugin-damage-pipeline', 'plugin-gamepad', 'plugin-social-connect',
-		'plugin-fullscreen', 'plugin-uber-shader', 'plugin-achievement', 'plugin-inventory',
-		'plugin-ai-tree', 'plugin-leap-controller', "plugin-webgl-particles",
-		'plugin-fgl', 'plugin-quest-manager', "plugin-pointer-lock", "plugin-pointer-filter", 
-		"plugin-repeating-texture" ];
-
 		// Hide these categories
 		if( exampleJson['geom'] ) {
 			delete exampleJson['geom'];
 		}
-
 
 		//Add the basic/games categories if they are there.
 		if( exampleJson['basics'] ) {
@@ -60,32 +63,26 @@
 
 		//Loop through the example json
 		for( var index in exampleJson ) {
-			var skip = false;
-			for (var i = addToEnd.length - 1; i >= 0; i--) {
-				if ( addToEnd[i] == index ) {
-					skip = true;
-				}
-			};
-			if ( skip ) {
-				continue;
-			}
-			addCategory( exampleJson[index], index );
-			delete exampleJson[index];
 
-		}
-		for( var index in exampleJson ) {
 			addCategory( exampleJson[index], index );
 
 		}
 
-		
+		toggleVisibleTabs();
 
 	}
 
 
 	function addCategory( category, index ) {
 
-		var $section = $('<section>'),
+		//If no tab, then give a default
+		if( !category.tab ) {
+			category.tab = defaultTab;
+		} 
+
+		var $section = $('<section>', {
+				'data-tab': category.tab
+			}),
 			$title = $('<h1>'),
 			$list = $('<ul>');
 
@@ -110,23 +107,78 @@
 
 		}
 
+
 		$section.append( $title );
 		$section.append( $list );
 
+		//Add the example
+		$examplesList.push( $section );
 		$( '#example-list' ).append( $section );
+		
+		hideExample( $section );
+
+		//Try to get the tab
+		createTab( category.tab );
 
 	}
 
+	function createTab( name ) {
 
-	function displayError( text ) {
-			
-		$( 'body' ).append( 
-			
-			$( '<div>', { id: 'error' } ).html( text )
+		var $tab = $( '#example-list #' + name );
 
-		);
+		if( !$tab.length ) {
+			
+			$tab = $('<span>', {
+				id: name,
+				'data-tab': name
+			}).text( name );
+
+			$('#tabs').append( $tab );
+
+			$tab.click( toggleVisibleTabs ); 
+
+		}
+
+		return $tab;
+
 	}
-	
+
+	function toggleVisibleTabs( event ) {
+
+		var activeTab = defaultTab;
+
+		if( $( this ).attr && $( this ).attr( 'data-tab' ) ) {
+			activeTab = $( this ).attr( 'data-tab' );
+		}
+
+		//Loop through all of the tabs and toggle visiblity of elements without that tab
+		var $example; 
+		for( var i = 0; i < $examplesList.length; i++ ) {
+
+			$example = $examplesList[ i ];
+
+			if( $example.attr('data-tab') === activeTab ) {
+				showExample( $example );
+			} else {
+				hideExample( $example );
+			}
+
+		}
+
+	}
+
+	function hideExample( $section ) {
+		$section.addClass('visible');
+		$section.addClass('invisible');
+		$section.css( 'display', 'none' );
+	}
+
+	function showExample( $section ) {
+		$section.removeClass('visible');
+		$section.addClass('invisible');
+		$section.css( 'display', 'block' );
+	}
+
 
 	function loadExample( event ) {
 

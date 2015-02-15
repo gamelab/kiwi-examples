@@ -4,6 +4,8 @@
 
 	"dependencies": [
 		"./plugins/repeating-texture-1.0.0.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

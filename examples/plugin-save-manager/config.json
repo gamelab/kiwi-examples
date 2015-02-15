@@ -4,6 +4,8 @@
 
 	"dependencies": [
 		"./plugins/save-manager-1.0.2.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }

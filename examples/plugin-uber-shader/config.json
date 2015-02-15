@@ -6,6 +6,8 @@
 		"./plugins/kiwipreloader.js",
 		"./plugins/MultiTexture-1.0.0.js",
 		"./plugins/UberShader-1.0.0.min.js"
-	]
+	],
+
+	"tab": "Plugin"
 
 }
