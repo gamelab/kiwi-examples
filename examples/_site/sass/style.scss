@@ -28,7 +28,7 @@ $text-blue: #36549d;
 $text-light-blue: #69deff;
 $text-grey: #555;
 
-$text-link-blue: #36549d;
+$text-link-blue: #69deff;
 
 
 
@@ -77,8 +77,8 @@ a:hover {
 	padding: 0.75em 1em;
 	overflow-y: scroll;
 
-	color: $text-blue;
-	background-color: $bg-grey;
+	color: #fff;
+	background-color: $bg-blue;
 
 	header {
 		margin-bottom: 2em;
@@ -89,15 +89,16 @@ a:hover {
 	}
 
 	h1 {
+		color: $text-light-blue;
 		margin-top: 0.2em;
 		margin-bottom: 0.2em;
 	}
 
 	.versions p {
 		margin: 0 0 0.2em 0;
-		color: $text-grey;
+		color: #FFF;
 		font-size: 13px;
-		width: 48%;
+		width: 37%;
 		text-indent: 2px;
 	}
 
@@ -206,9 +207,20 @@ a:hover {
 #tabs {
 
 	a {
-		display: block;
+		display: inline-block;
 		cursor: pointer;
-		padding: 0.2em 0;
+		padding: 0.2em 0.0em;
+
+		&:after {
+			content: '|';
+			display: inline-block;
+			padding: 0em 0.5em;
+		}
+
+		&:last-child:after {
+			content: '';
+			display: none;
+		}
 	}
 
 }

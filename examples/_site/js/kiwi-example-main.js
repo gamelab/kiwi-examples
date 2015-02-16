@@ -2,7 +2,7 @@
 
 
 	var exampleJson = {};
-	var defaultTab = 'Core';
+	var defaultTab = 'Examples';
 	var $examplesList = [];
 
 
@@ -48,9 +48,9 @@
 	function displayExamples() {
 
 		// Hide these categories
-		if( exampleJson['geom'] ) {
-			delete exampleJson['geom'];
-		}
+		// if( exampleJson['geom'] ) {
+		// 	delete exampleJson['geom'];
+		// }
 
 		//Add the basic/games categories if they are there.
 		if( exampleJson['basics'] ) {
@@ -91,7 +91,7 @@
 		var $section = $('<section>', {
 				'data-tab': category.tab
 			}),
-			$title = $('<h1>'),
+			$title = $('<h2>'),
 			$list = $('<ul>');
 
 		if( category.title ) {

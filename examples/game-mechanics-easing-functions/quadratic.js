@@ -86,7 +86,6 @@ state.toggleEase = function () {
 };
 
 state.loopTween = function () {
-	console.log ( this.position );
 	this.position.x = this.START_X;
 	this.position.y = this.TOP_Y;
 

@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
   text-decoration: none;
-  color: #36549d; }
+  color: #69deff; }
 
 a:hover {
   text-decoration: underline; }
@@ -39,20 +39,21 @@ a:hover {
   height: 100%;
   padding: 0.75em 1em;
   overflow-y: scroll;
-  color: #36549d;
-  background-color: #e0edf1; }
+  color: #fff;
+  background-color: #051029; }
   #panel header {
     margin-bottom: 2em; }
   #panel footer {
     margin-top: 2em; }
   #panel h1 {
+    color: #69deff;
     margin-top: 0.2em;
     margin-bottom: 0.2em; }
   #panel .versions p {
     margin: 0 0 0.2em 0;
-    color: #555555;
+    color: #FFF;
     font-size: 13px;
-    width: 48%;
+    width: 37%;
     text-indent: 2px; }
   #panel .version {
     float: right; }
@@ -131,9 +132,16 @@ a:hover {
     margin-top: 1em; }
 
 #tabs a {
-  display: block;
+  display: inline-block;
   cursor: pointer;
-  padding: 0.2em 0; }
+  padding: 0.2em 0.0em; }
+  #tabs a:after {
+    content: '|';
+    display: inline-block;
+    padding: 0em 0.5em; }
+  #tabs a:last-child:after {
+    content: '';
+    display: none; }
 
 .not-visible {
   display: none; }
