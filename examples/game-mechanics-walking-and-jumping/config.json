@@ -5,7 +5,7 @@
 	"dependencies": [
 		"./plugins/primitives-1.0.2.min.js"
 	],
-	"notes": "<p>Example based off John Watsons' 'Game Mechanic Explorer' found here. http://gamemechanicexplorer.com/ The example source code is licensed under the terms of the MIT License found here: http://opensource.org/licenses/MIT  </p>",
+	"notes": "<p>Example based off John Watsons' 'Game Mechanic Explorer'. The example source code is licensed under the terms of the MIT License.  </p>",
 
 	"tab": "Mechanics"
 }
