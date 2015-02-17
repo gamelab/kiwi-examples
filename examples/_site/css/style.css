@@ -49,6 +49,8 @@ a:hover {
     color: #69deff;
     margin-top: 0.2em;
     margin-bottom: 0.2em; }
+  #panel h2 {
+    margin: 3px 0px; }
   #panel .versions p {
     margin: 0 0 0.2em 0;
     color: #FFF;

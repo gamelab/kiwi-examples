@@ -5,7 +5,7 @@ var state = new Kiwi.State('Play');
 
 // Load images and sounds
 state.preload = function() {
-    this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
+    this.addSpriteSheet( 'circle', './assets/img/shapes/square.png', 70, 70 );
 };
 
 // Setup the example
@@ -14,12 +14,13 @@ state.create = function() {
     this.game.stage.color = "4488cc";
 
     // Define constants
-    this.SHOT_DELAY = 100; // milliseconds (10 bullets/second)
+    this.SHOT_DELAY = 300; // milliseconds (10 bullets/second)
     this.BULLET_SPEED = 200; // pixels/second
-    this.NUMBER_OF_BULLETS = 1;
+    this.NUMBER_OF_BULLETS = 20;
+    this.GRAVITY = 50;
 
     // Create an object representing our gun
-    this.gun = new Kiwi.GameObjects.Sprite( this, this.textures.circle, 10, this.game.stage.height * 0.5 );
+    this.gun = new Kiwi.GameObjects.Sprite( this, this.textures.circle, 20, this.game.stage.height - 100 );
     this.addChild( this.gun );
 
     // Set the pivot point to the center of the gun
@@ -41,8 +42,11 @@ state.create = function() {
         // Enable physics on the bullet
         bullet.physics = bullet.components.add(new Kiwi.Components.ArcadePhysics(bullet, bullet.box));
 
+        bullet.physics.acceleration.y = this.GRAVITY;
+
         // Set its initial state to "dead".
         bullet.alive = false;
+        bullet.active = false;
     }
 };
 
@@ -70,9 +74,11 @@ state.shootBullet = function() {
     bullet.x = this.gun.x;
     bullet.y = this.gun.y;
 
-    // Shoot it
-    bullet.physics.velocity.x = this.BULLET_SPEED;
-    bullet.physics.velocity.y = 0;
+    bullet.rotation = this.gun.rotation;
+
+    // Shoot it in the right direction
+    bullet.physics.velocity.x = Math.cos(bullet.rotation) * this.BULLET_SPEED;
+    bullet.physics.velocity.y = Math.sin(bullet.rotation) * this.BULLET_SPEED;
 };
 
 state.getFirstDeadBullet = function () {
@@ -87,14 +93,16 @@ state.getFirstDeadBullet = function () {
     return null;
 }
 
-state.revive   = function ( bullet ){
+state.revive = function ( bullet ){
     bullet.alive = true;
+    bullet.active = true;
 }
 state.checkBulletPosition = function ( bullet ) {
     
     if( bullet.x > this.game.stage.width || bullet.x < 0 ||
         bullet.y > this.game.stage.height || bullet.y < 0 ){
         bullet.alive = false;
+        bullet.active = false;
     } 
 }
 
@@ -103,12 +111,25 @@ state.update = function() {
     // Shoot a bullet
     Kiwi.State.prototype.update.call( this );
 
+    this.gun.rotation = Kiwi.Utils.GameMath.angleBetween( this.gun.x, this.gun.y, this.game.input.x, this.game.input.y );
+
+    // Rotate all living bullets to match their trajectory
+    this.bulletPool.forEach(this, function( bullet ) {
+        bullet.rotation = Math.atan2(bullet.physics.velocity.y, bullet.physics.velocity.x);
+    }, this);
+
+
     if (this.game.input.mouse.isDown) {
         this.shootBullet();
     }
 
     this.bulletPool.forEach( this, this.checkBulletPosition );
 };
+
+state.angleToPointer = function ( from ) {
+    return Math.atan2( this.game.input.y - from.y, this.game.input.x - from.x );
+
+}
 var gameOptions = {
     width: 768,
     height: 512

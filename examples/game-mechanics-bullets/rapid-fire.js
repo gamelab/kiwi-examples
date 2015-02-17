@@ -16,7 +16,7 @@ state.create = function() {
     // Define constants
     this.SHOT_DELAY = 100; // milliseconds (10 bullets/second)
     this.BULLET_SPEED = 200; // pixels/second
-    this.NUMBER_OF_BULLETS = 1;
+    this.NUMBER_OF_BULLETS = 20;
 
     // Create an object representing our gun
     this.gun = new Kiwi.GameObjects.Sprite( this, this.textures.circle, 10, this.game.stage.height * 0.5 );

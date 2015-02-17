@@ -16,7 +16,7 @@ state.create = function() {
     // Define constants
     this.SHOT_DELAY = 100; // milliseconds (10 bullets/second)
     this.BULLET_SPEED = 200; // pixels/second
-    this.NUMBER_OF_BULLETS = 1;
+    this.NUMBER_OF_BULLETS = 20;
 
     // Create an object representing our gun
     this.gun = new Kiwi.GameObjects.Sprite( this, this.textures.circle, 10, this.game.stage.height * 0.5 );
@@ -70,9 +70,11 @@ state.shootBullet = function() {
     bullet.x = this.gun.x;
     bullet.y = this.gun.y;
 
-    // Shoot it
-    bullet.physics.velocity.x = this.BULLET_SPEED;
-    bullet.physics.velocity.y = 0;
+    bullet.rotation = this.gun.rotation;
+
+    // Shoot it in the right direction
+    bullet.physics.velocity.x = Math.cos(bullet.rotation) * this.BULLET_SPEED;
+    bullet.physics.velocity.y = Math.sin(bullet.rotation) * this.BULLET_SPEED;
 };
 
 state.getFirstDeadBullet = function () {
@@ -103,12 +105,20 @@ state.update = function() {
     // Shoot a bullet
     Kiwi.State.prototype.update.call( this );
 
+    this.gun.rotation = Kiwi.Utils.GameMath.angleBetween( this.gun.x, this.gun.y, this.game.input.x, this.game.input.y );
+
+
     if (this.game.input.mouse.isDown) {
         this.shootBullet();
     }
 
     this.bulletPool.forEach( this, this.checkBulletPosition );
 };
+
+state.angleToPointer = function ( from ) {
+    return Math.atan2( this.game.input.y - from.y, this.game.input.x - from.x );
+
+}
 var gameOptions = {
     width: 768,
     height: 512
