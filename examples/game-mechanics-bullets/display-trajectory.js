@@ -159,7 +159,7 @@ state.drawTrajectory = function() {
     var x = 0, y = 0;
     for(var t = 0 + this.timeOffset/(1000*MARCH_SPEED/60); t < 9; t += 0.06) {
         x = this.BULLET_SPEED * t * Math.cos(theta);
-        y = this.BULLET_SPEED * t * Math.sin(theta) - 0.5 * this.GRAVITY * t * t;.
+        y = this.BULLET_SPEED * t * Math.sin(theta) - 0.5 * this.GRAVITY * t * t;
         this.drawRect( x + this.gun.x + this.gun.width * 0.5, this.gun.y - y + this.gun.height * 0.5, 3, 3 );
         if (y < -160) break;
     }

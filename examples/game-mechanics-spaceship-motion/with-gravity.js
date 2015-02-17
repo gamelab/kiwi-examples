@@ -16,6 +16,8 @@ state.create = function() {
     this.ROTATION_SPEED = Math.PI / 3;
     this.ACCELERATION = 20; 
     this.MAX_SPEED = 25; 
+    this.DRAG = 2.5;
+    this.GRAVITY = 5;
 
     // Add the ship to the stage
     this.ship = new Kiwi.GameObjects.Sprite( this, this.textures.ship, this.game.stage.width/2, this.game.stage.height/2 );
@@ -26,8 +28,13 @@ state.create = function() {
     // Enable physics on the ship
     this.ship.physics = this.ship.components.add( new Kiwi.Components.ArcadePhysics( this.ship, this.ship.box ) );
 
+
     // Set maximum velocity
     this.ship.physics.maxVelocity = this.MAX_SPEED;
+
+    // Add drag to the ship that slows it down when it is not accelerating
+    this.ship.physics.drag.x = this.DRAG;
+    this.ship.physics.drag.y = this.DRAG;
 
     // Define the keyboard keys we will be using.
     this.leftKey = this.game.input.keyboard.addKey( Kiwi.Input.Keycodes.LEFT );
@@ -72,6 +79,9 @@ state.update = function() {
         // Show the frame from the spritesheet with the engine off
         this.ship.cellIndex = 0;
     }
+
+    // Applies acceleration to the y axis everyframe to simulate gravity.
+    this.updateGravity();
 };
 
 // This function should return true when the player activates the "go left" control
@@ -95,6 +105,10 @@ state.rightInputIsActive = function() {
 
     return isActive;
 };
+
+state.updateGravity = function () {
+    this.ship.physics.acceleration.y += this.GRAVITY;
+}
 
 // This function should return true when the player activates the "jump" control
 // In this case, either holding the up arrow or tapping or clicking on the center
