@@ -10,5 +10,5 @@
 
 	"notes": "<p>This example makes use of the Chipmunk Physics Plugin for Kiwi.JS. Make sure that you include the javascript files listed in the <strong>dependencies</strong> list to get the examples working.</p>",
 
-	"tab": "Plugin"
+	"tab": "Plugins"
 }
