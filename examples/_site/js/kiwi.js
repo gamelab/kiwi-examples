@@ -2811,6 +2811,7 @@ var Kiwi;
             * @property inputEnabled
             * @type boolean
             * @public
+            * @deprecated As of 1.2.3, nothing was found to use this.
             */
             set: function (value) {
                 this._inputEnabled = value;
@@ -3760,50 +3761,6 @@ var Kiwi;
                 }
             }
             return children;
-        };
-        /**
-        * Returns the first child which contains the tag passed.
-        * @method getFirstChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
-        Group.prototype.getFirstChildByTag = function (tag) {
-            for (var i = 0; i < this.members.length; i++) {
-                if (this.members[i].hasTag(tag)) {
-                    return this.members[i];
-                }
-                if (this.members[i].childType() == Kiwi.GROUP) {
-                    var child = (this.members[i].getFirstChildByTag(tag));
-                    if (child) {
-                        return child;
-                    }
-                }
-            }
-            return null;
-        };
-        /**
-        * Returns the last child which contains the tag passed.
-        * @method getLastChildByTag
-        * @param tag {String}
-        * @return {IChild}
-        * @public
-        * @since 1.3.0
-        */
-        Group.prototype.getLastChildByTag = function (tag) {
-            for (var i = this.members.length - 1; i >= 0; i--) {
-                if (this.members[i].hasTag(tag)) {
-                    return this.members[i];
-                }
-                if (this.members[i].childType() == Kiwi.GROUP) {
-                    var child = (this.members[i].getLastChildByTag(tag));
-                    if (child) {
-                        return child;
-                    }
-                }
-            }
-            return null;
         };
         /**
         * --------------------
@@ -5228,9 +5185,6 @@ var Kiwi;
                 if (y === void 0) { y = 0; }
                 if (enableInput === void 0) { enableInput = false; }
                 _super.call(this, state, x, y);
-                if (Kiwi.Utils.Common.isString(atlas)) {
-                    atlas = this.state.textures[atlas];
-                }
                 //Texture atlas error check
                 if (typeof atlas == "undefined") {
                     Kiwi.Log.error('A Texture Atlas was not passed when instantiating a new Sprite.', '#sprite', '#texture');
@@ -5355,9 +5309,6 @@ var Kiwi;
                 _super.call(this, state, x, y);
                 if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                     this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
-                }
-                if (Kiwi.Utils.Common.isString(atlas)) {
-                    atlas = this.state.textures[atlas];
                 }
                 //Texture atlas error check.
                 if (typeof atlas == "undefined") {
@@ -5990,9 +5941,6 @@ var Kiwi;
                 TileMap.prototype.createFromFileStore = function (tileMapData, atlas, startingCell) {
                     if (startingCell === void 0) { startingCell = 0; }
                     var json = null;
-                    if (Kiwi.Utils.Common.isString(atlas)) {
-                        atlas = this.state.textures[atlas];
-                    }
                     switch (typeof tileMapData) {
                         case 'string':
                             if (this.game.fileStore.exists(tileMapData) == false) {
@@ -6002,18 +5950,7 @@ var Kiwi;
                             json = JSON.parse(this.game.fileStore.getFile(tileMapData).data);
                             break;
                         case 'object':
-                            //Is it a KiwiJS file?
-                            if (tileMapData.isData && tileMapData.dataType === Kiwi.Files.File.JSON) {
-                                if (Kiwi.Utils.Common.isString(tileMapData.parse)) {
-                                    json = JSON.parse(tileMapData.data);
-                                }
-                                else {
-                                    json = tileMapData.data;
-                                }
-                            }
-                            else {
-                                json = tileMapData;
-                            }
+                            json = tileMapData;
                             break;
                         default:
                             Kiwi.Log.error('The type of TileMapData passed could not be idenified. Please either pass a name of JSON file to use OR an object to be used.', '#tilemap');
@@ -6349,9 +6286,6 @@ var Kiwi;
                     if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                         this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
                     }
-                    if (Kiwi.Utils.Common.isString(atlas)) {
-                        atlas = this.state.textures[atlas];
-                    }
                     this.name = name;
                     this.atlas = atlas;
                     this.tilemap = tilemap;
@@ -6467,7 +6401,7 @@ var Kiwi;
                     /**
                     * A list containing all of the types of tiles found on this TileMapLayer. This is READ ONLY.
                     * @property tileData
-                    * @type Array
+                    * @type number[]
                     * @public
                     */
                     get: function () {
@@ -6501,7 +6435,7 @@ var Kiwi;
                 * @method getTileFromXY
                 * @param x {Number}
                 * @param y {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @return {Number} The tile
                 * @public
                 */
                 TileMapLayer.prototype.getTileFromXY = function (x, y) {
@@ -6538,7 +6472,7 @@ var Kiwi;
                 * @method getTileFromCoords
                 * @param x {Number}
                 * @param y {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
+                * @return {Number} The tile
                 * @public
                 */
                 TileMapLayer.prototype.getTileFromCoords = function (x, y) {
@@ -6559,18 +6493,6 @@ var Kiwi;
                             tiles.push(i);
                     }
                     return tiles;
-                };
-                /**
-                * Returns the TileType of a tile by an index passed.
-                * Thanks to @rydairegames
-                *
-                * @method getTileFromIndex
-                * @param index {Number}
-                * @return {Kiwi.GameObjects.Tilemap.TileType}
-                * @public
-                */
-                TileMapLayer.prototype.getTileFromIndex = function (index) {
-                    return (index !== -1) ? this.tilemap.tileTypes[this._data[index]] : null;
                 };
                 /**
                 *-----------------------
@@ -8657,17 +8579,6 @@ var Kiwi;
             ArcadePhysics.prototype.setCallback = function (callbackFunction, callbackContext) {
                 this._callbackFunction = callbackFunction;
                 this._callbackContext = callbackContext;
-            };
-            /**
-            * Sets the parents rotation to be equal to the trajectory of the velocity of the physics component.
-            * @method rotateToVelocity
-            * @return { Number }
-            * @public
-            */
-            ArcadePhysics.prototype.rotateToVelocity = function () {
-                var result = Math.atan2(this.velocity.y, this.velocity.x);
-                this.transform.rotation = result;
-                return result;
             };
             /*
             *---------------
@@ -21317,14 +21228,20 @@ var Kiwi;
             };
             /**
             * Check to see if a Line and a Line Segment intersect at any point.
-            * Note: The first line passed is treated as if it extends infinately though space,
-            * The second is treated as if it only exists between its two points.
+            * Note: The first line passed is treated as if it extends infinitely
+            * though space. The second is treated as if it only exists between
+            * its two points.
             *
             * @method lineToLineSegment
-            * @param line1 {Kiwi.Geom.Line} The first line to check. This is the one that will extend through space infinately.
-            * @param seg {Kiwi.Geom.Line} The second line to check. This is the one that will only exist between its two coordinates.
-            * @param [output] {Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection.
+            * @param line1 {Kiwi.Geom.Line} The first line to check.
+                This is the one that will extend through space infinately.
+            * @param seg {Kiwi.Geom.Line} The second line to check.
+                This is the one that will only exist between its two coordinates.
+            * @param [output] {Kiwi.Geom.IntersectResult} An optional
+                IntersectResult object to store the intersection values in. One is
+                created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+                containing the results of this intersection.
             * @public
             * @static
             */
@@ -21339,8 +21256,7 @@ var Kiwi;
                     var minX = Math.min(seg.x1, seg.x2);
                     var maxY = Math.max(seg.y1, seg.y2);
                     var minY = Math.min(seg.y1, seg.y2);
-                    //if (!(output.x <= maxX && output.x >= minX) || !(output.y <= maxY && output.y >= minY))
-                    if ((output.x <= maxX && output.x >= minX) === true || (output.y <= maxY && output.y >= minY) === true) {
+                    if ((output.x <= maxX && output.x >= minX) === true && (output.y <= maxY && output.y >= minY) === true) {
                         output.result = true;
                     }
                 }
@@ -21495,19 +21411,23 @@ var Kiwi;
                 return output;
             };
             /**
-            * -------------------------------------------------------------------------------------------
+            * ---------------------------------------------------------------------
             * Line Segment
-            * -------------------------------------------------------------------------------------------
+            * ---------------------------------------------------------------------
             **/
             /**
             * Checks to see if two Line Segments intersect at any point in space.
-            * Note: Both lines are treated as if they only exist between their two line coordinates.
+            * Note: Both lines are treated as if they only exist between their two
+            * line coordinates.
             *
             * @method lineSegmentToLineSegment
             * @param line1 {Kiwi.Geom.Line} The first line object to check.
             * @param line2 {Kiwi.Geom.Line} The second line object to check.
-            * @param [output]{Kiwi.Geom.IntersectResult} An optional IntersectResult object to store the intersection values in. One is created if none given.
-            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object containing the results of this intersection in x/y.
+            * @param [output]{Kiwi.Geom.IntersectResult} An optional
+                IntersectResult object to store the intersection values in.
+                One is created if none given.
+            * @return {Kiwi.Geom.IntersectResult} An IntersectResult object
+                containing the results of this intersection in x/y.
             * @public
             * @static
             */
@@ -27327,9 +27247,6 @@ var Kiwi;
                 this._muted = this._game.audio.mute;
                 this._loop = loop;
                 this.key = key;
-                if (!Kiwi.Utils.Common.isString(this.key) && this.key.isAudio) {
-                    this.key = this.key.key;
-                }
                 //If audio isn't supported OR the file does not exist
                 if (this._game.audio.noAudio || this._game.fileStore.exists(this.key) === false) {
                     Kiwi.Log.log('Could not play Audio. Either the browser doesn\'t support audio or the Audio file was not found on the filestore.', '#audio', '#notfound');
@@ -27894,38 +27811,50 @@ var Kiwi;
     })(Sound = Kiwi.Sound || (Kiwi.Sound = {}));
 })(Kiwi || (Kiwi = {}));
 /**
-*
 * @module Kiwi
 * @submodule Time
-*
 */
 var Kiwi;
 (function (Kiwi) {
     var Time;
     (function (Time) {
         /**
-        * The Clock class offers a way of tracking time within a game. When creating a new Clock you should NOT directly instantiate this class but instead use the addClock method on a ClockManager.
-        * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks real world time in milliseconds elapsed since the application started. This happens automatically and there is no need to do anything to set this up.
-        * - An instance of a clock is used to track time in arbitrary units (milliseconds by default)
-        * - A clock can be started, paused, unpaused and stopped. Once stopped, re-starting the clock again will reset it. It can also have its time scale freely transformed.
-        * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer class for timer details.
-        * - If the clock is paused, any timers attached to the clock will take this into account and not continue to fire events until the clock is unpaused. (Note that this is not the same as pausing timers, which can be done manually and needs to be undone manually.)
+        * The Clock class offers a way of tracking time within a game.
+        * When creating a new Clock you should NOT directly instantiate this class
+        * but instead use the addClock method on a ClockManager.
+        * - The MasterClock is a property of the Kiwi.Time.Manager class and tracks
+        *   real world time in milliseconds elapsed since the application started.
+        *   This happens automatically and there is no need to do anything to set
+        *   this up.
+        * - An instance of a clock is used to track time in arbitrary units
+        *   (milliseconds by default)
+        * - A clock can be started, paused, unpaused and stopped. Once stopped,
+        *   re-starting the clock again will reset it. It can also have its time
+        *   scale freely transformed.
+        * - Any number of timers can be attached to a clock. See the Kiwi.Time.Timer
+        *   class for timer details.
+        * - If the clock is paused, any timers attached to the clock will take this
+        *   into account and not continue to fire events until the clock is
+        *   unpaused. (Note that this is not the same as pausing timers, which can
+        *   be done manually and needs to be undone manually.)
         * - Animations and TweenManagers can use any Clock.
         *
         * @class Clock
         * @namespace Kiwi.Time
         * @constructor
-        * @param manager {ClockManager} The ClockManager that this clock belongs to.
-        * @param master {Kiwi.Time.MasterClock} The MasterClock that it is getting the time in relation to.
-        * @param name {String} The name of the clock.
-        * @param [units=1000] {Number} The units that this clock is to operate in per second.
-        * @return {Kiwi.Time.Clock} This Clock object.
+        * @param manager {ClockManager} ClockManager that this clock belongs to
+        * @param master {Kiwi.Time.MasterClock} MasterClock that this is getting
+        *	the time in relation to
+        * @param name {String} Name of the clock
+        * @param [units=1000] {Number} Units that this clock is to operate in
+        *	per second
+        * @return {Kiwi.Time.Clock} This Clock object
         */
         var Clock = (function () {
             function Clock(manager, master, name, units) {
                 if (units === void 0) { units = 1000; }
                 /**
-                * The time the clock was first started relative to the master clock.
+                * Time the clock was first started relative to the master clock
                 * @property _timeFirstStarted
                 * @type Number
                 * @default null
@@ -27933,7 +27862,7 @@ var Kiwi;
                 */
                 this._timeFirstStarted = null;
                 /**
-                * The time the clock was most recently started relative to the master clock.
+                * Most recent time the clock was started relative to the master clock
                 * @property _timeLastStarted
                 * @type Number
                 * @default null
@@ -27942,7 +27871,7 @@ var Kiwi;
                 this._timeLastStarted = null;
                 /**
                 * Rate at which time passes on this clock.
-                * 1 is normal speed. 0 is no speed. -1 is backwards.
+                * 1 is normal speed. 1.5 is faster. 0 is no speed. -1 is backwards.
                 * This mostly affects timers, animations and tweens.
                 * @property timeScale
                 * @type number
@@ -27983,7 +27912,8 @@ var Kiwi;
                 */
                 this._maxFrameDuration = -1;
                 /**
-                * The time the clock was most recently stopped relative to the master clock.
+                * Time the clock was most recently stopped relative to the
+                * master clock.
                 * @property _timeLastStopped
                 * @type Number
                 * @default null
@@ -27991,7 +27921,8 @@ var Kiwi;
                 */
                 this._timeLastStopped = null;
                 /**
-                * The time the clock was most receently paused relative to the master clock.
+                * Time the clock was most receently paused relative to the
+                * master clock.
                 * @property _timeLastPaused
                 * @private
                 * @type Number
@@ -28000,7 +27931,8 @@ var Kiwi;
                 */
                 this._timeLastPaused = null;
                 /**
-                * The time the clock was most recently unpaused relative to the master clock.
+                * Time the clock was most recently unpaused relative to the
+                * master clock.
                 * @property _timeLastUnpaused
                 * @private
                 * @type Number
@@ -28009,7 +27941,8 @@ var Kiwi;
                 */
                 this._timeLastUnpaused = null;
                 /**
-                * The total number of milliseconds the clock has been paused since it was last started.
+                * Total number of milliseconds the clock has been paused
+                * since it was last started
                 * @property _totalPaused
                 * @private
                 * @type Number
@@ -28018,7 +27951,7 @@ var Kiwi;
                 */
                 this._totalPaused = 0;
                 /**
-                * Whether the clock is in a running state.
+                * Whether the clock is in a running state
                 * @property _isRunning
                 * @type boolean
                 * @default false
@@ -28026,7 +27959,7 @@ var Kiwi;
                 */
                 this._isRunning = false;
                 /**
-                * Whether the clock is in a stopped state.
+                * Whether the clock is in a stopped state
                 * @property _isStopped
                 * @type boolean
                 * @default true
@@ -28034,7 +27967,7 @@ var Kiwi;
                 */
                 this._isStopped = true;
                 /**
-                * Whether the clock is in a paused state.
+                * Whether the clock is in a paused state
                 * @property _isPaused
                 * @type boolean
                 * @default false
@@ -28042,21 +27975,21 @@ var Kiwi;
                 */
                 this._isPaused = false;
                 /**
-                * An internal reference to the state of the elapsed timer
+                * Internal reference to the state of the elapsed timer
                 * @property _elapsedState
                 * @type Number
                 * @private
                 */
                 this._elapsedState = Kiwi.Time.Clock._RUNNING;
                 /**
-                * The time manager that this clock belongs to.
+                * Time manager that this clock belongs to
                 * @property manager
                 * @type ClockManager
                 * @public
                 */
                 this.manager = null;
                 /**
-                * The master clock.
+                * Master clock from which time is derived
                 * @property master
                 * @type Kiwi.Time.MasterClock
                 * @public
@@ -28070,7 +28003,7 @@ var Kiwi;
                 */
                 this.name = null;
                 /**
-                * The number of milliseconds counted as one unit of time by the clock.
+                * Number of milliseconds counted as one unit of time by the clock
                 * @property units
                 * @type Number
                 * @default 0
@@ -28089,7 +28022,7 @@ var Kiwi;
                 this._currentMasterElapsed = this.master.elapsed();
             }
             /**
-            * The type of object that this is.
+            * The type of object that this is
             * @method objType
             * @return {String} "Clock"
             * @public
@@ -28098,18 +28031,18 @@ var Kiwi;
                 return "Clock";
             };
             /**
-            * The number of clock units elapsed since the clock was first started.
-            * @method elapsedSinceFirstStarted.
-            * @return {Number} number of clock units.
+            * Number of clock units elapsed since the clock was first started
+            * @method elapsedSinceFirstStarted
+            * @return {Number} Number of clock units elapsed
             * @public
             */
             Clock.prototype.elapsedSinceFirstStarted = function () {
                 return (this._timeLastStarted) ? (this.master.elapsed() - this._timeFirstStarted) / this.units : null;
             };
             /**
-            * Get the most recent time the clock was started relative to the master clock.
+            * Most recent time the clock was started relative to the master clock
             * @method started
-            * @return {Number} milliseconds.
+            * @return {Number} Milliseconds
             * @public
             */
             Clock.prototype.started = function () {
@@ -28136,63 +28069,66 @@ var Kiwi;
                 configurable: true
             });
             /**
-            * The number of clock units elapsed since the clock was most recently started (not including time spent paused)
+            * Number of clock units elapsed since the clock was most recently
+            * started (not including time spent paused)
             * @method elapsed
-            * @return {Number} number of clock units.
+            * @return {Number} Number of clock units
             * @public
             */
             Clock.prototype.elapsed = function () {
                 return this._elapsed;
             };
             /**
-            * The number of clock units elapsed since the clock was most recently stopped.
-            * @method elapsedSinceLastStopped.
-            * @return {Number} number of clock units.
+            * Number of clock units elapsed since the clock was most recently
+            * stopped.
+            * @method elapsedSinceLastStopped
+            * @return {Number} Number of clock units
             * @public
             */
             Clock.prototype.elapsedSinceLastStopped = function () {
                 return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastStopped) / this.units : null;
             };
             /**
-            * The number of clock units elapsed since the clock was most recently paused.
-            * @method elapsedSinceLastPaused.
-            * @return {Number} number of clock units.
+            * Number of clock units elapsed since the clock was most recently paused.
+            * @method elapsedSinceLastPaused
+            * @return {Number} Number of clock units
             * @public
             */
             Clock.prototype.elapsedSinceLastPaused = function () {
                 return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastPaused) / this.units : null;
             };
             /**
-            * The number of clock units elapsed since the clock was most recently unpaused.
-            * @method elapsedSinceLastUnpaused.
-            * @return {Number} number of clock units.
+            * Number of clock units elapsed since the clock was most recently
+            * unpaused.
+            * @method elapsedSinceLastUnpaused
+            * @return {Number} Number of clock units
             * @public
             */
             Clock.prototype.elapsedSinceLastUnpaused = function () {
                 return (this._timeLastStarted) ? (this.master.elapsed() - this._timeLastUnpaused) / this.units : null;
             };
             /**
-            * Check if the clock is currently running.
+            * Check if the clock is currently running
             * @method isRunning
-            * @return {boolean} true if running.
+            * @return {boolean} `true` if running
             * @public
             */
             Clock.prototype.isRunning = function () {
                 return this._isRunning;
             };
             /**
-            * Check if the clock is in the stopped state.
+            * Check if the clock is in the stopped state
             * @method isStopped
-            * @return {boolean} true if stopped.
+            * @return {boolean} `true` if stopped
             * @public
             */
             Clock.prototype.isStopped = function () {
                 return this._isStopped;
             };
             /**
-            * Check if the clock is in the paused state.
+            * Check if the clock is in the paused state
             * @method isPaused
-            * @return {boolean} true if paused.
+            * @return {boolean} `true` if paused
             * @public
             */
             Clock.prototype.isPaused = function () {
@@ -28201,8 +28137,8 @@ var Kiwi;
             /**
             * Add an existing Timer to the Clock.
             * @method addTimer
-            * @param timer {Timer} Timer object instance to be added to this Clock.
-            * @return {Kiwi.Time.Clock} This Clock object.
+            * @param timer {Timer} Timer object instance to be added to this Clock
+            * @return {Kiwi.Time.Clock} This Clock object
             * @public
             */
             Clock.prototype.addTimer = function (timer) {
@@ -28210,13 +28146,15 @@ var Kiwi;
                 return this;
             };
             /**
-            * Creates a new Timer and adds it to this Clock.
+            * Create a new Timer and add it to this Clock.
             * @method createTimer
-            * @param name {string} The name of the Timer (must be unique on this Clock).
-            * @param [delay=1] {Number} The number of clock units to wait between firing events (default 1)
-            * @param [repeatCount=0] {Number} The number of times to repeat this Timer (default 0)
-            * @param [start=true] {Boolean} If the timer should start.
-            * @return {Kiwi.Time.Timer} The newly created Timer.
+            * @param name {string} Name of the Timer (must be unique on this Clock)
+            * @param [delay=1] {Number} Number of clock units to wait between
+            *	firing events
+            * @param [repeatCount=0] {Number} Number of times to repeat the Timer
+            *	(default 0)
+            * @param [start=true] {Boolean} If the timer should start
+            * @return {Kiwi.Time.Timer} The newly created Timer
             * @public
             */
             Clock.prototype.createTimer = function (name, delay, repeatCount, start) {
@@ -28230,11 +28168,13 @@ var Kiwi;
                 return this.timers[this.timers.length - 1];
             };
             /**
-            * Remove a Timer from this Clock based on either the Timer object or its name.
+            * Remove a Timer from this Clock based on either the Timer object
+            * or its name.
             * @method removeTimer
-            * @param [timer=null] {Timer} The Timer object you wish to remove. If you wish to delete by Timer Name set this to null.
-            * @param [timerName=''] {string} The name of the Timer object to remove.
-            * @return {boolean} True if the Timer was successfully removed, false if not.
+            * @param [timer=null] {Timer} Timer object you wish to remove.
+            *	If you wish to delete by Timer Name set this to null.
+            * @param [timerName=''] {string} Name of the Timer object to remove
+            * @return {boolean} `true` if the Timer was successfully removed
             * @public
             */
             Clock.prototype.removeTimer = function (timer, timerName) {
@@ -28260,10 +28200,10 @@ var Kiwi;
                 return false;
             };
             /**
-            * Check if the Timer already exists on this Clock
+            * Check if the Timer already exists on this Clock.
             * @method checkExists
-            * @param name {string} The name of the Timer.
-            * @return {boolean} true if the Timer exists, false if not.
+            * @param name {string} Name of the Timer
+            * @return {boolean} `true` if the Timer exists
             * @public
             */
             Clock.prototype.checkExists = function (name) {
@@ -28277,7 +28217,7 @@ var Kiwi;
             /**
             * Stop all timers attached to the clock.
             * @method stopAllTimers
-            * @return {Clock} This Clock object.
+            * @return {Clock} This Clock object
             * @public
             */
             Clock.prototype.stopAllTimers = function () {
@@ -28288,16 +28228,16 @@ var Kiwi;
             };
             /**
             * Convert a number to milliseconds based on clock units.
-            * @method toMilliseconds.
-            * @param time {number} seconds
-            * @return {Number} milliseconds.
+            * @method toMilliseconds
+            * @param time {number} Seconds
+            * @return {Number} Milliseconds
             * @public
             */
             Clock.prototype.convertToMilliseconds = function (time) {
                 return time * this.units;
             };
             /**
-            * Updates all Timers linked to this Clock.
+            * Update all Timers linked to this Clock.
             * @method update
             * @public
             */
@@ -28330,7 +28270,7 @@ var Kiwi;
             /**
             * Start the clock. This resets the clock and starts it running.
             * @method start
-            * @return {Clock} This Clock object.
+            * @return {Clock} This Clock object
             * @public
             */
             Clock.prototype.start = function () {
@@ -28343,12 +28283,15 @@ var Kiwi;
                 this._isPaused = false;
                 this._isStopped = false;
                 this._elapsedState = Kiwi.Time.Clock._RUNNING;
+                this._elapsed = 0;
+                this._lastMasterElapsed = this.master.elapsed();
+                this._currentMasterElapsed = this.master.elapsed();
                 return this;
             };
             /**
-            * Pause the clock. The clock can only be paused if it is already running.
+            * Pause the clock. This can only be paused if it is already running.
             * @method pause
-            * @return {Kiwi.Time.Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object
             * @public
             */
             Clock.prototype.pause = function () {
@@ -28362,9 +28305,9 @@ var Kiwi;
                 return this;
             };
             /**
-            * Resume the clock. The clock can only be resumed if it is already paused.
+            * Resume the clock. This can only be resumed if it is already paused.
             * @method resume
-            * @return {Kiwi.Time.Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object
             * @public
             */
             Clock.prototype.resume = function () {
@@ -28379,9 +28322,10 @@ var Kiwi;
                 return this;
             };
             /**
-            * Stop the clock. Clock can only be stopped if it is already running or is paused.
+            * Stop the clock. This can only be stopped if it is already running
+            *	or is paused.
             * @method stop
-            * @return {Kiwi.Time.Clock} This Clock object.
+            * @return {Kiwi.Time.Clock} This Clock object
             * @public
             */
             Clock.prototype.stop = function () {
@@ -28398,9 +28342,9 @@ var Kiwi;
                 return this;
             };
             /**
-            * Returns a string representation of this object.
+            * Return a string representation of this object.
             * @method toString
-            * @return {string} a string representation of the instance.
+            * @return {string} String representation of the instance
             * @public
             */
             Clock.prototype.toString = function () {
@@ -28408,24 +28352,24 @@ var Kiwi;
             };
             /**
             * Set a function to execute after a certain time interval.
-            * Emulates window.setTimeout, except attached to a Kiwi.Time.Clock.
-            * This allows you to pause and manipulate time, and the timeout will respect
-            * the clock on which it is created.
+            * Emulates `window.setTimeout`, except attached to a `Kiwi.Time.Clock`.
+            * This allows you to pause and manipulate time, and the timeout will
+            * respect the clock on which it is created.
             *
-            * No clearTimeout is provided; you should use Kiwi.Time.Timer functions
-            * to achieve further control.
+            * No `clearTimeout` is provided; you should use `Kiwi.Time.Timer`
+            * functions to achieve further control.
             *
-            * Any parameters after "context" will be passed as parameters to the
-            * callback function. Note that you must specify "context" in order for
-            * this to work. You may specify "null", in which case it will default
-            * to the global scope "window".
+            * Any parameters after `context` will be passed as parameters to the
+            * callback function. Note that you must specify `context` in order for
+            * this to work. You may specify `null`, in which case it will default
+            * to the global scope `window`.
             *
             * @method setTimeout
             * @param callback {function} Function to execute
             * @param timeout {number} Milliseconds before execution
-            * @param [context] {object} Object to be "this" for the callback
-            * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used to further
-            *   manipulate the timer
+            * @param [context] {object} Object to be `this` for the callback
+            * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object which can be used
+            *	to further manipulate the timer
             * @public
             */
             Clock.prototype.setTimeout = function (callback, timeout, context) {
@@ -28446,22 +28390,22 @@ var Kiwi;
             };
             /**
             * Set a function to repeatedly execute at fixed time intervals.
-            * Emulates window.setInterval, except attached to a Kiwi.Time.Clock.
-            * This allows you to pause and manipulate time, and the timeout will respect
-            * the clock on which it is created.
+            * Emulates `window.setInterval`, except attached to a `Kiwi.Time.Clock`.
+            * This allows you to pause and manipulate time, and the timeout will
+            * respect the clock on which it is created.
             *
-            * No clearInterval is provided; you should use Kiwi.Time.Timer functions
-            * to achieve further control.
+            * No `clearInterval` is provided; you should use `Kiwi.Time.Timer`
+            * functions to achieve further control.
             *
-            * Any parameters after "context" will be passed as parameters to the
-            * callback function. Note that you must specify "context" in order for
-            * this to work. You may specify "null", in which case it will default
-            * to the global scope "window".
+            * Any parameters after `context` will be passed as parameters to the
+            * callback function. Note that you must specify `context` in order for
+            * this to work. You may specify `null`, in which case it will default
+            * to the global scope `window`.
             *
             * @method setInterval
             * @param callback {function} Function to execute
             * @param timeout {number} Milliseconds between executions
-            * @param [context=window] {object} Object to be "this" for the callback
+            * @param [context=window] {object} Object to be `this` for the callback
             * @return {Kiwi.Time.Timer} Kiwi.Time.Timer object
             *   which can be used to further manipulate the timer
             * @public
@@ -32716,16 +32660,6 @@ var Kiwi;
                 */
                 this.display = true;
                 /**
-                * A list of tags which any message recorded needs to match in-order to be displayed.
-                * This helps when debugging systems with lots of messages, without removing every log.
-                *
-                * @property tagFilters
-                * @type Array
-                * @since 1.3.0
-                * @public
-                */
-                this.tagFilters = [];
-                /**
                 * The maximum number of recordings to be kept at once.
                 *
                 * @property maxRecordings
@@ -32770,9 +32704,6 @@ var Kiwi;
                 }
                 if (!Kiwi.Utils.Common.isUndefined(params.maxRecordings)) {
                     this.maxRecordings = params.maxRecordings;
-                }
-                if (Kiwi.Utils.Common.isArray(params.tagFilters)) {
-                    this.tagFilters = params.tagFilters;
                 }
             };
             Object.defineProperty(Log.prototype, "lastMessageTime", {
@@ -32886,33 +32817,6 @@ var Kiwi;
                 return tags;
             };
             /**
-            * Returns true if the all of the tags passed also occur in the tag filters.
-            * This is used to filter out messages by their tags.
-            *
-            * @method _filterTags
-            * @param tags {Array} A list of tags, which need to occur in the tag filters
-            * @param [tagFilters=this.tagFilters] {Array} A list of tags. Tags need to
-            * @return {Boolean} Tags match the tag filters, and so if the message would be allowed to execute.
-            * @since 1.3.0
-            * @private
-            */
-            Log.prototype._filterTags = function (tags, tagFilters) {
-                if (tagFilters === void 0) { tagFilters = this.tagFilters; }
-                //No filters, then allow
-                if (tagFilters.length === 0) {
-                    return true;
-                }
-                var i = 0;
-                while (i < tags.length) {
-                    //If the tag does not appear in the filter list 
-                    if (tagFilters.indexOf(tags[i]) === -1) {
-                        return false;
-                    }
-                    i++;
-                }
-                return true;
-            };
-            /**
             * Logs a message using the 'console.log' method.
             * Arguments starting with a '#' symbol are given that value as a tag.
             *
@@ -32928,11 +32832,8 @@ var Kiwi;
                 if (!this.enabled) {
                     return;
                 }
-                var tags = this.getTagsFromArray(args);
-                this.record(args, tags, console.log);
-                if (this._filterTags(tags)) {
-                    this._execute(console.log, console, args);
-                }
+                this.record(args, this.getTagsFromArray(args), console.log);
+                this._execute(console.log, console, args);
             };
             /**
             * Logs a message using the 'console.warn' method.
@@ -32950,11 +32851,8 @@ var Kiwi;
                 if (!this.enabled) {
                     return;
                 }
-                var tags = this.getTagsFromArray(args);
-                this.record(args, tags, console.warn);
-                if (this._filterTags(tags)) {
-                    this._execute(console.warn, console, args);
-                }
+                this.record(args, this.getTagsFromArray(args), console.warn);
+                this._execute(console.warn, console, args);
             };
             /**
             * Logs a message using the 'console.error' method.
@@ -32972,11 +32870,8 @@ var Kiwi;
                 if (!this.enabled) {
                     return;
                 }
-                var tags = this.getTagsFromArray(args);
-                this.record(args, tags, console.error);
-                if (this._filterTags(tags)) {
-                    this._execute(console.error, console, args);
-                }
+                this.record(args, this.getTagsFromArray(args), console.error);
+                this._execute(console.error, console, args);
             };
             /**
             * Method that displays a particular recording passed.
@@ -33003,7 +32898,6 @@ var Kiwi;
             };
             /**
             * Displays the last recording matching the tags passed.
-            * Ignores the tag filters.
             *
             * @method showLast
             * @param [...args] {Any} Any tags that the recordings must have.
@@ -33023,7 +32917,6 @@ var Kiwi;
             };
             /**
             * Displays all recordings.
-            * Ignores the tag filters.
             *
             * @method showAll
             * @param [...args] {Any} Any tags that the recordings must have.
@@ -33040,7 +32933,6 @@ var Kiwi;
             };
             /**
             * Displays all logs recorded.
-            * Ignores the tag filters.
             *
             * @method showLogs
             * @param [...args] {Any} Any tags that the recordings must have.
@@ -33059,7 +32951,6 @@ var Kiwi;
             };
             /**
             * Displays all errors recorded.
-            * Ignores the tag filters.
             *
             * @method showErrors
             * @param [...args] {Any} Any tags that the recordings must have.
@@ -33078,7 +32969,6 @@ var Kiwi;
             };
             /**
             * Displays all warnings recorded.
-            * Ignores the tag filters.
             *
             * @method showWarnings
             * @param [...args] {Any} Any tags that the recordings must have.
@@ -33097,8 +32987,7 @@ var Kiwi;
             };
             /**
             * Displays a series of recordings within a time period passed.
-            * Time recorded is in milliseconds.
-            * Ignores the tag filters.
+            * Time recorded is in milliseconds
             *
             * @method showTimePeriod
             * @param [start=0] {Number}
@@ -33116,45 +33005,6 @@ var Kiwi;
                     if (start < recording.time && end > recording.time) {
                         this._show(recording, tags);
                     }
-                }
-            };
-            /**
-            * Adds a tag to the list of tag filters.
-            * Any messages that do not have the tags in the tagFilters list will not be displayed.
-            *
-            * @method addFilter
-            * @param [...args] {Any} Tags to add to the filters list.
-            * @since 1.3.0
-            * @public
-            */
-            Log.prototype.addFilter = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                this.tagFilters = this.tagFilters.concat(args);
-            };
-            /**
-            * Removes a tag to the list of tag filters.
-            * Any messages that do not have the tags in the tagFilters list will not be displayed.
-            *
-            * @method addFilter
-            * @param [...args] {Any} Tags to be remove from the filters list.
-            * @since 1.3.0
-            * @public
-            */
-            Log.prototype.removeFilter = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                var i = 0, index;
-                while (i < args.length) {
-                    index = this.tagFilters.indexOf(args[i]);
-                    if (index !== -1) {
-                        this.tagFilters.splice(index, 1);
-                    }
-                    i++;
                 }
             };
             return Log;
@@ -33388,7 +33238,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.3.0";
+    Kiwi.VERSION = "1.2.3";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.
