@@ -1,11 +1,10 @@
 var state = new Kiwi.State('Play');
 
-state.preload = function () {
-    
-    this.addSpriteSheet('player', './assets/img/anime-monsters/griffon-sheet.png', 150, 117);
+state.preload = function() {
+    this.addSpriteSheet('player', './assets/img/anime/griffon.png', 150, 117);
     this.addAudio('music', './assets/audio/forest/forest-theme-boss.mp3');
     this.addAudio('sfx', './assets/audio/sound-effects/ig-coin.mp3');
-};
+}
 
 state.create = function () {
 
@@ -21,8 +20,7 @@ state.create = function () {
 
 	this.game.input.mouse.onDown.add( this.mouseDown, this );
 
-
-};
+}
 
 state.mouseDown = function () {
 
@@ -36,6 +34,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'PlayMusic', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Mute Sound Effects', state, gameOptions);
 
 

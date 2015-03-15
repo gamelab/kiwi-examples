@@ -1,13 +1,8 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
-
-};
+	this.addSpriteSheet( 'sprite', './assets/img/topdown/terminator.png', 150, 117 );
+}
 
 state.create = function () {
 
@@ -22,18 +17,15 @@ state.create = function () {
 			randY = Math.random() * ( 100 ) + 15;
 
 		var tempSprite = new Kiwi.GameObjects.Sprite( this, this.textures.sprite, randX, randY );
-
 		this.group.addChild( tempSprite );
 
 	}
 
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-   
-};
+}
 
 state.mouseClicked = function () {
-
 	// Everytime the mouse is clicked the first child in the group will be set to the last.
 	this.group.setChildIndex( this.group.getChildAt( 0 ), this.group.numChildren() );
 }
@@ -44,6 +36,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'SetChildIndex', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Set Child Index', state, gameOptions);
 
 

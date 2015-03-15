@@ -1,48 +1,46 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-	this.addSpriteSheet('characters', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117);
+	this.addSpriteSheet('characters', './assets/img/anime/catgirl.png', 150, 117);
 }
+
 state.create = function () {
 
 
 	if (Kiwi.DEVICE.touch) {
 
-			
-			var text = new Kiwi.GameObjects.Textfield(this, 'Touch the device to create a new Character!', this.game.stage.width / 2, 10, '#000', 12);
-			text.textAlign = 'center';
-			this.addChild(text);
+		var text = new Kiwi.GameObjects.Textfield(this, 'Touch the device to create a new Character!', this.game.stage.width / 2, 10, '#000', 12);
+		text.textAlign = 'center';
+		this.addChild(text);
 
-			/**
-			* Add the callbacks to the touch manager.
-			**/
+		/**
+		* Add the callbacks to the touch manager.
+		**/
 
-			this.game.input.onDown.add(this.spawn, this);
-			this.game.input.onUp.add(this.remove, this);
+		this.game.input.onDown.add(this.spawn, this);
+		this.game.input.onUp.add(this.remove, this);
 
-			//create a new character for each finger.
-			this.characters = [];
-			this.pointers = [];
+		//create a new character for each finger.
+		this.characters = [];
+		this.pointers = [];
 
-			for (var i = 0; i < this.game.input.touch.fingers.length; i++) {
+		for (var i = 0; i < this.game.input.touch.fingers.length; i++) {
 
 
-				var c = new Kiwi.GameObjects.Sprite(this, this.textures.characters);
-				this.characters.push(c);
-				c.cellIndex = i;
-			}
-
-		} else {
-
-			var text = new Kiwi.GameObjects.Textfield(this, 'In order to view this example you need to be on a touch enabled device :(', this.game.stage.width / 2, this.game.stage.height / 3, '#000', 16);
-			text.textAlign = 'center';
-			this.addChild(text);
-			
+			var c = new Kiwi.GameObjects.Sprite(this, this.textures.characters);
+			this.characters.push(c);
+			c.cellIndex = i;
 		}
 
-  
-};
+	} else {
 
+		var text = new Kiwi.GameObjects.Textfield(this, 'In order to view this example you need to be on a touch enabled device :(', this.game.stage.width / 2, this.game.stage.height / 3, '#000', 16);
+		text.textAlign = 'center';
+		this.addChild(text);
+		
+	}
+
+}
 
 
 state.update = function () {
@@ -64,11 +62,13 @@ state.update = function () {
 			}
 		}
 	}
-};
+}
+
 state.spawn = function ( x, y, timeDown, timeUp, duration, pointer ) {
 	this.pointers.push(pointer);
 	this.addChild(this.characters[this.pointers.length - 1]);
-};
+}
+
 state.removePointer = function ( pointer ) {
 	for (var i = 0; i < this.pointers.length; i++) {
 		if (pointer.id == this.pointers[i].id) {
@@ -78,15 +78,11 @@ state.removePointer = function ( pointer ) {
 		}
 	}
 	return false;
-};
+}
+
 state.remove = function ( x, y, timeDown, timeUp, duration, pointer ) {
 	this.removePointer(pointer);
-};
-
-
-
-
-
+}
 
 
 
@@ -95,6 +91,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Mouse', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Multitouch', state, gameOptions);
 
 

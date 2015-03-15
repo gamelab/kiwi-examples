@@ -17,21 +17,17 @@ state.create = function () {
 
     this.game.huds.defaultHUD.addWidget( this.healthBar );
 
-
-
-};
-
+}
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
-
 	this.healthBar.counter.current = ( this.game.input.mouse.x / this.game.stage.width ) * this.healthBar.counter.max;
 }
 
 var gameOptions = {
 	width: 768,
 	height: 512
-};
+}
 
 var game = new Kiwi.Game('game-container', 'Bar', state, gameOptions);
 

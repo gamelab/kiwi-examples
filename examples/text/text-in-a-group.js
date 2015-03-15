@@ -48,6 +48,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'GroupedText', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Text in a Group', state, gameOptions);
 
 

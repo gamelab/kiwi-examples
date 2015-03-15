@@ -2,14 +2,13 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
 	
-	this.addImage( 'grid', './assets/img/grids/large-debug-grid.png' );
+	this.addImage( 'grid', './assets/img/grids/large-debug.png' );
 	this.addImage( 'player', './assets/img/logo/rocket.png' );
 }; 
 
 state.create = function () {
 
 	this.background = new Kiwi.GameObjects.StaticImage( this, this.textures.grid, 0, 0 );
-
 	this.addChild(this.background);
 
 	this.step = 3;
@@ -22,13 +21,11 @@ state.create = function () {
 	this.player = new Kiwi.GameObjects.Sprite( this, this.textures.player, 500, 500 );
 	this.addChild( this.player );
 
-
-};
+}
 
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
-
 
 	// Move the player with the arrow keys. 
 	if( this.leftKey.isDown ){
@@ -52,7 +49,6 @@ state.update = function () {
 	this.game.cameras.defaultCamera.transform.x = -1 * this.player.x + this.game.stage.width * 0.5 - playerOffsetX;
 	this.game.cameras.defaultCamera.transform.y = -1 * this.player.y + this.game.stage.height * 0.5 - playerOffsetY;
 
-
 }
 
 var gameOptions = {
@@ -60,6 +56,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'MoveCamera', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Basic Follow', state, gameOptions);
 
 

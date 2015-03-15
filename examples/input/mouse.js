@@ -11,11 +11,7 @@ state.create = function () {
 
 	this.wheelCount = 0;
 
-
-
-  
-};
-
+}
 
 
 state.update = function () {
@@ -23,8 +19,6 @@ state.update = function () {
 
 	this.xText.text = "x: " + Math.round ( this.game.input.x * 10 ) / 10;
 	this.yText.text = "y: " + Math.round ( this.game.input.y * 10 ) / 10;
-
-
 
 	this.isDownText.text = "isDown: " + this.game.input.isDown;
 
@@ -35,29 +29,23 @@ state.update = function () {
 
 	this.wheelDeltaXText.text = "Mouse Wheel Delta X: " + this.game.input.mouse.wheelDeltaX;
 	this.wheelDeltaYText.text = "Mouse Wheel Delta Y: " + this.game.input.mouse.wheelDeltaY;
-};
+}
 
 state.onDown = function () {
 	this.ondownCount += 1;
-
-};
+}
 
 state.onReleased = function () {
 	this.onReleasedCount += 1;
-	
-};
+}
 
 state.onUp = function () {
 	this.onUpCount += 1;
-	
-};
+}
 
 state.onWheel = function ( scrollX, scrollY, mouse ) {
-	this.wheelCount += 1;
-	
+	this.wheelCount += 1;	
 };
-
-
 
 
 state.setupUpMouse = function ( x, y ){
@@ -101,7 +89,7 @@ state.setupUpMouse = function ( x, y ){
 	this.game.input.mouse.onUp.add( this.onUp, this );
 
 	this.game.input.mouse.onWheel.add( this.onWheel, this );
-};
+}
 
 
 var gameOptions = {

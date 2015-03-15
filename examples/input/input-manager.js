@@ -5,9 +5,6 @@ state.create = function () {
 
 	this.setupUpManager( 15, 15 );
 
-
-
-	
 	// Add methods to be dispatched on the games input object.
 	this.game.input.onDown.add( this.onDown, this );
 	this.game.input.onReleased.add( this.onReleased, this );
@@ -17,20 +14,13 @@ state.create = function () {
 	this.onReleasedCount = 0;
 	this.onUpCount = 0;	
 
-
-
-  
-};
-
-
+}
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 
 	this.xText.text = "x: " + Math.round ( this.game.input.x * 10 ) / 10;
 	this.yText.text = "y: " + Math.round ( this.game.input.y * 10 ) / 10;
-
-
 
 	this.isDownText.text = "isDown: " + this.game.input.isDown;
 
@@ -53,9 +43,6 @@ state.onUp = function () {
 	this.onUpCount += 1;
 	
 }
-
-
-
 
 state.setupUpManager = function ( x, y ){
 	this.title = new Kiwi.GameObjects.Textfield( this, 'InputManager', x, y + 0, '#000000', 16 );
@@ -92,6 +79,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'InputManager', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Input Manager', state, gameOptions);
 
 

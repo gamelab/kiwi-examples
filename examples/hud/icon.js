@@ -1,10 +1,8 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    
     this.addImage('icon', './assets/img/logo/heart.png' );
-
-};
+}
 
 state.create = function () {
 
@@ -12,10 +10,7 @@ state.create = function () {
 	this.icon = new Kiwi.HUD.Widget.Icon( this.game, this.textures.icon, 50, 50 );
     this.game.huds.defaultHUD.addWidget( this.icon );
 
-
-
-  
-};
+}
 
 
 var gameOptions = {

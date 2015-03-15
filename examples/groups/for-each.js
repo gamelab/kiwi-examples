@@ -1,13 +1,9 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addImage( 'sprite', './assets/img/logo/heart.png' );
 
-};
+	this.addImage( 'sprite', './assets/img/logo/heart.png' );
+}
 
 state.create = function () {
 
@@ -36,7 +32,7 @@ state.create = function () {
 	this.wobble = 0.4;
 	this.wobbleSpeed = 0.005;
    
-};
+}
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
@@ -49,13 +45,12 @@ state.update = function () {
 
 	// Calls the forEach method on 'this.group'. Passing custom parameters in the third parameter.
 	this.group.forEach( this, this.changeAlpha, [ this.wobble ] );
-};
+}
 
 
 state.changeAlpha = function ( sprite, wobble ) {
 
-	if( sprite.alpha >= 1 || sprite.alpha <= 0 ){
-
+	if( sprite.alpha >= 1 || sprite.alpha <= 0 ) {
 		// Reverses the direction of the alphaStep.
 		sprite.alphaStep *= -1;
 	}
@@ -69,6 +64,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'ForEach', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'For Each', state, gameOptions);
 
 

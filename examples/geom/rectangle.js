@@ -5,13 +5,11 @@ var state = new Kiwi.State('Play');
 state.preload = function () {
     this.addSpriteSheet( 'square', './assets/img/shapes/square.png', 70, 70 );
     this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
-
-};
+}
 
 state.create = function () {
 
 	this.mouse = this.game.input.mouse;
-
 
 	this.squareIntersect = new Kiwi.GameObjects.Sprite( this, this.textures.square, 100, 100 );
 	this.addChild( this.squareIntersect );
@@ -31,7 +29,8 @@ state.create = function () {
 
 	this.game.input.mouse.onUp.add( this.toggleCursor, this );
 
-};
+}
+
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 
@@ -50,9 +49,6 @@ state.update = function () {
 		this.circleIntersect.cellIndex = 0;
 	}
 
-	console.log( squareIntersected.result, circleIntersected.result );
-
-
 	this.moveCursor();
 }
 
@@ -65,13 +61,15 @@ state.moveCursor = function () {
 }
 
 state.toggleCursor = function () {
-	 if ( this.mySquareCursor.visible ) {
-	 	this.mySquareCursor.visible = false;
+
+	if ( this.mySquareCursor.visible ) {
+		this.mySquareCursor.visible = false;
 	 	this.myCircleCursor.visible = true;
-	 } else {
+	} else {
 	 	this.mySquareCursor.visible = true;
 	 	this.myCircleCursor.visible = false;
-	 }
+	}
+
 }
 
 var gameOptions = {
@@ -79,6 +77,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddSprite', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Rectangle', state, gameOptions);
 
 

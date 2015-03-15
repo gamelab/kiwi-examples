@@ -1,13 +1,8 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/maori-topdown.png', 150, 117 );
-
-};
+	this.addSpriteSheet( 'sprite', './assets/img/topdown/maori.png', 150, 117 );
+}
 
 state.create = function () {
 
@@ -26,13 +21,11 @@ state.create = function () {
 		this.group.addChild( tempSprite );
 
 	}
-   
 
    this.game.input.mouse.onDown.add( this.mouseDown, this );
-};
+}
 
 state.mouseDown = function () {
-
 	// On mouse click the group will 'clear'. This means it will become empty.
 	this.group.clear();
 }
@@ -43,6 +36,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'ClearGroup', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Clear Group', state, gameOptions);
 
 

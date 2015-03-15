@@ -1,15 +1,9 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
 	this.addImage( 'sprite', './assets/img/logo/heart.png' );
-
-	this.addSpriteSheet('player', './assets/img/anime-monsters/griffon-sheet.png', 150, 117);
-
-};
+	this.addSpriteSheet('player', './assets/img/anime/griffon.png', 150, 117);
+}
 
 state.create = function () {
 
@@ -25,41 +19,36 @@ state.create = function () {
 
 		var tempSprite = new Kiwi.GameObjects.Sprite( this, this.textures.player, randX, randY );
 		tempSprite.xSpeed = 2;
-		tempSprite.animation.add( 'walk', [  01, 02, 03, 04, 06 ], 0.1, true, false );
-		tempSprite.bounce = function ( me ) {
+		tempSprite.animation.add( 'walk', [  1, 2, 3, 4, 5, 6 ], 0.1, true, false );
+
+		tempSprite.bounce = function( me ) {
 			if( this.x >= this.game.stage.width - this.width || this.x <= 0 ){
 				this.scaleX *= -1;
 				this.xSpeed *= -1;
 			}
 		}
 
-
 		// Add sprite to group.
 		this.group.addChild( tempSprite );
 	}
 
 	// console.dir( this.group.members );
-	this.group.callAll( 'animation', 'play', ['walk'] );
+	this.group.callAll( 'animation', 'play', [ 'walk' ] );
 	
-   
-};
+}
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
-
 
 	// Calls the forEach method on 'this.group'. Passing custom parameters in the third parameter.
 	this.group.forEach( this, this.updatePosition );
 	// console.log( this.group )
 	this.group.callAll( null, 'bounce', null );
-};
+}
 
 
 state.updatePosition = function ( sprite, wobble ) {
-
 	sprite.x += sprite.xSpeed;
-
-
 }
 
 
@@ -68,6 +57,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'CallAll', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Call All', state, gameOptions);
 
 

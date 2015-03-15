@@ -71,6 +71,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'BasicTimer', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Basic Timer', state, gameOptions);
 
 

@@ -2,7 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addSpriteSheet('player', './assets/img/anime-monsters/squid-sheet.png', 150, 117);
+    this.addSpriteSheet('player', './assets/img/anime/squid.png', 150, 117);
     this.addAudio('sfx', './assets/audio/misc-sound-effects/sound-sheet.mp3');
 };
 
@@ -21,11 +21,9 @@ state.create = function () {
 	// Adds method to run to the onDown signal of the game.input.mouse.
 	this.game.input.mouse.onDown.add( this.mouseDown, this );
 
-
 };
 
 state.mouseDown = function (){
-
 	// Plays 'coin' sound effect
 	this.sfx.play( 'coin', true );
 }
@@ -35,6 +33,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'add-marker', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Add Marker', state, gameOptions);
 
 

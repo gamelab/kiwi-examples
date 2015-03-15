@@ -2,9 +2,9 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addSpriteSheet('player', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117);
+    this.addSpriteSheet('player', './assets/img/anime/catgirl.png', 150, 117);
 
-};
+}
 
 state.create = function () {
 
@@ -18,17 +18,17 @@ state.create = function () {
 	* Param 4: Loop animation boolean.
 	* Param 5: Play this animation.
 	*/
-	this.player.animation.add( 'run', [  01, 02, 03, 04, 06 ], 0.1, true, true );
+	this.player.animation.add( 'run', [ 1, 2, 3, 4, 5, 6 ], 0.1, true, true );
 
 	this.addChild(this.player);
   
-};
+}
 
 var gameOptions = {
 	width: 768,
 	height: 512
-};
+}
 
-var game = new Kiwi.Game('game-container', 'LoopAnimation', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Loop Animation', state, gameOptions);
 
 

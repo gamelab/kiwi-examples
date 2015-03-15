@@ -80,6 +80,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddSprite', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Signal', state, gameOptions);
 
 

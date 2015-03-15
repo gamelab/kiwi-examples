@@ -29,6 +29,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'TextColor', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Text Color', state, gameOptions);
 
 

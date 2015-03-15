@@ -2,44 +2,44 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addSpriteSheet('player', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117);
+    this.addSpriteSheet('player', './assets/img/anime/catgirl.png', 150, 117);
 
 };
 
 state.create = function () {
 
 	this.player = new Kiwi.GameObjects.Sprite(this, this.textures.player, 275, 150);
+	this.addChild(this.player);
 
 
 	// Sprites can have multiple animation.
 	// Simply add as many as you want to the sprites animation component.
 	this.player.animation.add( 'idle', [ 0 ], 0.1, false );
-	this.player.animation.add( 'run', [  01, 02, 03, 04, 06 ], 0.1, true );
-	this.player.animation.add( 'crouch', [  07, 08 ], 0.1, true );
+	this.player.animation.add( 'run', [  1, 2, 3, 4, 5, 6 ], 0.1, true );
+	this.player.animation.add( 'crouch', [  7, 8 ], 0.1, true );
 	this.player.animation.play( 'run' );
 
-	this.addChild(this.player);
 
-	this.currentAnimationText = new Kiwi.GameObjects.Textfield( this, "Current Animation: run", 15, 15 );
-
+	this.currentAnimationText = new Kiwi.GameObjects.Textfield( this, "Current Animation: run", 15, 15, '#000', 20 );
 	this.addChild( this.currentAnimationText );
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-
 	this.animationSelect = 0;
 
+}
 
-  
-};
 
+//When the mouse is clicked increase the animation selected
 state.mouseClicked = function () {
 	var anim = '';
 
+	//Increase the current animation number
 	this.animationSelect += 1;
 	if( this.animationSelect > 2 ){
 		this.animationSelect = 0;
 	}
 
+	//Select the name corresponding to that number
 	switch ( this.animationSelect ) {
 		case 0:
 			anim = 'run';
@@ -55,15 +55,11 @@ state.mouseClicked = function () {
 	}
 
 
-	// Play ani of the animations by calling the play function of the animation component of the sprite.
-	// Remember to pass the string of the animation you want to play.
+	// Play the animation by the name selected
 	this.player.animation.play( anim );
-
 	this.currentAnimationText.text = "Current Animation: " + this.player.animation.currentAnimation.name;
 
 }
-
-
 
 
 var gameOptions = {
@@ -71,6 +67,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'MultipleAnimation', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Multiple Animation', state, gameOptions);
 
 

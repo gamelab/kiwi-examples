@@ -1,21 +1,25 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    
-    this.addSpriteSheet('playerSpriteSheet', './assets/img/anime/girl-sheet-punk-3.png', 150, 117);
+    this.addSpriteSheet('punk', './assets/img/anime/punk.png', 150, 117);
 };
 
 state.create = function () {
 
-	this.player = new Kiwi.GameObjects.Sprite(this, this.textures.playerSpriteSheet, 275, 150);
-	this.addChild(this.player);
+	//Create the player
+	this.punk = new Kiwi.GameObjects.Sprite(this, this.textures.punk, 275, 175);
+	this.addChild(this.punk);
 
-	this.cellIndexText = new Kiwi.GameObjects.Textfield( this, "Cell Index: 0", 15, 15 );
+	//Create the cell
+	this.cellIndexText = new Kiwi.GameObjects.Textfield( this, "Cell Index: 0", 15, 15, '#000', 20 );
 	this.addChild( this.cellIndexText );
-};
+
+}
+
 
 state.update = function (){
-	Kiwi.State.prototype.update.call(this);
+
+	Kiwi.State.prototype.update.call( this );
 	
 	// Getting the x position of the mouse or setting it to 0 if the mouse has not been on the stage.
 	var mouseX = this.game.input.mouse.x;
@@ -32,12 +36,10 @@ state.update = function (){
 	var animationLength = this.textures.playerSpriteSheet.numCells;
 
 	// Calculating 
-	var newCellIndex = Math.floor( (mouseX / gameWidth) * animationLength );
+	this.punk.cellIndex = Math.floor( ( mouseX / gameWidth ) * animationLength );
 
-	this.player.cellIndex = newCellIndex;
-
-	this.cellIndexText.text = "Cell Index: " + this.player.cellIndex;
-};
+	this.cellIndexText.text = "Cell Index: " + this.punk.cellIndex;
+}
 
 
 
@@ -46,6 +48,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'ChangeCellIndex', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Change Cell Index', state, gameOptions);
 
 

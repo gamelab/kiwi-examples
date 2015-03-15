@@ -26,8 +26,7 @@ state.create = function () {
     this.menu.getMenuItem(1).input.onDown.add( this.rightButton, this );
     this.menu.getMenuItem(2).input.onDown.add( this.resetButton, this );
 
-
-};
+}
 
 state.leftButton = function () {
     this.menu.x -= 10;
@@ -42,16 +41,11 @@ state.resetButton = function () {
 }
 
 
-state.update = function () {
-	Kiwi.State.prototype.update.call( this );
-
-}
-
 var gameOptions = {
 	width: 768,
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Button', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Menu', state, gameOptions);
 
 

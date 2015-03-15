@@ -12,7 +12,6 @@ state.create = function () {
 	this.music = new Kiwi.Sound.Audio(this.game, 'music', 1, false);
 	this.music.play();
 
-
 };
 
 var gameOptions = {
@@ -20,4 +19,4 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddingAudio', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Load Audio', state, gameOptions);

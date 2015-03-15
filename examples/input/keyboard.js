@@ -2,7 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
 	
-	this.addSpriteSheet('player', './assets/img/anime-monsters/griffon-sheet.png', 150, 117);
+	this.addSpriteSheet('player', './assets/img/anime/griffon.png', 150, 117);
 };
 
 state.create = function () {

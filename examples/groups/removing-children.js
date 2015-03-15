@@ -1,13 +1,8 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
-
-};
+	this.addSpriteSheet( 'sprite', './assets/img/topdown/terminator.png', 150, 117 );
+}
 
 state.create = function () {
 
@@ -16,23 +11,22 @@ state.create = function () {
 
 	this.spriteWidth = 150;
 	this.spriteHeight = 117;
+	var spriteNumber = 10;
 
-	for ( var i = 0; i < 10; i ++ ){
+	for ( var i = 0; i < spriteNumber; i ++ ){
 		var randX = Math.random() * ( this.game.stage.width - this.spriteWidth ),
 			randY = Math.random() * ( this.game.stage.height - this.spriteHeight );
 
 		var tempSprite = new Kiwi.GameObjects.Sprite( this, this.textures.sprite, randX, randY );
-
 		this.group.addChild( tempSprite );
 
 	}
 
-	this.numberText = new Kiwi.GameObjects.Textfield( this, "Number of Sprites: 10", 15, 15 );
+	this.numberText = new Kiwi.GameObjects.Textfield( this, "Number of Sprites: " + spriteNumber.toString(), 15, 15, '#000', 20 );
 	this.addChild( this.numberText );
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-   
-};
+}
 
 state.mouseClicked = function () {\
 
@@ -50,6 +44,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'RemovingChildren', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Removing Children', state, gameOptions);
 
 

@@ -3,14 +3,12 @@ var state = new Kiwi.State('Play');
 // This example is currently not working. Please ignore this file.
 
 state.preload = function () {
-
 	// Adds texture atlas for the sprite to use
 	this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
 };
 
 state.create = function () {
 	this.mouse = this.game.input.mouse;
-
 
 	this.horzLine1 = new Kiwi.Geom.Line ( 50, 250, 100, 250 );
 
@@ -53,12 +51,9 @@ state.moveCursor = function () {
 
 	this.horzLine1.x2 = this.horzRightPoint.x; 
 
-
 	this.vertLine1.y2 = this.vertBotPoint.y;
 	this.vertLine2.y2 = this.vertBotPoint.y;
 	this.vertLine3.y2 = this.vertBotPoint.y;
-
-
 
 };
 
@@ -70,8 +65,6 @@ state.drawLines = function () {
 	this.vertDrawLine3 && this.removeChild( this.vertDrawLine3 );
 
 	this.color = [ 1.0, 0, 0 ];
-
-
 
 	var params = {
 		state: this,
@@ -90,6 +83,7 @@ state.drawLines = function () {
 	} else {
 		this.color = [ 1.0, 0, 0 ];
 	}
+
 	params = {
 		state: this,
 		x: 0,
@@ -107,6 +101,7 @@ state.drawLines = function () {
 	} else {
 		this.color = [ 1.0, 0, 0 ];
 	}
+
 	params = {
 		state: this,
 		x: 0,
@@ -124,6 +119,7 @@ state.drawLines = function () {
 	} else {
 		this.color = [ 1.0, 0, 0 ];
 	}
+
 	params = {
 		state: this,
 		x: 0,
@@ -142,6 +138,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddSprite', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Lines to lines', state, gameOptions);
 
 

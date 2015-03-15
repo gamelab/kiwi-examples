@@ -1,33 +1,32 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    
-    this.addSpriteSheet('playerSpriteSheet', './assets/img/anime-monsters/snake-sheet.png', 150, 117);
-};
+    this.addSpriteSheet('griffon', './assets/img/anime/griffon.png', 150, 117);
+}
 
 state.create = function () {
 
-	this.player = new Kiwi.GameObjects.Sprite(this, this.textures.playerSpriteSheet, 250, 150);
-	this.addChild(this.player);
+	this.griffon = new Kiwi.GameObjects.Sprite(this, this.textures.griffon, 250, 150);
+	this.addChild( this.griffon );
 
 
-	this.leftCellIndexText = new Kiwi.GameObjects.Textfield( this, "Cell Index: 0", 15, 15 );
-	this.addChild( this.leftCellIndexText );
+	this.cellIndexText = new Kiwi.GameObjects.Textfield( this, "Cell Index: 0", 15, 15, '#000', 20 );
+	this.addChild( this.cellIndexText );
 
-	this.game.input.mouse.onDown.add( this.nextFrame, this );
-};
+	this.game.input.mouse.onDown.add( this.switchFrame, this );
+}
 
 
-state.nextFrame = function (){
+state.switchFrame = function (){
 
-	var randomFrame = Math.floor( Math.random() * this.player.animation.length );
+	var randomFrame = Math.floor( Math.random() * this.griffon.animation.length );
 
 
 	// This will switch to a randomly selected frame on the texture atlas of the sprite.
-	this.player.animation.switchTo( randomFrame );
-	this.leftCellIndexText.text = "Animation Frame Index: " + this.player.animation.frameIndex;
+	this.griffon.animation.switchTo( randomFrame );
+	this.cellIndexText.text = "Animation Frame Index: " + this.griffon.animation.frameIndex;
 
-};
+}
 
 
 
@@ -36,6 +35,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'next-frame', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Switch to frame', state, gameOptions);
 
 

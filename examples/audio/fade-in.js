@@ -1,10 +1,11 @@
 var state = new Kiwi.State('Play');
 
+
 state.preload = function () {
-    
-    this.addSpriteSheet('player', './assets/img/anime-monsters/griffon-sheet.png', 150, 117);
+    this.addSpriteSheet('player', './assets/img/anime/griffon.png', 150, 117);
     this.addAudio('music', './assets/audio/ice/ice-theme-boss.mp3');
-};
+}
+
 
 state.create = function () {
 
@@ -20,11 +21,10 @@ state.create = function () {
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
 
+}
 
-};
 state.update = function () {
 	Kiwi.State.prototype.update.call(this);
-
 
 	// Increases the volume of the game by 0.001 to 1 in the update loop of the state. 
 	if ( this.volume < 1 ){
@@ -34,17 +34,19 @@ state.update = function () {
 	
 }
 
+
 state.mouseClicked = function () {
 	this.music.stop();
 	this.music.play( 'default', true );
 	
 }
 
+
 var gameOptions = {
 	width: 768,
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'RestartAudio', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Fade In', state, gameOptions);
 
 

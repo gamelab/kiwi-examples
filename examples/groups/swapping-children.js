@@ -1,13 +1,9 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
 
-};
+	this.addSpriteSheet( 'sprite', './assets/img/topdown/terminator.png', 150, 117 );
+}
 
 state.create = function () {
 
@@ -27,13 +23,10 @@ state.create = function () {
 
 	}
 
-
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-   
-};
+}
 
 state.mouseClicked = function () {
-
 	// Swaps the position of the children in the group.
 	this.group.swapChildren( this.group.getChildAt( 0 ), this.group.getChildAt( 1 ) );
 }
@@ -44,6 +37,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'SwappingChildren', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Swapping Children', state, gameOptions);
 
 

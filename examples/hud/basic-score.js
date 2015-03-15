@@ -8,16 +8,16 @@ state.preload = function () {
 
 	this.score.style.color = 'blue';
 
-};
+}
 
 state.create = function () {
-
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-};
+}
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 }
+
 state.mouseClicked = function () {
 	this.score.counter.current += 10;
 }
@@ -27,6 +27,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Basic-Score', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Basic Score', state, gameOptions);
 
 

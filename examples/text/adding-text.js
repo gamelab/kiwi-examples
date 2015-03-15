@@ -9,11 +9,8 @@ state.create = function () {
 	this.addChild( this.text );
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-
 	this.game.input.mouse.onWheel.add( this.mouseWheeled, this );
 
-
-  
 };
 
 state.mouseClicked = function () {
@@ -46,6 +43,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddingText', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Adding Text', state, gameOptions);
 
 

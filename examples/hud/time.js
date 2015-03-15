@@ -1,6 +1,6 @@
 var state = new Kiwi.State('Play');
 
-state.preload = function () {
+state.create = function () {
     
     // Adds a Time widget to the defaultHUD of the game.
     this.myTime = new Kiwi.HUD.Widget.Time( this.game, '', 50, 50 );
@@ -9,17 +9,7 @@ state.preload = function () {
     this.myTime.style.color = 'black';
     this.myTime.start();
 
-};
-
-state.create = function () {
-
-
-
-
-
-  
-};
-
+}
 
 var gameOptions = {
 	width: 768,

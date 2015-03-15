@@ -1,27 +1,28 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    this.addImage('blueBar', './assets/img/sliders/blueBar.png');
-    this.addImage('blueBox', './assets/img/sliders/blueBox.png');
+    this.addImage('blueBar', './assets/img/sliders/blue-bar.png');
+    this.addImage('blueBox', './assets/img/sliders/blue-box.png');
 
-    this.addImage('greenBar', './assets/img/sliders/greenBar.png');
-    this.addImage('greenBox', './assets/img/sliders/greenBox.png');
+    this.addImage('greenBar', './assets/img/sliders/green-bar.png');
+    this.addImage('greenBox', './assets/img/sliders/green-box.png');
 
-    this.addImage('pinkBar', './assets/img/sliders/pinkBar.png');
-    this.addImage('pinkBox', './assets/img/sliders/pinkBox.png');
+    this.addImage('pinkBar', './assets/img/sliders/pink-bar.png');
+    this.addImage('pinkBox', './assets/img/sliders/pink-box.png');
 
-    this.addImage('redBar', './assets/img/sliders/redBar.png');
-    this.addImage('redBox', './assets/img/sliders/redBox.png');
+    this.addImage('redBar', './assets/img/sliders/red-bar.png');
+    this.addImage('redBox', './assets/img/sliders/red-box.png');
 
-    this.addImage('yellowBar', 'assets/img/sliders/yellowBar.png');
-    this.addImage('yellowBox', 'assets/img/sliders/yellowBox.png');
+    this.addImage('yellowBar', 'assets/img/sliders/yellow-bar.png');
+    this.addImage('yellowBox', 'assets/img/sliders/yellow-box.png');
 
 
 };
 
 state.create = function () {
 
-this.game.input.onDown.add(this.tweenBall, this);
+    this.game.input.onDown.add(this.tweenBall, this);
+    
 	this.mouse = this.game.input.mouse;
 	this.endX = 535;
 	this.startX = 287;
@@ -97,8 +98,8 @@ state.tweenBall = function(){
 
 
 var gameOptions = {
-	width: 768,
-	height: 512
+	width: 600,
+	height: 300
 };
 
 var game = new Kiwi.Game('game-container', 'Basic-Tweens', state, gameOptions);

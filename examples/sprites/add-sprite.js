@@ -1,10 +1,9 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-
 	// Adds texture atlas for the sprite to use
     this.addImage( 'shield', './assets/img/logo/shield.png' );
-};
+}
 
 state.create = function () {
 
@@ -17,13 +16,13 @@ state.create = function () {
 	*/
 	this.sprite = new Kiwi.GameObjects.Sprite(this, this.textures.shield, 275, 150);
 	this.addChild(this.sprite);
-};
+}
 
 var gameOptions = {
 	width: 768,
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddSprite', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Add Sprite', state, gameOptions);
 
 

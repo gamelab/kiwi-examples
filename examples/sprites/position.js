@@ -1,8 +1,8 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    this.addSpriteSheet( 'sprite', './assets/img/anime-monsters/squid-sheet.png', 150, 117 );
-};
+    this.addSpriteSheet( 'sprite', './assets/img/anime/squid.png', 150, 117 );
+}
 
 state.create = function () {
 	this.sprite1 = new Kiwi.GameObjects.Sprite(this, this.textures.sprite, 0, 0);
@@ -27,9 +27,7 @@ state.create = function () {
 	this.sprite3.x = 500;
 	this.sprite3.y = 200;
 
-	
-};
-
+}
 
 
 var gameOptions = {

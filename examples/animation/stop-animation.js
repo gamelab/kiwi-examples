@@ -2,34 +2,30 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addSpriteSheet('player', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117);
+    this.addSpriteSheet('catgirl', './assets/img/anime/catgirl.png', 150, 117);
 
 };
 
 state.create = function () {
 
-	this.player = new Kiwi.GameObjects.Sprite(this, this.textures.player, 275, 150);
+	this.catgirl = new Kiwi.GameObjects.Sprite(this, this.textures.catgirl, 275, 150);
 
-	this.player.animation.add( 'run', [  01, 02, 03, 04, 06 ], 0.1, true );
-	this.player.animation.play( 'run' );
+	this.catgirl.animation.add( 'run', [ 1, 2, 3, 4, 5, 6 ], 0.1, true );
+	this.catgirl.animation.play( 'run' );
 
-	this.addChild(this.player);
+	this.addChild( this.catgirl );
 
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
-
-
-
-  
-};
-
-state.mouseClicked = function () {
-
-	// This will stop the animation playing on the 'this.player' sprite.
-	this.player.animation.stop();
 
 }
 
 
+state.mouseClicked = function () {
+
+	// This will stop the animation playing on the 'this.catgirl' sprite.
+	this.catgirl.animation.stop();
+
+}
 
 
 var gameOptions = {
@@ -37,6 +33,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'StopAnimation', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Stop Animation', state, gameOptions);
 
 

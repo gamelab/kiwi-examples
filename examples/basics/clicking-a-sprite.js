@@ -1,6 +1,3 @@
-
-
-
 var state = new Kiwi.State('Play');
 
 state.preload = function () {

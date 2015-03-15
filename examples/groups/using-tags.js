@@ -1,32 +1,29 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
 	
-	this.addSpriteSheet( 'apocalypse', './assets/img/topdown-characters/apocalypse-topdown.png', 150, 117 );
-	this.addSpriteSheet( 'terminator', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
-	this.addSpriteSheet( 'desertStorm', './assets/img/topdown-characters/desert-storm-topdown.png', 150, 117 );
-	this.addSpriteSheet( 'skeleton', './assets/img/topdown-characters/skeleton-topdown.png', 150, 117 );
-	this.addSpriteSheet( 'spartan', './assets/img/topdown-characters/spartan-topdown.png', 150, 117 );
+	this.addSpriteSheet( 'apocalypse', './assets/img/topdown/apocalypse.png', 150, 117 );
+	this.addSpriteSheet( 'terminator', './assets/img/topdown/terminator.png', 150, 117 );
+	this.addSpriteSheet( 'desertStorm', './assets/img/topdown/desert-storm.png', 150, 117 );
+	this.addSpriteSheet( 'skeleton', './assets/img/topdown/skeleton.png', 150, 117 );
+	this.addSpriteSheet( 'spartan', './assets/img/topdown/spartan.png', 150, 117 );
 
-	this.addSpriteSheet( 'griffon', './assets/img/anime-monsters/griffon-sheet.png', 150, 117 );
-	this.addSpriteSheet( 'snake', './assets/img/anime-monsters/snake-sheet.png', 150, 117 );
-	this.addSpriteSheet( 'squid', './assets/img/anime-monsters/squid-sheet.png', 150, 117 );
+	this.addSpriteSheet( 'griffon', './assets/img/anime/griffon.png', 150, 117 );
+	this.addSpriteSheet( 'snake', './assets/img/anime/snake.png', 150, 117 );
+	this.addSpriteSheet( 'squid', './assets/img/anime/squid.png', 150, 117 );
 
-	this.addSpriteSheet( 'catgirl', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117 );
-	this.addSpriteSheet( 'punk', './assets/img/anime/girl-sheet-punk-3.png', 150, 117 );
-	this.addSpriteSheet( 'princess', './assets/img/anime/girl-sheet-princess-3.png', 150, 117 );
+	this.addSpriteSheet( 'catgirl', './assets/img/anime/catgirl.png', 150, 117 );
+	this.addSpriteSheet( 'punk', './assets/img/anime/punk.png', 150, 117 );
+	this.addSpriteSheet( 'princess', './assets/img/anime/princess.png', 150, 117 );
 
-	this.addImage( 'blueButton', './assets/img/buttons/blue-circle.png' );
-	this.addImage( 'greenButton', './assets/img/buttons/green-circle.png' );
-	this.addImage( 'orangeButton', './assets/img/buttons/orange-circle.png' );
-	this.addImage( 'pinkButton', './assets/img/buttons/pink-circle.png' );
-	this.addImage( 'redButton', './assets/img/buttons/red-circle.png' );
-	this.addImage( 'yellowButton', './assets/img/buttons/yellow-circle.png' );
+	this.addImage( 'blueButton', './assets/img/buttons/blue.png' );
+	this.addImage( 'greenButton', './assets/img/buttons/green.png' );
+	this.addImage( 'orangeButton', './assets/img/buttons/orange.png' );
+	this.addImage( 'pinkButton', './assets/img/buttons/pink.png' );
+	this.addImage( 'redButton', './assets/img/buttons/red.png' );
+	this.addImage( 'yellowButton', './assets/img/buttons/yellow.png' );
 
-};
+}
 
 state.create = function () {
 
@@ -91,9 +88,7 @@ state.create = function () {
 	punk.addTag( 'pink' );
 	this.group.addChild( punk );
 
-
-   
-};
+}
 
 state.addButtons = function () {
 	var button;
@@ -116,12 +111,7 @@ state.addButtons = function () {
 	button = new Button( this, 5, 300, 'yellow' );
 	this.addChild( button );
 
-};
-
-var gameOptions = {
-	width: 768,
-	height: 512
-};
+}
 
 
 var Button = function ( state, x, y, color ) {
@@ -136,6 +126,7 @@ var Button = function ( state, x, y, color ) {
 	this.input.onDown.add( this.toggleColor, this );
 
 }
+
 Kiwi.extend(Button, Kiwi.GameObjects.Sprite);
 
 Button.prototype.toggleColor = function() {
@@ -146,9 +137,12 @@ Button.prototype.toggleColor = function() {
 	for (var i = sprites.length - 1; i >= 0; i--) {
 		sprites[i].visible = this.colorVisible;
 	}
+}
+
+
+var gameOptions = {
+	width: 768,
+	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'UsingTags', state, gameOptions);
-
-
-
+var game = new Kiwi.Game('game-container', 'Using Tags', state, gameOptions);

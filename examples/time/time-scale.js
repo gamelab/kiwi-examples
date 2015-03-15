@@ -2,7 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.preload = function () {
     
-    this.addSpriteSheet('player', './assets/img/anime/girl-sheet-catgirl-3.png', 150, 117);
+    this.addSpriteSheet('player', './assets/img/anime/catgirl.png', 150, 117);
 
 };
 
@@ -35,6 +35,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'TimeScale', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Time Scale', state, gameOptions);
 
 

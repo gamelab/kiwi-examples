@@ -13,9 +13,6 @@ state.create = function () {
 	this.text1.y = this.game.stage.height * 0.5 - this.myFontSize * 0.5;
 
 	this.text1.anchorPointY = this.myFontSize * 0.5;
-
-
-
 	this.addChild( this.text1 );
 
 	this.myScale = 1;
@@ -33,9 +30,7 @@ state.create = function () {
 
 	this.textMoveLeftSpeed = 2;
 
-
-  
-};
+}
 
 state.update = function () {
 
@@ -51,7 +46,7 @@ state.update = function () {
 	this.text1.rotation += this.rotationStep;
 
 	this.group.forEach( this, this.moveText );
-};
+}
 
 
 state.moveText = function ( sprite ) {
@@ -60,13 +55,13 @@ state.moveText = function ( sprite ) {
 	if( sprite.x < -300 ){
 		sprite.x = 300 * ( this.group.numChildren() - 1 );
 	}
-};
+}
 
 var gameOptions = {
 	width: 768,
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'TextColor', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Text Transform', state, gameOptions);
 
 

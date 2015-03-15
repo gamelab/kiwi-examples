@@ -1,13 +1,8 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
-
-};
+	this.addSpriteSheet( 'sprite', './assets/img/topdown/terminator.png', 150, 117 );
+}
 
 state.create = function () {
 
@@ -42,28 +37,7 @@ state.create = function () {
 
 	console.log( this.group.members, "Members" );
 	this.group.members = sortByNumber( this.group.members, 'y', true );
-
-
-
-	/////////////////////////////////////
-	// FOR KIWI JS TEAM // SORT BY STRING
-
-	// var byName = arrayOfObjects.slice(0);
-	// byName.sort(function(a,b) {
-	//     var x = a.name.toLowerCase();
-	//     var y = b.name.toLowerCase();
-	//     return x < y ? -1 : x > y ? 1 : 0;
-	// });
-
-	// console.log( 'by name:' );
-	// console.log( byName );
-
-	/////////////////////
-	/////////////////////
-
-
-   
-};
+}
 
 
 var gameOptions = {
@@ -71,6 +45,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'SortGroupByNumber', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Sort Group By Number', state, gameOptions);
 
 

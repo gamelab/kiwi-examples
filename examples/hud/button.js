@@ -13,9 +13,7 @@ state.create = function () {
 
     this.myButton.input.onDown.add( this.buttonPressOne, this );
 
-
-
-};
+}
 
 state.buttonPressOne = function () {
 	console.log( "pressed" );

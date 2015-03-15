@@ -1,10 +1,9 @@
 var state = new Kiwi.State('Play');
 
 state.preload = function () {
-    
-    this.addSpriteSheet('player', './assets/img/anime-monsters/snake-sheet.png', 150, 117);
+    this.addSpriteSheet('player', './assets/img/anime/snake.png', 150, 117);
     this.addAudio('sfx', './assets/audio/misc-sound-effects/sound-sheet.mp3');
-};
+}
 
 state.create = function () {
 
@@ -22,8 +21,7 @@ state.create = function () {
 
 	this.game.input.mouse.onDown.add( this.mouseDown, this );
 
-
-};
+}
 
 state.mouseDown = function (){
 	var choice,
@@ -55,6 +53,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'multiple-marker', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'multiple Markers', state, gameOptions);
 
 

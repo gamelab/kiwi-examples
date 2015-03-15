@@ -1,13 +1,8 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-	
-	this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
-
-};
+	this.addSpriteSheet( 'sprite', './assets/img/topdown/terminator.png', 150, 117 );
+}
 
 state.create = function () {
 
@@ -22,18 +17,17 @@ state.create = function () {
 			randY = Math.random() * ( this.game.stage.height - this.spriteHeight );
 
 		var tempSprite = new Kiwi.GameObjects.Sprite( this, this.textures.sprite, randX, randY );
-
 		this.group.addChild( tempSprite );
 
 	}
 
 	this.group.y = this.game.stage.height * 0.5;
-
 	this.speed = 5;
    
-};
+}
 
-state.update = function () {
+state.update = function() {
+
 	Kiwi.State.prototype.update.call( this );
 
 	if(this.group.x < 0 || this.group.x > this.game.stage.width ){
@@ -52,6 +46,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'GroupTransform', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Group Transform', state, gameOptions);
 
 

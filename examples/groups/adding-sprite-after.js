@@ -1,13 +1,8 @@
-
-
-
 var state = new Kiwi.State( 'Play' );
 
 state.preload = function () {
-    
-    this.addSpriteSheet( 'sprite', './assets/img/topdown-characters/terminator-topdown.png', 150, 117 );
-    this.addSpriteSheet( 'spartan', './assets/img/topdown-characters/spartan-topdown.png', 150, 117 );
-
+    this.addSpriteSheet( 'sprite', './assets/img/topdown/terminator.png', 150, 117 );
+    this.addSpriteSheet( 'spartan', './assets/img/topdown/spartan.png', 150, 117 );
 };
 
 state.create = function () {
@@ -25,7 +20,6 @@ state.create = function () {
 			y = 200;
 
 		var tempSprite = new Kiwi.GameObjects.Sprite( this, this.textures.sprite, x, y );
-
 		this.group.addChild( tempSprite );
 
 	}
@@ -44,6 +38,6 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'AddingSpritesAfter', state, gameOptions);
+var game = new Kiwi.Game('game-container', 'Adding Sprites After', state, gameOptions);
 
 
