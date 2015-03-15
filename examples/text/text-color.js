@@ -2,7 +2,7 @@ var state = new Kiwi.State('Play');
 
 state.create = function () {
 
-	this.text1 = new Kiwi.GameObjects.Textfield( this, "This test is black.", 50, 50, "#000", 32, 'normal', 'serif' );
+	this.text1 = new Kiwi.GameObjects.Textfield( this, "This text is black.", 50, 50, "#000", 32, 'normal', 'serif' );
 
 	this.addChild( this.text1 );
 
