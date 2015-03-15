@@ -28,7 +28,7 @@ state.create = function () {
 	this.game.input.mouse.onDown.add( this.mouseClicked, this );
 }
 
-state.mouseClicked = function () {\
+state.mouseClicked = function () {
 
 	// Everytime the mouse has been clicked it will remove the first child of the Group.
 	this.group.removeChild( this.group.getChildAt( 0 ), true );

@@ -17,8 +17,6 @@ state.create = function () {
 
 	// Change the color of the text to be purple.
 	this.text3.color = '#9900FF'
-
-
   
 };
 
