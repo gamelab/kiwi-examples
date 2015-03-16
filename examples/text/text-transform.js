@@ -24,7 +24,7 @@ state.create = function () {
 	this.addChild( this.group );
 
 	for ( var i = 0; i < 4; i ++ ){
-		var text = new Kiwi.GameObjects.Textfield ( this, "TRY KIWIJS NOW!", i * 300, 10 );
+		var text = new Kiwi.GameObjects.Textfield ( this, "TRY KIWIJS NOW!", i * 300, 10, '#fff' );
 		this.group.addChild( text );
 	}
 
@@ -46,16 +46,36 @@ state.update = function () {
 	this.text1.rotation += this.rotationStep;
 
 	this.group.forEach( this, this.moveText );
+	this.changeBackgroundColor();
 }
 
-
 state.moveText = function ( sprite ) {
+
 	sprite.x -= this.textMoveLeftSpeed;
 
 	if( sprite.x < -300 ){
 		sprite.x = 300 * ( this.group.numChildren() - 1 );
 	}
+
 }
+
+//Changes the background color of the stage
+state.changeBackgroundColor = function() {
+
+	//We set the RGB channels to a sin wave based on the current time elapsed.
+	// This is so that if you pause the clock and then resume it the color will stop changing naturally
+	// also we are use variances in each channel to get different colors. 
+	var rgb = { 	
+		r: Math.round((0.5 + 0.49 * Math.sin( this.game.time.clock.elapsed() * 1) ) * 255),
+		g: Math.round((0.5 + 0.49 * Math.sin( this.game.time.clock.elapsed() * 1.31) ) * 255), 
+		b: Math.round((0.5 + 0.49 * Math.sin( this.game.time.clock.elapsed() * 1.157 ) ) * 255)
+	};
+
+	console.log(rgb);
+
+	this.game.stage.rgbColor = rgb;  
+	
+};
 
 var gameOptions = {
 	width: 768,
