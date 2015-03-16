@@ -1,12 +1,14 @@
 var MyState = new Kiwi.State( "myState" );
 
-var MyGame = new Kiwi.Game( "game-container", "testGame", MyState,
-	{ plugins: [ "ParticlesGL" ], renderer:Kiwi.RENDERER_WEBGL } );
+var MyGame = new Kiwi.Game( "game-container", "testGame", MyState, { 
+	plugins: [ "ParticlesGL" ], 
+	renderer: Kiwi.RENDERER_WEBGL 
+} );
 
 MyState.preload = function() {
 	this.game.stage.color = "000000";
 	this.addImage( 'particle', './assets/img/plugins/webgl-particles/particle_01.png' );
-};
+}
 
 MyState.create = function() {
 	var particle = new Kiwi.GameObjects.StatelessParticles(
@@ -34,12 +36,7 @@ MyState.create = function() {
 		}
 	});
 
-	this.myText1 = new Kiwi.GameObjects.TextField( this, "Pre-built Particle packs have already been made for you!", 50, 50, "#F00", 16 );
-	this.addChild( this.myText1 );
-
-	this.myText2 = new Kiwi.GameObjects.TextField( this, "Check them out on the kiwi.js website here: http://www.kiwijs.org/plugins/particles/ ", 50, 80, "#F00", 16 );
-	this.addChild( this.myText2 );
-};
+}
 
 MyState.update = function () {
 	Kiwi.State.prototype.update.call( this );

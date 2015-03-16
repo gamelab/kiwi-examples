@@ -6,6 +6,8 @@
 		"./plugins/particlesgl-1.2.0.min.js"
 	],
 
+	"notes": "<p>Check out the <a href='http://www.kiwijs.org'>kiwi.js website</a> for a some <a href='http://www.kiwijs.org/plugins/particles/'>pre-built particle packs</a> you can use in your game!</p>",
+
 	"tab": "Plugins"
 
 }

@@ -10,7 +10,7 @@ state.create = function () {
 	this.game.input.onReleased.add( this.onReleased, this );
 	this.game.input.onUp.add( this.onUp, this );
 
-	this.ondownCount = 0;
+	this.onDownCount = 0;
 	this.onReleasedCount = 0;
 	this.onUpCount = 0;	
 
@@ -19,18 +19,18 @@ state.create = function () {
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 
-	this.xText.text = "x: " + Math.round ( this.game.input.x * 10 ) / 10;
-	this.yText.text = "y: " + Math.round ( this.game.input.y * 10 ) / 10;
+	this.xText.text = "x: " + this.game.input.x.toFixed(1);
+	this.yText.text = "y: " + this.game.input.y.toFixed(1);
 
 	this.isDownText.text = "isDown: " + this.game.input.isDown;
 
-	this.onDownText.text = "onDown Count: " + this.ondownCount;
+	this.onDownText.text = "onDown Count: " + this.onDownCount;
 	this.onReleasedText.text = "onReleased Count: " + this.onReleasedCount;
 	this.onUpText.text = "onUp Count: " + this.onUpCount;
 }
 
 state.onDown = function () {
-	this.ondownCount += 1;
+	this.onDownCount += 1;
 
 }
 

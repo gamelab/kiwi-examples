@@ -6,7 +6,7 @@ var MyGame = new Kiwi.Game( "game-container", "testGame", MyState,
 MyState.preload = function() {
 	this.game.stage.color = "000000";
 	this.addImage( "particle", "./assets/img/plugins/webgl-particles/particle_01.png" );
-};
+}
 
 MyState.create = function() {
 	// create a particle object
@@ -29,13 +29,7 @@ MyState.create = function() {
 	particle.setConfigProp( "startAngle", 0, true, false )
 	this.addChild( particle );
 
-	this.myText1 = new Kiwi.GameObjects.TextField( this, "Pre-built Particle packs have already been made for you!", 50, 50, "#F00", 16 );
-	this.addChild( this.myText1 );
-
-	this.myText2 = new Kiwi.GameObjects.TextField( this, "Check them out on the kiwi.js website here: http://www.kiwijs.org/plugins/particles/ ", 50, 80, "#F00", 16 );
-	this.addChild( this.myText2 );
-
-};
+}
 
 
 var config = {
