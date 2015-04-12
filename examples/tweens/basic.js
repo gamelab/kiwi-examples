@@ -71,24 +71,24 @@ state.tweenBall = function(){
     // The only difference is the way the tween is tweened. 
 
 	this.sinX = this.game.tweens.create(this.ballSin);
-    this.sinX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.Out, true);
+    this.sinX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Sinusoidal.In, true);
     
     this.bounceX = this.game.tweens.create(this.ballBounce);
-    this.bounceX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Bounce.Out, false);
+    this.bounceX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Bounce.In, false);
     this.bounceX.start();
 
     this.linearX = this.game.tweens.create(this.ballLinear);
-    this.linearX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Linear.Out, true);
+    this.linearX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Linear.In, true);
 
     this.cubicX = this.game.tweens.create(this.ballCubic);
-    this.cubicX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.Out, true);
+    this.cubicX.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Cubic.In, true);
 
     this.chainTo = this.game.tweens.create(this.ballChain);
-    this.chainTo.to({x: this.mouse.x - 17}, 500, Kiwi.Animations.Tweens.Easing.Quartic.Out, false);
+    this.chainTo.to({x: this.mouse.x - 17}, 1000, Kiwi.Animations.Tweens.Easing.Quartic.In, false);
 
     this.chainBack = this.game.tweens.create(this.ballChain);
     this.chainBack.to({x: this.startX - 17}, 1000, Kiwi.Animations.Tweens.Easing.Elastic.Out, false);
-    this.chainTo.chain(this.chainBack);
+    // this.chainTo.chain(this.chainBack);
     this.chainTo.start();
 
 
