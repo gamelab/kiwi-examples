@@ -4,24 +4,25 @@
 <script type="text/javascript">
 
 var game = new Kiwi.Game();
-var myState = new Kiwi.State('myState');
+var myState = new Kiwi.State( "myState" );
 
-myState.preload = function(){
-    Kiwi.State.prototype.preload.call(this);
-  	this.addImage('logo','kiwilogo.png');
-}
-
-myState.create = function(){
-    Kiwi.State.prototype.create.call(this);
-		this.logo = new Kiwi.GameObjects.StaticImage(this, this.textures['logo'], 100, 100);
-		this.addChild(this.logo);
-}
-
-myState.update = function(){
-   Kiwi.State.prototype.update.call(this);
+myState.preload = function() {
+	Kiwi.State.prototype.preload.call( this );
+	this.addImage( "logo", "kiwilogo.png" );
 };
 
-game.states.addState(myState, true);
+myState.create = function() {
+	Kiwi.State.prototype.create.call( this );
+	this.logo = new Kiwi.GameObjects.StaticImage(
+		this, this.textures[ "logo" ], 100, 100 );
+	this.addChild( this.logo );
+};
+
+myState.update = function() {
+	Kiwi.State.prototype.update.call( this );
+};
+
+game.states.addState( myState, true );
 
 </script>
 </body>
