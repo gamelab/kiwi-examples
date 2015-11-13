@@ -1,10 +1,8 @@
-var state = new Kiwi.State('Play');
-
-// This example is currently not working. Please ignore this file.
+var state = new Kiwi.State("Play");
 
 state.preload = function () {
 	// Adds texture atlas for the sprite to use
-	this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
+	this.addSpriteSheet( "circle", "./assets/img/shapes/circle.png", 70, 70 );
 }
 
 state.create = function () {
@@ -32,16 +30,12 @@ state.update = function () {
 
 state.checkCollisions = function () {
 
-	// console.log( "Bounds:", this.cursorBounds )
 	var lineResult1 = Kiwi.Geom.Intersect.lineToCircle (
 		this.myLine1, this.cursorBounds );
 	var lineResult2 = Kiwi.Geom.Intersect.rayToCircle (
 		this.myLine2, this.cursorBounds );
 	var lineResult3 = Kiwi.Geom.Intersect.lineSegmentToCircle (
 		this.myLine3, this.cursorBounds );
-
-	// console.dir( "Intersect:", lineResult, "Circle Position:",this.cursor.x, this.cursor.y );
-	// Kiwi.Log.log( "Intersect:", lineResult1, lineResult2, lineResult3 );
 
 	if ( lineResult1.result || lineResult2.result || lineResult3.result ) {
 		this.cursor.cellIndex = 2;
@@ -101,6 +95,4 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Lines to circle', state, gameOptions);
-
-
+var game = new Kiwi.Game("game-container", "Lines to circle", state, gameOptions);

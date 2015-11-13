@@ -1,10 +1,8 @@
-var state = new Kiwi.State('Play');
-
-// This example is currently not working. Please ignore this file.
+var state = new Kiwi.State("Play");
 
 state.preload = function () {
 	// Adds texture atlas for the sprite to use
-	this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
+	this.addSpriteSheet( "circle", "./assets/img/shapes/circle.png", 70, 70 );
 };
 
 state.create = function () {
@@ -138,6 +136,4 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Lines to lines', state, gameOptions);
-
-
+var game = new Kiwi.Game("game-container", "Lines to lines", state, gameOptions);

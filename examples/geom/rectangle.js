@@ -1,11 +1,9 @@
-var state = new Kiwi.State('Play');
-
-// This example is currently not working. Please ignore this file.
+var state = new Kiwi.State("Play");
 
 state.preload = function () {
-    this.addSpriteSheet( 'square', './assets/img/shapes/square.png', 70, 70 );
-    this.addSpriteSheet( 'circle', './assets/img/shapes/circle.png', 70, 70 );
-}
+	this.addSpriteSheet( "square", "./assets/img/shapes/square.png", 70, 70 );
+	this.addSpriteSheet( "circle", "./assets/img/shapes/circle.png", 70, 70 );
+};
 
 state.create = function () {
 
@@ -28,8 +26,7 @@ state.create = function () {
 	this.moveCursor();
 
 	this.game.input.mouse.onUp.add( this.toggleCursor, this );
-
-}
+};
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
@@ -50,7 +47,7 @@ state.update = function () {
 	}
 
 	this.moveCursor();
-}
+};
 
 state.moveCursor = function () {
 	this.mySquareCursor.x = this.mouse.x - this.mySquareCursor.width * 0.5;
@@ -58,25 +55,22 @@ state.moveCursor = function () {
 
 	this.myCircleCursor.x = this.mouse.x - this.myCircleCursor.width * 0.5;
 	this.myCircleCursor.y = this.mouse.y - this.myCircleCursor.height * 0.5;
-}
+};
 
 state.toggleCursor = function () {
 
 	if ( this.mySquareCursor.visible ) {
 		this.mySquareCursor.visible = false;
-	 	this.myCircleCursor.visible = true;
+		this.myCircleCursor.visible = true;
 	} else {
-	 	this.mySquareCursor.visible = true;
-	 	this.myCircleCursor.visible = false;
+		this.mySquareCursor.visible = true;
+		this.myCircleCursor.visible = false;
 	}
-
-}
+};
 
 var gameOptions = {
 	width: 768,
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Rectangle', state, gameOptions);
-
-
+var game = new Kiwi.Game("game-container", "Rectangle", state, gameOptions);

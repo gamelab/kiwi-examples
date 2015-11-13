@@ -1,7 +1,8 @@
-var state = new Kiwi.State('Play');
+var state = new Kiwi.State( "Play" );
 
 state.preload = function () {
-    this.addSpriteSheet( 'tiles', './assets/img/tiles/tileset-basic.png', 48, 48 );
+	this.addSpriteSheet(
+		"tiles", "./assets/img/tiles/war.png", 48, 48 );
 };
 
 state.create = function () {
@@ -22,16 +23,16 @@ state.create = function () {
 	this.tilemap.createTileType( 4 );
 
 	var tilemapdata = [
-	    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-	    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	    0, 2, 3, 3, 3, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-	    0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 3, 4, 0, 0, 0, 0,
-	    0, 0, 0, 0, 0, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+		1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 2, 3, 3, 3, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 3, 4, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	];
 
 	//Create a new TileMapLayer
-	this.tilemap.createNewLayer( 'Ground', this.textures.tiles, tilemapdata );
+	this.tilemap.createNewLayer( "Ground", this.textures.tiles, tilemapdata );
 
 	//Add the Layer to the State to be Rendered.
 	this.addChild( this.tilemap.layers[0] );
@@ -42,4 +43,5 @@ var gameOptions = {
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Basic Tilemap', state, gameOptions);
+var game = new Kiwi.Game(
+		"game-container", "Basic Tilemap", state, gameOptions);

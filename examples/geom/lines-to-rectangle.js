@@ -1,11 +1,9 @@
-var state = new Kiwi.State('Play');
-
-// This example is currently not working. Please ignore this file.
+var state = new Kiwi.State("Play");
 
 state.preload = function () {
 	// Adds texture atlas for the sprite to use
-	this.addSpriteSheet( 'square', './assets/img/shapes/square.png', 70, 70 );
-}
+	this.addSpriteSheet( "square", "./assets/img/shapes/square.png", 70, 70 );
+};
 
 state.create = function () {
 	this.mouse = this.game.input.mouse;
@@ -20,14 +18,14 @@ state.create = function () {
 	this.addChild( this.cursor );
 
 	this.moveCursor();
-}
+};
 
 state.update = function () {
 	Kiwi.State.prototype.update.call( this );
 	this.moveCursor();
 
 	this.checkCollisions();
-}
+};
 
 state.checkCollisions = function () {
 	var lineResult1 = Kiwi.Geom.Intersect.lineToRectangle (
@@ -42,12 +40,12 @@ state.checkCollisions = function () {
 	} else {
 		this.cursor.cellIndex = 0;
 	}
-}
+};
 
 state.moveCursor = function () {
 	this.cursor.x = this.mouse.x - this.cursor.width * 0.5;
 	this.cursor.y = this.mouse.y - this.cursor.height * 0.5;
-}
+};
 
 state.drawLines = function () {
 	var params = {
@@ -85,11 +83,11 @@ state.drawLines = function () {
 
 	this.line3 = new Kiwi.Plugins.Primitives.Line( params );
 	this.addChild( this.line3 );
-}
+};
 
 var gameOptions = {
 	width: 768,
 	height: 512
 };
 
-var game = new Kiwi.Game('game-container', 'Lines to Rectangle', state, gameOptions);
+var game = new Kiwi.Game("game-container", "Lines to Rectangle", state, gameOptions);

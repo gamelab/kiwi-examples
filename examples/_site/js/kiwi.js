@@ -134,7 +134,7 @@ var Kiwi;
             * @property _framerate
             * @type Number
             * @default 60
-            * @public
+            * @private
             */
             this._frameRate = 60;
             /**
@@ -481,24 +481,29 @@ var Kiwi;
         * @private
         */
         Game.prototype._loop = function () {
+            // Only update non-graphical game systems if a full frame
+            // has passed
             this._delta = this.raf.currentTime - this._lastTime;
             if (this._delta > this._interval) {
-                //Only update if there is a current state
                 this.time.update();
                 this.audio.update();
                 this.input.update();
                 this.tweens.update();
                 this.cameras.update();
-                if (this._deviceTargetOption !== Kiwi.TARGET_COCOON)
+                if (this._deviceTargetOption !== Kiwi.TARGET_COCOON) {
                     this.huds.update();
+                }
                 this.states.update();
                 this.pluginManager.update();
                 this._frame++;
-                if (this.states.current !== null) {
-                    this.cameras.render();
-                    this.states.postRender();
-                }
                 this._lastTime = this.raf.currentTime - (this._delta % this._interval);
+            }
+            // Graphics MUST be drawn every frame to avert frame buffer issues
+            // under some clients
+            if (this.states.current !== null) {
+                // Only update if there is a current state
+                this.cameras.render();
+                this.states.postRender();
             }
         };
         return Game;
@@ -513,8 +518,11 @@ var Kiwi;
 var Kiwi;
 (function (Kiwi) {
     /**
-    * Each game contains a single Stage which controls the creation and management of main domElements required for a Kiwi game to work.
-    * Such as the Canvas and the rendering contexts, as well as the width/height of the game and the position it should be on the screen.
+    * Each game contains a single Stage which controls the creation and
+    * management of main domElements required for a Kiwi game to work.
+    * This includes the Canvas and the rendering contexts,
+    * as well as the width/height of the game and the position it should be
+    * on the screen.
     *
     * @class Stage
     * @namespace Kiwi
@@ -530,7 +538,8 @@ var Kiwi;
     var Stage = (function () {
         function Stage(game, name, width, height, scaleType) {
             /**
-            * Private property that holds the scaling method that should be applied to the container element.
+            * Private property that holds the scaling method that should be
+            * applied to the container element.
             * @property _scaleType
             * @type number
             * @default Kiwi.Stage.SCALE_NONE
@@ -562,7 +571,7 @@ var Kiwi;
             this._game = game;
             this.name = name;
             this.domReady = false;
-            //  Properties
+            // Properties
             this._alpha = 1;
             this._x = 0;
             this._y = 0;
@@ -611,8 +620,10 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "alpha", {
             /**
-            * Sets the alpha of the container element. 0 = invisible, 1 = fully visible.
-            * Note: Because the alpha value is applied to the container, it will not work in CocoonJS.
+            * Sets the alpha of the container element.
+            * 0 = invisible, 1 = fully visible.
+            * Note: Because the alpha value is applied to the container,
+            * it will not work in CocoonJS.
             *
             * @property alpha
             * @type number
@@ -626,7 +637,7 @@ var Kiwi;
                 if (this._game.deviceTargetOption === Kiwi.TARGET_BROWSER) {
                     this.container.style.opacity = String(Kiwi.Utils.GameMath.clamp(value, 1, 0));
                 }
-                // Doesnt work in cocoon
+                // Doesn't work in cocoon
                 this._alpha = value;
             },
             enumerable: true,
@@ -634,7 +645,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "x", {
             /**
-            * The X coordinate of the stage. This number should be the same as the stages left property.
+            * The X coordinate of the stage. This number should be the same
+            * as the stage's `left` property.
             * @property x
             * @type number
             * @public
@@ -656,7 +668,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "y", {
             /**
-            * Get the Y coordinate of the stage. This number should be the same as the stages top property.
+            * Get the Y coordinate of the stage. This number should be the same
+            * as the stage's `top` property.
             * @property y
             * @type number
             * @public
@@ -678,7 +691,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "width", {
             /**
-            * The width of the stage. This is READ ONLY. See the "resize" method if you need to modify this value.
+            * The width of the stage. This is READ ONLY.
+            * See the "resize" method if you need to modify this value.
             * @property width
             * @type number
             * @public
@@ -692,7 +706,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "height", {
             /**
-            * The height of the stage. This is READ ONLY. See the "resize" method if you need to modify this value.
+            * The height of the stage. This is READ ONLY.
+            * See the `resize` method if you need to modify this value.
             * @property height
             * @type number
             * @public
@@ -713,7 +728,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scaleX", {
             /**
-            * Calculates and returns the amount that the container has been scale by on the X axis.
+            * Calculates and returns the amount that the container has been scaled
+            * by on the X axis.
             * @property scaleX
             * @type Number
             * @default 1
@@ -727,7 +743,8 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "scaleY", {
             /**
-            * Calculates and returns the amount that the container has been scale by on the Y axis.
+            * Calculates and returns the amount that the container has been scaled
+            * by on the Y axis.
             * @property scaleY
             * @type Number
             * @default 1
@@ -773,9 +790,11 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "rgbColor", {
             /**
-            * Allows the setting of the background color of the stage through component RGB colour values.
+            * Allows the setting of the background color of the stage through
+            * component RGB colour values.
             *
-            * This property is an Object Literal with "r", "g", "b" colour streams of values between 0 and 255.
+            * This property is an Object Literal with "r", "g", "b" colour streams
+            * of values between 0 and 255.
             *
             * @property rgbColor
             * @type Object
@@ -785,18 +804,23 @@ var Kiwi;
                 return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255 };
             },
             set: function (val) {
-                this._color.set(val.r, val.g, val.b);
+                this._color.r255 = val.r;
+                this._color.g255 = val.g;
+                this._color.b255 = val.b;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Stage.prototype, "rgbaColor", {
             /**
-            * Allows the setting of the background color of the stage through component RGBA colour values.
+            * Allows the setting of the background color of the stage through
+            * component RGBA colour values.
             *
-            * This property is an Object Literal with "r", "g", "b", "a" colour streams of values between 0 and 255.
+            * This property is an Object Literal with "r", "g", "b", "a" colour
+            * streams of values between 0 and 255.
             *
-            * Note that the alpha value is from 0-255, not 0-1. This is to preserve compatibility with hex-style color values, e.g. "ff0000ff".
+            * Note that the alpha value is from 0-255, not 0-1. This is to
+            * preserve compatibility with hex-style color values, e.g. "ff0000ff".
             *
             * @property rgbaColor
             * @type Object
@@ -807,7 +831,10 @@ var Kiwi;
                 return { r: this._color.r * 255, g: this._color.g * 255, b: this._color.b * 255, a: this._color.a * 255 };
             },
             set: function (val) {
-                this._color.set(val.r, val.g, val.b, val.a);
+                this._color.r255 = val.r;
+                this._color.g255 = val.g;
+                this._color.b255 = val.b;
+                this._color.a255 = val.a;
             },
             enumerable: true,
             configurable: true
@@ -834,7 +861,10 @@ var Kiwi;
         });
         Object.defineProperty(Stage.prototype, "renderer", {
             /**
-            * Get the renderer associated with the canvas context. This is either a GLRenderManager or a CanvasRenderer. If the Kiwi.RENDERER_WEBGL renderer was requested but could not be created, it will fall back to CanvasRenderer.
+            * Get the renderer associated with the canvas context.
+            * This is either a GLRenderManager or a CanvasRenderer.
+            * If the Kiwi.RENDERER_WEBGL renderer was requested
+            * but could not be created, it will fall back to CanvasRenderer.
             * This is READ ONLY.
             * @property renderer
             * @type number
@@ -879,7 +909,8 @@ var Kiwi;
             }
         };
         /**
-        * Gets the x/y coordinate offset of any given valid DOM Element from the top/left position of the browser
+        * Gets the x/y coordinate offset of any given valid DOM Element
+        * from the top/left position of the browser
         * Based on jQuery offset https://github.com/jquery/jquery/blob/master/src/offset.js
         * @method getOffsetPoint
         * @param {Any} element
@@ -904,7 +935,7 @@ var Kiwi;
         */
         Stage.prototype._windowResized = function (event) {
             this._calculateContainerScale();
-            //Dispatch window resize event
+            // Dispatch window resize event
             this.onWindowResize.dispatch();
         };
         /**
@@ -918,14 +949,14 @@ var Kiwi;
             this.onResize.dispatch(window.innerWidth, window.innerHeight);
         };
         /**
-        * Used to calculate the new offset and the scale of the stage currently is at.
+        * Used to calculate new offset and scale for the stage.
         * @method _calculateContainerScale
         * @private
         */
         Stage.prototype._calculateContainerScale = function () {
-            //Calculate the scale twice
-            //This will give the correct scale upon completion the second run
-            //Temporary fix until the Scale Manager is implemented
+            // Calculate the scale twice
+            // This will give the correct scale upon completion the second run
+            // Temporary fix until the Scale Manager is implemented
             this._scaleContainer();
             this._scaleContainer();
             this.offset = this.getOffsetPoint(this.container);
@@ -933,13 +964,14 @@ var Kiwi;
             this._scale.y = this._height / this.container.clientHeight;
         };
         /**
-        * Handles the creation of the canvas that the game will use and retrieves the context for the renderer.
+        * Handles the creation of the canvas that the game will use and
+        * retrieves the context for the renderer.
         *
-        * @method _createComponsiteCanvas
+        * @method _createCompositeCanvas
         * @private
         */
         Stage.prototype._createCompositeCanvas = function () {
-            //If we are using cocoon then create a accelerated screen canvas
+            // If we are using cocoon then create a accelerated screen canvas
             if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                 this.canvas = document.createElement(navigator["isCocoonJS"] ? "screencanvas" : "canvas");
             }
@@ -952,7 +984,8 @@ var Kiwi;
             this.canvas.style.position = "absolute";
             this.canvas.width = this.width;
             this.canvas.height = this.height;
-            //Get 2D or GL Context; do error detection and fallback to valid rendering context
+            // Get 2D or GL Context; do error detection
+            // and fallback to valid rendering context
             if (this._game.renderOption === Kiwi.RENDERER_CANVAS) {
                 this.ctx = this.canvas.getContext("2d");
                 this.ctx.fillStyle = "#fff";
@@ -1015,9 +1048,10 @@ var Kiwi;
             this.onResize.dispatch(this._width, this._height);
         };
         /**
-        * Sets the background color of the stage through component RGB colour values.
-        * Each parameter is a number between 0 and 255.
-        * This method also returns an Object Literal with "r", "g", "b" properties.
+        * Sets the background color of the stage through component
+        * RGB colour values. Each parameter is a number between 0 and 255.
+        * This method also returns an Object Literal with "r", "g", "b"
+        * properties.
         *
         * @method setRGBColor
         * @param r {Number} The red component. A value between 0 and 255.
@@ -1032,8 +1066,10 @@ var Kiwi;
         };
         /**
         * Creates a debug canvas and adds it above the regular game canvas.
-        * The debug canvas is not created by default (even with debugging on) and rendering/clearing of the canvas is upto the developer.
-        * The context for rendering can be access via the "dctx" property and you can use the "clearDebugCanvas" method to clear the canvas.
+        * The debug canvas is not created by default (even with debugging on)
+        * and rendering/clearing of the canvas is upto the developer.
+        * The context for rendering can be access via the "dctx" property and
+        * you can use the "clearDebugCanvas" method to clear the canvas.
         *
         * @method createDebugCanvas
         * @public
@@ -1042,7 +1078,9 @@ var Kiwi;
             if (Kiwi.Utils.Common.isUndefined(this.debugCanvas) == false)
                 return;
             if (this._game.deviceTargetOption === Kiwi.TARGET_COCOON) {
-                //Not supported in CocoonJS only because we cannot add it to the container (as a container does not exist) and position will be hard.
+                // Not supported in CocoonJS only because we cannot add it to
+                // the container (as a container does not exist) and position
+                // will be hard.
                 Kiwi.Log.log("Debug canvas not supported in cocoon, creating canvas and context anyway", "#debug-canvas");
             }
             this.debugCanvas = document.createElement("canvas");
@@ -1093,12 +1131,13 @@ var Kiwi;
                     this.container.style.maxWidth = "";
                     this.container.style.minWidth = "";
                 }
-                //To Fit or STRETCH 
+                // To Fit or STRETCH 
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH || this._scaleType == Kiwi.Stage.SCALE_FIT) {
                     this.container.style.minWidth = "100%";
                     this.container.style.maxWidth = "100%";
                 }
-                //If scale stretched then scale the containers height to 100% of its parents.
+                // If scale stretched then scale the containers height to 100%
+                // of its parent's.
                 if (this._scaleType == Kiwi.Stage.SCALE_STRETCH) {
                     this.container.style.minHeight = "100%";
                     this.container.style.maxHeight = "100%";
@@ -1107,7 +1146,8 @@ var Kiwi;
                     this.container.style.minHeight = "";
                     this.container.style.maxHeight = "";
                 }
-                //If it is SCALE to FIT then scale the containers height in ratio with the containers width.
+                // If it is SCALE to FIT then scale the containers height in
+                // ratio with the containers width.
                 if (this._scaleType == Kiwi.Stage.SCALE_FIT) {
                     this.container.style.height = String((clientWidth / this._width) * this._height) + "px";
                 }
@@ -1128,8 +1168,10 @@ var Kiwi;
         };
         Object.defineProperty(Stage.prototype, "visibility", {
             /**
-            * A flag indicating if the page is currently visible (using the Visiblity API).
-            * If the Visiblity API is unsupported this will remain set to true regardless of focus / blur events.
+            * A flag indicating if the page is currently visible
+            * (using the Visiblity API).
+            * If the Visiblity API is unsupported this will remain set to true
+            * regardless of focus / blur events.
             *
             * @property visibility
             * @type boolean
@@ -1148,8 +1190,8 @@ var Kiwi;
             configurable: true
         });
         /**
-        * Fired when the page visibility changes, or the page focus/blur events fire.
-        * In charge of firing the appropriate signals.
+        * Fired when the page visibility changes, or the page focus/blur
+        * events fire. In charge of firing the appropriate signals.
         *
         * @method _checkVisibility
         * @param event {Any}
@@ -1193,10 +1235,13 @@ var Kiwi;
                 document.addEventListener("msvisibilitychange", this._visibilityChange);
             }
             else {
-                //Not supported. 
+                // Not supported. 
                 this._visibility = null;
             }
-            window.onpageshow = window.onpagehide = window.onfocus = window.onblur = this._visibilityChange;
+            window.addEventListener('pageshow', this._visibilityChange);
+            window.addEventListener('pagehide', this._visibilityChange);
+            window.addEventListener('focus', this._visibilityChange);
+            window.addEventListener('blur', this._visibilityChange);
         };
         /**
         * The default width of the stage.
@@ -1218,7 +1263,9 @@ var Kiwi;
         Stage.DEFAULT_HEIGHT = 600;
         /**
         * The default scaling method used on Kiwi Games.
-        * This scaling method will set the containers width/height to static values.
+        * This scaling method will set the container's width/height
+        * to static values.
+        *
         * @property SCALE_NONE
         * @type number
         * @default 0
@@ -1227,8 +1274,9 @@ var Kiwi;
         */
         Stage.SCALE_NONE = 0;
         /**
-        * Scale Fit will scale the stages width to fit its parents width.
-        * The height is then calculated to maintain the aspect ratio of the width/height of the Stage.
+        * Scale Fit will scale the stage's width to fit its parents width.
+        * The height is then calculated to maintain the aspect ratio of the
+        * width/height of the Stage.
         * @property SCALE_FIT
         * @type number
         * @default 1
@@ -1237,8 +1285,10 @@ var Kiwi;
         */
         Stage.SCALE_FIT = 1;
         /**
-        * Stretch will make the stage scale to fit its parents width/height (by using max/min height of 100%).
-        * If the parent doesn't have a height set then the height will be the height of the stage.
+        * Stretch will make the stage scale to fit its parents width/height
+        * (by using max/min height of 100%).
+        * If the parent doesn't have a height set then the height will be
+        * the height of the stage.
         * @property SCALE_STRETCH
         * @type number
         * @default 2
@@ -3061,6 +3111,12 @@ var Kiwi;
             this.owner = owner;
             this.game = this.owner.game;
             this.name = name;
+            if (this.owner.state) {
+                this.state = this.owner.state;
+            }
+            else if (this.owner.objType() === 'State') {
+                this.state = this.owner;
+            }
             this.active = true;
         }
         /**
@@ -4644,12 +4700,15 @@ var Kiwi;
         State.prototype.destroy = function (deleteAll) {
             if (deleteAll === void 0) { deleteAll = true; }
             if (deleteAll == true) {
-                for (var i = 0; i < this._trackingList.length; i++) {
+                while (this._trackingList.length > 0) {
                     //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
-                    this._trackingList[i].destroy(true, false);
+                    this._trackingList[0].destroy(true, false);
                 }
                 this._trackingList = [];
-                // While it is possible to set a member on another state and push it to this state, thus avoiding the tracking list, that member will be destroyed when this state loads, so we do not need to destroy remaining members - simply clear the list.
+                while (this.members.length > 0) {
+                    //If the item is a group then we don't want it to destroy it's children, as this method will do that eventually anyway.
+                    this.members[0].destroy(true, false);
+                }
                 this.members = [];
             }
         };
@@ -4714,6 +4773,7 @@ var Kiwi;
             this.transform.rotPointX = x + width / 2;
             this.transform.rotPointY = y + height / 2;
             this._game.stage.onResize.add(this._updatedStageSize, this);
+            this._scratchMatrix = new Kiwi.Geom.Matrix();
         }
         /**
         * The type of object this is.
@@ -4779,8 +4839,9 @@ var Kiwi;
         * @public
         */
         Camera.prototype.transformPoint = function (point) {
-            var np = point.clone();
-            var m = this.transform.getConcatenatedMatrix();
+            var m, np = point.clone();
+            this._scratchMatrix.copyFrom(this.transform.getConcatenatedMatrix());
+            m = this._scratchMatrix;
             m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
             m.invert();
             return m.transformPoint(np);
@@ -4796,8 +4857,9 @@ var Kiwi;
         * @since 1.2.0
         */
         Camera.prototype.transformPointToScreen = function (point) {
-            var np = point.clone();
-            var m = this.transform.getConcatenatedMatrix();
+            var m, np = point.clone();
+            this._scratchMatrix.copyFrom(this.transform.getConcatenatedMatrix());
+            m = this._scratchMatrix;
             m.append(1, 0, 0, 1, -this.transform.rotPointX, -this.transform.rotPointY);
             return m.transformPoint(np);
         };
@@ -5572,6 +5634,38 @@ var Kiwi;
                 * @private
                 */
                 this._tempDirty = true;
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt1
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt1 = new Kiwi.Geom.Point(0, 0);
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt2
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt2 = new Kiwi.Geom.Point(0, 0);
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt3
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt3 = new Kiwi.Geom.Point(0, 0);
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt4
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt4 = new Kiwi.Geom.Point(0, 0);
                 if (this.game.renderOption === Kiwi.RENDERER_WEBGL) {
                     this.glRenderer = this.game.renderer.requestSharedRenderer("TextureAtlasRenderer");
                 }
@@ -5848,17 +5942,17 @@ var Kiwi;
                         break;
                 }
                 //Create the Point Objects.
-                var pt1 = new Kiwi.Geom.Point(x - t.rotPointX, 0 - t.rotPointY);
-                var pt2 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX, 0 - t.rotPointY);
-                var pt3 = new Kiwi.Geom.Point(this._canvas.width + x - t.rotPointX, this._canvas.height - t.rotPointY);
-                var pt4 = new Kiwi.Geom.Point(x - t.rotPointX, this._canvas.height - t.rotPointY);
+                this._pt1.setTo(x - t.rotPointX, 0 - t.rotPointY);
+                this._pt2.setTo(this._canvas.width + x - t.rotPointX, 0 - t.rotPointY);
+                this._pt3.setTo(this._canvas.width + x - t.rotPointX, this._canvas.height - t.rotPointY);
+                this._pt4.setTo(x - t.rotPointX, this._canvas.height - t.rotPointY);
                 //Add on the matrix to the points
-                pt1 = m.transformPoint(pt1);
-                pt2 = m.transformPoint(pt2);
-                pt3 = m.transformPoint(pt3);
-                pt4 = m.transformPoint(pt4);
+                m.transformPoint(this._pt1);
+                m.transformPoint(this._pt2);
+                m.transformPoint(this._pt3);
+                m.transformPoint(this._pt4);
                 //Append to the xyuv and alpha arrays 
-                vertexItems.push(pt1.x, pt1.y, 0, 0, this.alpha, pt2.x, pt2.y, this._canvas.width, 0, this.alpha, pt3.x, pt3.y, this._canvas.width, this._canvas.height, this.alpha, pt4.x, pt4.y, 0, this._canvas.height, this.alpha);
+                vertexItems.push(this._pt1.x, this._pt1.y, 0, 0, this.alpha, this._pt2.x, this._pt2.y, this._canvas.width, 0, this.alpha, this._pt3.x, this._pt3.y, this._canvas.width, this._canvas.height, this.alpha, this._pt4.x, this._pt4.y, 0, this._canvas.height, this.alpha);
                 //Add to the batch!
                 this.glRenderer.concatBatch(vertexItems);
             };
@@ -7089,11 +7183,11 @@ var Kiwi;
                         return [];
                     //Get the box off them
                     var b = entity.components.getComponent('Box').worldHitbox;
-                    //Is the person within the map's bounds?    
-                    if (b.left > this.transform.worldX + this.widthInPixels || b.right < this.transform.worldX || b.bottom < this.transform.worldY || b.top > this.transform.worldY + this.heightInPixels)
-                        return [];
                     var worldX = this.transform.worldX;
                     var worldY = this.transform.worldY;
+                    //Is the person within the map's bounds?    
+                    if (b.left > worldX + this.widthInPixels || b.right < worldX || b.bottom < worldY || b.top > worldY + this.heightInPixels)
+                        return [];
                     var nx = b.x - worldX;
                     var ny = b.y - worldY;
                     //Get starting location and now many tiles from there we will check. 
@@ -7105,7 +7199,7 @@ var Kiwi;
                     var tiles = this.getCollidableTiles(x, y, w + 1, h + 1, collisionType);
                     for (var i = 0; i < tiles.length; i++) {
                         var t = tiles[i];
-                        if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < t.top) {
+                        if (t.x + worldX > b.right || t.x + this.tileWidth + worldX < b.left || t.y + worldY > b.bottom || t.y + this.tileHeight + worldY < b.top) {
                             tiles.splice(i, 1);
                             i--;
                         }
@@ -7224,10 +7318,10 @@ var Kiwi;
                             this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             //Add on the matrix to the points
-                            this._corner1 = m.transformPoint(this._corner1);
-                            this._corner2 = m.transformPoint(this._corner2);
-                            this._corner3 = m.transformPoint(this._corner3);
-                            this._corner4 = m.transformPoint(this._corner4);
+                            m.transformPoint(this._corner1);
+                            m.transformPoint(this._corner2);
+                            m.transformPoint(this._corner3);
+                            m.transformPoint(this._corner4);
                             //Append to the xyuv array
                             vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
                         }
@@ -7442,10 +7536,10 @@ var Kiwi;
                             this._corner3.setTo(tx + cell.w - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             this._corner4.setTo(tx - t.rotPointX, ty + cell.h - t.rotPointY - (cell.h - this.tileHeight));
                             //Add on the matrix to the points
-                            this._corner1 = m.transformPoint(this._corner1);
-                            this._corner2 = m.transformPoint(this._corner2);
-                            this._corner3 = m.transformPoint(this._corner3);
-                            this._corner4 = m.transformPoint(this._corner4);
+                            m.transformPoint(this._corner1);
+                            m.transformPoint(this._corner2);
+                            m.transformPoint(this._corner3);
+                            m.transformPoint(this._corner4);
                             //Append to the xyuv array
                             vertexItems.push(this._corner1.x + t.rotPointX, this._corner1.y + t.rotPointY, cell.x, cell.y, this.alpha, this._corner2.x + t.rotPointX, this._corner2.y + t.rotPointY, cell.x + cell.w, cell.y, this.alpha, this._corner3.x + t.rotPointX, this._corner3.y + t.rotPointY, cell.x + cell.w, cell.y + cell.h, this.alpha, this._corner4.x + t.rotPointX, this._corner4.y + t.rotPointY, cell.x, cell.y + cell.h, this.alpha);
                         }
@@ -7912,6 +8006,7 @@ var Kiwi;
                 this._hitboxOffset = new Kiwi.Geom.Point();
                 this.hitbox = new Kiwi.Geom.Rectangle(0, 0, width, height);
                 this.autoUpdate = true;
+                this._scratchMatrix = new Kiwi.Geom.Matrix();
             }
             /**
             * The type of object that this is.
@@ -8101,8 +8196,8 @@ var Kiwi;
                 if (useWorldCoords === void 0) { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
-                var m = t.getConcatenatedMatrix();
-                //Use world coordinates?
+                var m = this._scratchMatrix.copyFrom(t.getConcatenatedMatrix());
+                // Use world coordinates?
                 if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
                 }
@@ -8121,7 +8216,7 @@ var Kiwi;
                 if (useWorldCoords === void 0) { useWorldCoords = false; }
                 var out = new Kiwi.Geom.Rectangle();
                 var t = this.entity.transform;
-                var m = t.getConcatenatedMatrix();
+                var m = this._scratchMatrix.copyFrom(t.getConcatenatedMatrix());
                 //Use world coordinates?
                 if (!useWorldCoords) {
                     m.setTo(m.a, m.b, m.c, m.d, t.x + t.rotPointX, t.y + t.rotPointY);
@@ -10393,10 +10488,9 @@ var Kiwi;
             * @private
             */
             Loader.prototype._startLoadingAllParallel = function () {
-                var i = 0, file;
-                while (i < this._loadingParallel.length) {
+                var i = this._loadingParallel.length, file;
+                while (i--) {
                     this._startLoadingParallel(this._loadingParallel[i]);
-                    i++;
                 }
             };
             /**
@@ -10746,6 +10840,7 @@ var Kiwi;
                 };
                 if (Kiwi.Utils.Common.isObject(key)) {
                     params = key;
+                    params.type = Kiwi.Files.File.AUDIO;
                     params.fileStore = this.game.fileStore;
                 }
                 else {
@@ -11199,6 +11294,7 @@ var Kiwi;
         *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
         *   @param [params.type=UNKNOWN] {Number} The type of file this is.
         *   @param [params.tags] {Array} Any tags to be associated with this file.
+        *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
         * @return {Kiwi.Files.File}
         *
         */
@@ -11245,9 +11341,11 @@ var Kiwi;
                 * The number of milliseconds that the XHR should wait before timing out.
                 * Set this to NULL if you want it to not timeout.
                 *
+                * Default changed in v1.3.1 to null
+                *
                 * @property timeOutDelay
                 * @type Number
-                * @default 4000
+                * @default null
                 * @public
                 */
                 this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
@@ -11508,12 +11606,19 @@ var Kiwi;
             *   @param [params.fileStore=null] {Kiwi.Files.FileStore} The filestore that this file should be save in automatically when loaded.
             *   @param [params.type=UNKNOWN] {Number} The type of file this is.
             *   @param [params.tags] {Array} Any tags to be associated with this file.
+            *   @param [params.timeout=TIMEOUT_DELAY] {Number} Sets the timeout delay when loading via ajax.
             * @protected
             */
             File.prototype.parseParams = function (params) {
                 this.fileStore = params.fileStore || null;
                 this.ownerState = params.state || null;
                 this.metadata = params.metadata || {};
+                if (Kiwi.Utils.Common.isUndefined(params.timeout)) {
+                    this.timeOutDelay = params.timeout;
+                }
+                else {
+                    this.timeOutDelay = Kiwi.Files.File.TIMEOUT_DELAY;
+                }
                 if (Kiwi.Utils.Common.isUndefined(params.type)) {
                     this.dataType = File.UNKNOWN;
                 }
@@ -11689,7 +11794,7 @@ var Kiwi;
                 if (responseType === void 0) { responseType = 'text'; }
                 if (timeoutDelay === void 0) { timeoutDelay = this.timeOutDelay; }
                 this._xhr = new XMLHttpRequest();
-                this._xhr.open('GET', this.URL, true);
+                this._xhr.open(method, this.URL, true);
                 if (timeoutDelay !== null) {
                     this._xhr.timeout = timeoutDelay;
                 }
@@ -11697,17 +11802,20 @@ var Kiwi;
                 this._xhr.onload = function (event) { return _this.xhrOnLoad(event); };
                 this._xhr.onerror = function (event) { return _this.loadError(event); };
                 this._xhr.onprogress = function (event) { return _this.xhrOnProgress(event); };
-                //Events to deprecate
-                this._xhr.onreadystatechange = function (event) { return function () {
-                    this.readyState = this._xhr.readyState;
-                }; };
-                this._xhr.onloadstart = function (event) { return function (event) {
-                    this.timeStarted = event.timeStamp;
-                    this.lastProgress = event.timeStamp;
-                }; };
-                this._xhr.ontimeout = function (event) { return function (event) {
-                    this.hasTimedOut = true;
-                }; };
+                var _that = this;
+                this._xhr.onreadystatechange = function () {
+                    _that.readyState = _that._xhr.readyState;
+                };
+                this._xhr.onloadstart = function (event) {
+                    _that.timeStarted = event.timeStamp;
+                    _that.lastProgress = event.timeStamp;
+                };
+                this._xhr.ontimeout = function (event) {
+                    _that.hasTimedOut = true;
+                };
+                this._xhr.onloadend = function (event) {
+                    _that.xhrOnLoad(event);
+                };
                 this._xhr.send();
             };
             /**
@@ -11734,8 +11842,8 @@ var Kiwi;
                 //Deprecate
                 this.status = this._xhr.status;
                 this.statusText = this._xhr.statusText;
-                // Easiest to just see if the response isn't null, and thus has data or not.
-                if (this._xhr.response) {
+                // If there is a status, then use that for our check. Otherwise we will base it on the response
+                if (this.status && this.status === 200 || !this.status && this._xhr.response) {
                     this._getXhrHeaderInfo();
                     this.buffer = this._xhr.response; //Deprecate
                     this.processXhr(this._xhr.response);
@@ -12114,15 +12222,18 @@ var Kiwi;
             };
             /**
             * The default number of milliseconds that the XHR should wait before timing out.
-            * Set this to NULL if you want it to not timeout.
+            * By default this is set to NULL, and so requests will not timeout.
+            *
+            * Default changed in v1.3.1 to null
             *
             * @property TIMEOUT_DELAY
             * @type Number
             * @static
             * @since 1.2.0
+            * @default null
             * @public
             */
-            File.TIMEOUT_DELAY = 4000;
+            File.TIMEOUT_DELAY = null;
             /**
             * The default maximum attempts at loading the file that there is allowed.
             * @property MAX_LOAD_ATTEMPTS
@@ -12423,7 +12534,7 @@ var Kiwi;
                     this._files[key] = null;
                     delete this._files[key];
                     if (destroy) {
-                        this._files[key].destroy();
+                        file.destroy();
                     }
                     return true;
                 }
@@ -13416,10 +13527,16 @@ var Kiwi;
             TextureLibrary.prototype._buildTextureAtlas = function (imageFile) {
                 var atlas = new Kiwi.Textures.TextureAtlas(imageFile.key, Kiwi.Textures.TextureAtlas.TEXTURE_ATLAS, null, imageFile.data);
                 var m = imageFile.metadata;
-                var json = this._game.fileStore.getFile(m.jsonID).data;
-                json.trim();
-                atlas.readJSON(json);
-                return atlas;
+                try {
+                    var json = this._game.fileStore.getFile(m.jsonID).data;
+                    json.trim();
+                    atlas.readJSON(json);
+                    return atlas;
+                }
+                catch (e) {
+                    Kiwi.Log.error("  Kiwi.Textures.TextureLibrary: Failed to extract information for '" + imageFile.key + "' from JSON file '" + m.jsonID + "'", '#error', '#texture', 'Message: ' + e.message);
+                }
+                return null;
             };
             /**
             * Builds a spritesheet atlas from the an image file that is provided.
@@ -15241,10 +15358,12 @@ var Kiwi;
     var Renderers;
     (function (Renderers) {
         /**
-        * Manages all rendering using WebGL. Requires the inclusion of gl-matrix.js / g-matrix.min.js -  https://github.com/toji/gl-matrix
-        * Directly manages renderer objects, including factory methods for their creation.
+        * Manages all rendering using WebGL.
+        * Directly manages renderer objects, including factory methods
+        * for their creation.
         * Creates manager objects for shaders and textures.
-        * Manages gl state at game initialisation, at state start and end, and per frame.
+        * Manages gl state at game initialisation, at state start and end,
+        * and per frame.
         * Runs the recursive scene graph rendering sequence every frame.
         * @class GLRenderManager
         * @extends IRenderer
@@ -15270,16 +15389,16 @@ var Kiwi;
                 */
                 this._entityCount = 0;
                 /**
-               * Tally of number of draw calls per frame
-               * @property numDrawCalls
-               * @type number
-               * @default 0
-               * @public
-               */
+                * Tally of number of draw calls per frame
+                * @property numDrawCalls
+                * @type number
+                * @default 0
+                * @public
+                */
                 this.numDrawCalls = 0;
                 /**
-                * Maximum allowable sprites to render per frame
-                * Note:Not currently used  - candidate for deletion
+                * Maximum allowable sprites to render per frame.
+                * Note: Not currently used  - candidate for deletion
                 * @property _maxItems
                 * @type number
                 * @default 1000
@@ -15294,11 +15413,18 @@ var Kiwi;
                 */
                 this._currentTextureAtlas = null;
                 /**
-                * An array of renderers. Shared renderers are used for batch rendering. Multiple gameobjects can use the same renderer
-                * instance and add rendering info to a batch rather than rendering individually.
-                * This means only one draw call is necessary to render a number of objects. The most common use of this is standard 2d sprite rendering,
-                * and the TextureAtlasRenderer is added by default as a shared renderer. Sprites, StaticImages and Tilemaps (core gameobjects) can all use the
-                * same renderer/shader combination and be drawn as part of the same batch.
+                * An array of renderers.
+                *
+                * Shared renderers are used for batch rendering.
+                * Multiple gameobjects can use the same renderer instance and add
+                * rendering info to a batch rather than rendering individually.
+                * This means only one draw call is necessary to render a number of
+                * objects. The most common use of this is standard 2d sprite rendering,
+                * and the TextureAtlasRenderer is added by default as a shared
+                * renderer. Sprites, StaticImages and Tilemaps (core gameobjects)
+                * can all use the same renderer/shader combination and be drawn as
+                * part of the same batch.
+                *
                 * Custom gameobjects can also choose to use a shared renderer, fo example in the case that a custom gameobject's rendering requirements matched the TextureAtlasRenderer
                 * capabilities.
                 *
@@ -15308,9 +15434,6 @@ var Kiwi;
                 */
                 this._sharedRenderers = {};
                 this._game = game;
-                if (typeof mat4 === "undefined") {
-                    throw "ERROR: gl-matrix.js is missing";
-                }
                 this._currentBlendMode = new Kiwi.Renderers.GLBlendMode(this._game.stage.gl, { mode: "DEFAULT" });
             }
             /**
@@ -15327,7 +15450,7 @@ var Kiwi;
             /**
             * The type of object that this is.
             * @method objType
-            * @return {String} "GLRenderManager"
+            * @return {string} "GLRenderManager"
             * @public
             */
             GLRenderManager.prototype.objType = function () {
@@ -15344,12 +15467,16 @@ var Kiwi;
                 this._textureManager.uploadTexture(gl, atlas);
             };
             /**
-            * Adds a renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
-            * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+            * Adds a renderer to the sharedRenderer array.
+            *
+            * The rendererID is a string that must match a renderer property
+            * of the Kiwi.Renderers object. If a match is found and an instance
+            * does not already exist, then a renderer is instantiated and added
+            * to the array.
             * @method addSharedRenderer
-            * @param {String} rendererID
-            * @param {Object} params
-            * @return {Boolean} success
+            * @param {string} rendererID
+            * @param {object} params
+            * @return {boolean} success
             * @public
             */
             GLRenderManager.prototype.addSharedRenderer = function (rendererID, params) {
@@ -15365,17 +15492,26 @@ var Kiwi;
                 return false;
             };
             /**
-            * Adds a cloned renderer to the sharedRenderer array. The rendererID is a string that must match a renderer property of the Kiwi.Renderers object. The cloneID is the name for the cloned renderer.
+            * Adds a cloned renderer to the sharedRenderer array.
+            * The rendererID is a string that must match a renderer property of
+            * the Kiwi.Renderers object. The cloneID is the name for the
+            * cloned renderer.
             *
-            * If a match is found and an instance does not already exist, then a renderer is instantiated and added to the array.
+            * If a match is found and an instance does not already exist,
+            * then a renderer is instantiated and added to the array.
             *
-            * Cloned shared renderers are useful if some items in your scene will use a special shader or blend mode, but others will not. You can subsequently access the clones with a normal requestSharedRenderer() call. You should use this instead of requestRendererInstance() whenever possible, because shared renderers are more efficient than instances.
+            * Cloned shared renderers are useful if some items in your scene
+            * will use a special shader or blend mode, but others will not.
+            * You can subsequently access the clones with a normal
+            * `requestSharedRenderer()` call. You should use this instead of
+            * `requestRendererInstance()` whenever possible, because shared
+            * renderers are more efficient than instances.
             *
             * @method addSharedRendererClone
-            * @param {String} rendererID
-            * @param {String} cloneID
-            * @param {Object} params
-            * @return {Boolean} success
+            * @param {string} rendererID
+            * @param {string} cloneID
+            * @param {object} params
+            * @return {boolean} success
             * @public
             * @since 1.1.0
             */
@@ -15395,11 +15531,14 @@ var Kiwi;
                 return false;
             };
             /**
-            * Requests a shared renderer. A game object that wants to use a shared renderer uses this method to obtain a reference to the shared renderer instance.
+            * Requests a shared renderer. A game object that wants to use a shared
+            * renderer uses this method to obtain a reference to the shared
+            * renderer instance.
             * @method requestSharedRenderer
-            * @param {String} rendererID
-            * @param {Object} params
-            * @return {Kiwi.Renderers.Renderer} A shared renderer or null if none found.
+            * @param {string} rendererID
+            * @param {object} params
+            * @return {Kiwi.Renderers.Renderer} A shared renderer
+            *	or null if none found.
             * @public
             */
             GLRenderManager.prototype.requestSharedRenderer = function (rendererID, params) {
@@ -15420,13 +15559,16 @@ var Kiwi;
                 return null;
             };
             /**
-            * Requests a new renderer instance. This factory method is the only way gameobjects should instantiate their own renderer.
-            * The rendererID is a string that must match a renderer property of the Kiwi.Renderers object.
-            * If a match is found then a renderer is instantiated and returned. Gameobjects which have rendering requirements that do not suit
-            * batch rendering use this technique.
+            * Requests a new renderer instance. This factory method is the only
+            * way gameobjects should instantiate their own renderer.
+            *
+            * The rendererID is a string that must match a renderer property
+            * of the Kiwi.Renderers object. If a match is found then a renderer
+            * is instantiated and returned. Gameobjects which have rendering
+            * requirements that do not suit batch rendering use this technique.
             * @method requestRendererInstance
-            * @param {String} rendererID The name of the requested renderer
-            * @param {Object} params
+            * @param {string} rendererID The name of the requested renderer
+            * @param {object} params
             * @return {Kiwi.Renderers.Renderer} A renderer or null if none found.
             * @public
             */
@@ -15453,10 +15595,10 @@ var Kiwi;
             private _filtersEnabled: boolean = false;
             
             /**
-            * Performs initialisation required for single game instance - happens once, at bootup
-            * Sets global GL state.
+            * Performs initialisation required for single game instance -
+            * happens once, at bootup. Sets global GL state.
             * Initialises managers for shaders and textures.
-            * Instantiates the default shared renderer (TextureAtlasRenderer)
+            * Instantiates the default shared renderer (`TextureAtlasRenderer`)
             * @method _init
             * @private
             */
@@ -15478,7 +15620,8 @@ var Kiwi;
                 //shader manager
                 this._shaderManager.init(gl, "TextureAtlasShader");
                 //camera matrix
-                this.camMatrix = mat3.create();
+                this.camMatrix = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+                this._camMatrixOffset = new Kiwi.Geom.Matrix();
                 //stage res needs update on stage resize
                 this._game.stage.onResize.add(function (width, height) {
                     this._stageResolution = new Float32Array([width, height]);
@@ -15503,9 +15646,11 @@ var Kiwi;
             * This is used internally for compatibility with CocoonJS and should not be called.
             * @method scaleViewport
             * @param gl {WebGLRenderingContext}
-            * @param mode {number} The scale mode; should be either Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE.
-            * @param width {number} Width of the target space.
-            * @param height {number} Height of the target space.
+            * @param mode {number} Scale mode; should be either
+            *	Kiwi.Stage.SCALE_FIT, Kiwi.Stage.SCALE_STRETCH, or
+            *	Kiwi.Stage.SCALE_NONE. Defaults to Kiwi.Stage.SCALE_NONE
+            * @param width {number} Width of the target space
+            * @param height {number} Height of the target space
             * @public
             * @since 1.1.1
             */
@@ -15543,8 +15688,10 @@ var Kiwi;
                 gl.viewport(offset.x, offset.y, width, height);
             };
             /**
-            * Performs initialisation required when switching to a different state. Called when a state has been switched to.
-            * The textureManager is told to clear its contents from video memory, then rebuild its cache of textures from the state's texture library.
+            * Performs initialisation required when switching to a different state.
+            * Called when a state has been switched to.
+            * The textureManager is told to clear its contents from video memory,
+            * then rebuild its cache of textures from the state's texture library.
             * @method initState
             * @public
             */
@@ -15553,7 +15700,9 @@ var Kiwi;
                 this._textureManager.uploadTextureLibrary(this._game.stage.gl, state.textureLibrary);
             };
             /**
-            * Performs cleanup required before switching to a different state. Called whwn a state is about to be switched from. The textureManager is told to empty its cache.
+            * Performs cleanup required before switching to a different state.
+            * Called whwn a state is about to be switched from.
+            * The textureManager is told to empty its cache.
             * @method endState
             * @param state {Kiwi.State}
             * @public
@@ -15564,8 +15713,8 @@ var Kiwi;
             };
             /**
             * Manages rendering of the scene graph - called once per frame.
-            * Sets up per frame gl uniforms such as the view matrix and camera offset.
-            * Clears the current renderer ready for a new batch.
+            * Sets up per frame gl uniforms such as the view matrix and
+            * camera offset. Clears the current renderer ready for a new batch.
             * Initiates recursive render of scene graph starting at the root.
             * @method render
             * @param camera {Camera}
@@ -15576,38 +15725,47 @@ var Kiwi;
                 //clear stage every frame
                 var col = this._game.stage.normalizedColor;
                 // Colour must be multiplied by alpha to create consistent results.
-                // This is probably due to browsers implementing an inferior blendfunc:
-                // ONE, ONE_MINUS_SRC_ALPHA is most common, and gives bad results with alphas.
-                // When this is used on a partially transparent game canvas, it does not blend correctly.
-                // Without being able to override the browser's own object renderer, this is a necessary kludge.
-                // The "clean" solution is as follows:
+                // This is probably due to browsers implementing an inferior
+                // blendfunc: ONE, ONE_MINUS_SRC_ALPHA is most common, and gives
+                // bad results with alphas. When this is used on a partially
+                // transparent game canvas, it does not blend correctly.
+                // Without being able to override the browser's own object renderer,
+                // this is a necessary kludge. The "clean" solution is as follows:
                 // gl.clearColor(col.r, col.g, col.b, col.a);
                 gl.clearColor(col.r * col.a, col.g * col.a, col.b * col.a, col.a);
                 gl.clear(gl.COLOR_BUFFER_BIT);
+                // Reset current renderer.
+                // This prevents runtime created shaders from being uploaded
+                // and the render manager failing to notice, causing crashes.
+                this._currentRenderer = null;
                 // Stop drawing if there is nothing to draw
                 if (this._game.states.current.members.length == 0) {
                     return;
                 }
-                //reset stats
+                // Reset stats
                 this.numDrawCalls = 0;
                 this._textureManager.numTextureWrites = 0;
                 this._entityCount = 0;
-                //set cam matrix uniform
+                // Set cam matrix uniform
                 var cm = camera.transform.getConcatenatedMatrix();
                 var ct = camera.transform;
-                var rotOffset = vec2.create();
-                var scale = vec2.create();
-                var translate = vec2.create();
-                vec2.set(scale, ct.scaleX, ct.scaleY);
-                vec2.set(rotOffset, -ct.rotPointX, -ct.rotPointY);
-                vec2.set(translate, cm.tx, cm.ty);
-                mat3.identity(this.camMatrix);
-                mat3.translate(this.camMatrix, this.camMatrix, translate);
-                mat3.rotate(this.camMatrix, this.camMatrix, ct.rotation);
-                mat3.scale(this.camMatrix, this.camMatrix, scale);
-                mat3.translate(this.camMatrix, this.camMatrix, rotOffset);
+                this._camMatrixOffset.identity();
+                this._camMatrixOffset.translate(-ct.anchorPointX, -ct.anchorPointY);
+                this._camMatrixOffset.prependMatrix(cm);
+                // Overwrite cam matrix properties rather than recreating matrix.
+                // This is necessary to keep the cam matrix synchronised
+                // with other renderers: if there is only one render batch,
+                // then `enable` will only pass the cam matrix on the first frame,
+                // and subsequent camera movements will not be passed to the shader.
+                this.camMatrix[0] = this._camMatrixOffset.a;
+                this.camMatrix[1] = this._camMatrixOffset.b;
+                this.camMatrix[3] = this._camMatrixOffset.c;
+                this.camMatrix[4] = this._camMatrixOffset.d;
+                this.camMatrix[6] = this._camMatrixOffset.tx;
+                this.camMatrix[7] = this._camMatrixOffset.ty;
                 // Mandate blend mode in CocoonJS
-                // This must be called per-frame, because CocoonJS seems to interfere with blend modes on a per-frame basis.
+                // This must be called per-frame, because CocoonJS seems to
+                // interfere with blend modes on a per-frame basis.
                 if (this._game.deviceTargetOption == Kiwi.TARGET_COCOON) {
                     this._switchBlendMode(gl, this._currentBlendMode);
                 }
@@ -15631,7 +15789,8 @@ var Kiwi;
                 this.collateChild(root);
             };
             /**
-            * Adds a child to the render sequence (may be a group with children of it's own)
+            * Adds a child to the render sequence
+            * (may be a group with children of its own).
             * @method collateChild
             * @public
             */
@@ -15656,7 +15815,8 @@ var Kiwi;
                 }
             };
             /**
-            * Sorts the render sequence into batches. Each batch requires the same renderer/shader/texture combination.
+            * Sorts the render sequence into batches.
+            * Each batch requires the same renderer/shader/texture combination.
             * @method collateBatches
             * @public
             */
@@ -15692,7 +15852,7 @@ var Kiwi;
             * Renders a single batch
             * @method renderBatch
             * @param {WebGLRenderingContext} gl
-            * @param {Object} batch
+            * @param {object} batch
             * @param {Kiwi.Camera} camera
             * @public
             */
@@ -16989,6 +17149,38 @@ var Kiwi;
                 * @private
                 */
                 this._maxItems = 1000;
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt1
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt1 = new Kiwi.Geom.Point(0, 0);
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt2
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt2 = new Kiwi.Geom.Point(0, 0);
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt3
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt3 = new Kiwi.Geom.Point(0, 0);
+                /**
+                * Geometry point used in rendering.
+                *
+                * @property _pt4
+                * @type Kiwi.Geom.Point
+                * @private
+                */
+                this._pt4 = new Kiwi.Geom.Point(0, 0);
                 var bufferItemSize = 5;
                 this._vertexBuffer = new Renderers.GLArrayBuffer(gl, bufferItemSize);
                 var vertsPerQuad = 6;
@@ -17101,20 +17293,21 @@ var Kiwi;
             */
             TextureAtlasRenderer.prototype.addToBatch = function (gl, entity, camera) {
                 // Skip if it's invisible due to zero alpha
-                if (entity.alpha <= 0)
+                if (entity.alpha <= 0) {
                     return;
+                }
                 var t = entity.transform;
                 var m = t.getConcatenatedMatrix();
                 var cell = entity.atlas.cells[entity.cellIndex];
-                var pt1 = new Kiwi.Geom.Point(0 - t.rotPointX, 0 - t.rotPointY);
-                var pt2 = new Kiwi.Geom.Point(cell.w - t.rotPointX, 0 - t.rotPointY);
-                var pt3 = new Kiwi.Geom.Point(cell.w - t.rotPointX, cell.h - t.rotPointY);
-                var pt4 = new Kiwi.Geom.Point(0 - t.rotPointX, cell.h - t.rotPointY);
-                pt1 = m.transformPoint(pt1);
-                pt2 = m.transformPoint(pt2);
-                pt3 = m.transformPoint(pt3);
-                pt4 = m.transformPoint(pt4);
-                this._vertexBuffer.items.push(pt1.x, pt1.y, cell.x, cell.y, entity.alpha, pt2.x, pt2.y, cell.x + cell.w, cell.y, entity.alpha, pt3.x, pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha, pt4.x, pt4.y, cell.x, cell.y + cell.h, entity.alpha);
+                this._pt1.setTo(0 - t.rotPointX, 0 - t.rotPointY);
+                this._pt2.setTo(cell.w - t.rotPointX, 0 - t.rotPointY);
+                this._pt3.setTo(cell.w - t.rotPointX, cell.h - t.rotPointY);
+                this._pt4.setTo(0 - t.rotPointX, cell.h - t.rotPointY);
+                m.transformPoint(this._pt1);
+                m.transformPoint(this._pt2);
+                m.transformPoint(this._pt3);
+                m.transformPoint(this._pt4);
+                this._vertexBuffer.items.push(this._pt1.x, this._pt1.y, cell.x, cell.y, entity.alpha, this._pt2.x, this._pt2.y, cell.x + cell.w, cell.y, entity.alpha, this._pt3.x, this._pt3.y, cell.x + cell.w, cell.y + cell.h, entity.alpha, this._pt4.x, this._pt4.y, cell.x, cell.y + cell.h, entity.alpha);
             };
             /**
             * Adds an array of precalculated xyuv values to the item array
@@ -18169,26 +18362,29 @@ var Kiwi;
     var Input;
     (function (Input) {
         /**
-        * Handles and Manages the dispatching of keyboard events. When the user press's a button a new Key object is created.
+        * Handles and manages the dispatching of keyboard events.
+        * When the user presses a button a new `Key` object is created.
         *
         * @class Keyboard
         * @constructor
         * @namespace Kiwi.Input
         * @param game {Kiwi.Game}
-        * @return {Kiwi.Input.Keyboard} This object.
-        *
+        * @return {Kiwi.Input.Keyboard} This object
         */
         var Keyboard = (function () {
             function Keyboard(game) {
                 /**
-                * Contains a reference to each Key object when they are either added to this Keyboard manager (by the developer), or when an event fires with that keycode.
+                * Contains a reference to each `Key` object when they are either
+                * added to this `Keyboard` manager (by the developer),
+                * or when an event fires with that keycode.
                 * @property _keys
                 * @type Key[]
                 * @private
                 */
                 this._keys = [];
                 /**
-                * The time in milliseconds which determines if a key was just pressed or not.
+                * The time in milliseconds which determines if a key was just pressed
+                * or not.
                 * @property justPressedRate
                 * @type Number
                 * @default 200
@@ -18196,7 +18392,8 @@ var Kiwi;
                 */
                 this.justPressedRate = 200;
                 /**
-                * The time in milliseconds which determines if a key was just released or not.
+                * The time in milliseconds which determines if a key was just released
+                * or not.
                 * @property justReleasedRate
                 * @type Number
                 * @default 200
@@ -18206,7 +18403,7 @@ var Kiwi;
                 this.game = game;
             }
             /**
-            * The type of object that this is.
+            * Type of object that this is
             * @method objType
             * @return {String} "Keyboard"
             * @public
@@ -18216,7 +18413,8 @@ var Kiwi;
             };
             Object.defineProperty(Keyboard.prototype, "keys", {
                 /**
-                * Returns all of the Key objects that currently exist. This is READ ONLY.
+                * Returns all of the `Key` objects that currently exist.
+                * This is READ ONLY.
                 * @property keys
                 * @type Keys[]
                 * @public
@@ -18228,7 +18426,8 @@ var Kiwi;
                 configurable: true
             });
             /**
-            * Is executed when the DOMElements that are need to get the game going are loaded and thus the game can 'boot'
+            * Is executed when the DOMElements that are need to get the game going
+            * are loaded and thus the game can 'boot'
             * @method boot
             * @public
             */
@@ -18260,7 +18459,8 @@ var Kiwi;
                 }
             };
             /**
-            * Removes the event listeners and so effectively 'stops' all keyboard events.
+            * Removes the event listeners and so effectively stops
+            * all keyboard events.
             * @method stop
             * @public
             */
@@ -18274,9 +18474,10 @@ var Kiwi;
                 }
             };
             /**
-            * Is executed when a key is pressed/is down. This then either creates a new Key (if one does not currently exist) for that keycode,
+            * Is executed when a key is pressed/is down. This then either creates
+            * a new `Key` (if one does not currently exist) for that keycode,
             * or it updates the key that was pressed (if one does exist).
-            * @method onKeyDown
+            * @method _keyPressed
             * @param {KeyboardEvent} event.
             * @private
             */
@@ -18292,9 +18493,10 @@ var Kiwi;
                 this.onKeyDown.dispatch(event.keyCode, this._keys[event.keyCode]);
             };
             /**
-            * Is executed when a key is release/is now up. This then either creates a new Key (if one does not currently exist) for that keycode,
-            * or it updates the key that was released (if one does exist).
-            * @method onKeyUp
+            * Is executed when a key is release/is now up. This then either
+            * creates a new Key (if one does not currently exist) for that
+            * keycode, or it updates the key that was released (if one does exist).
+            * @method _keyReleased
             * @param {KeyboardEvent} event.
             * @private
             */
@@ -18309,8 +18511,10 @@ var Kiwi;
             };
             /**
             * Creates a new Key object for a keycode that is specified.
-            * Not strictly needed (as one will be created once an event occurs on that keycode) but can be good for setting the game up
-            * and choosing whether to prevent that keys any default action.
+            * Not strictly needed (as one will be created once an event occurs
+            * on that keycode) but can be good for setting the game up
+            * and choosing whether to prevent default action on that key.
+            *
             * @method addKey
             * @param keycode {Number} The keycode of the key that you want to add.
             * @param [preventDefault=false] {Boolean} If the default action for that key should be prevented or not when an event fires.
@@ -18324,10 +18528,14 @@ var Kiwi;
                 return this._keys[keycode] = key;
             };
             /**
-            * Returns a boolean indicating if a key (that you pass via a keycode) was just pressed or not.
+            * Returns a boolean indicating if a key (that you pass via a keycode)
+            * was just pressed or not.
             * @method justPressed
-            * @param keycode {Number} The keycode of the key that you would like to check against.
-            * @param [duration=this.justPressedRate] {Number} The duration at which determines if a key was 'just' pressed or not. If not specified defaults to the justPressedRate
+            * @param keycode {Number} The keycode of the key
+            *	that you would like to check against.
+            * @param [duration=this.justPressedRate] {Number} The duration
+            *	which determines if a key was 'just' pressed or not.
+            *	If not specified defaults to the `justPressedRate`
             * @public
             */
             Keyboard.prototype.justPressed = function (keycode, duration) {
@@ -18338,10 +18546,14 @@ var Kiwi;
                 return false;
             };
             /**
-            * Returns a boolean indicating if a key (that you pass via a keycode) was just released or not.
+            * Returns a boolean indicating if a key (that you pass via a keycode)
+            * was just released or not.
             * @method justReleased
-            * @param keycode {Number} The keycode of the key that you would like to check against.
-            * @param [duration=this.justReleasedRate] {Number} The duration at which determines if a key was 'just' released or not. If not specified defaults to the justReleasedRate
+            * @param keycode {Number} The keycode of the key
+            *	that you would like to check against.
+            * @param [duration=this.justReleasedRate] {Number} The duration which
+            *	determines if a key was 'just' released or not.
+            *	If not specified defaults to the `justReleasedRate`
             * @public
             */
             Keyboard.prototype.justReleased = function (keycode, duration) {
@@ -18352,7 +18564,8 @@ var Kiwi;
                 return false;
             };
             /**
-            * Returns a boolean indicating whether a key (that you pass via its keycode) is down or not.
+            * Returns a boolean indicating whether a key (that you pass via its
+            * keycode) is down or not.
             * @method isDown
             * @param keycode {Number} The keycode of the key that you are checking.
             * @return {boolean}
@@ -18367,7 +18580,8 @@ var Kiwi;
                 }
             };
             /**
-            * Returns a boolean indicating whether a key (that you pass via its keycode) is up or not.
+            * Returns a boolean indicating whether a key (that you pass via its
+            * keycode) is up or not.
             * @method isUp
             * @param keycode {Number} The keycode of the key that you are checking.
             * @return {boolean}
@@ -19976,7 +20190,10 @@ var Kiwi;
                         if (Kiwi.DEVICE.pointerEnabled) {
                             var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
                             //Is it IE 10?
-                            if ((window.navigator.msPointerEnabled)) {
+                            if (window["PointerEvent"]) {
+                            }
+                            else if ((window["MSPointerEvent"])) {
+                                // IE10 compatibility
                                 var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
                             }
                             this._onTouchStartBind = this.onPointerStart.bind(this);
@@ -20307,7 +20524,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerStart = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerdown") {
                     this._registerFinger(event, event.pointerId);
                 }
             };
@@ -20318,7 +20535,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerCancel = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointercancel") {
                     this._cancelFinger(event, event.pointerId);
                 }
             };
@@ -20329,7 +20546,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerEnter = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerenter") {
                     this._enterFinger(event, event.pointerId);
                 }
             };
@@ -20340,7 +20557,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerLeave = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerleave") {
                     this._leaveFinger(event, event.pointerId);
                 }
             };
@@ -20350,7 +20567,7 @@ var Kiwi;
             * @param event {PointerEvent}
             */
             Touch.prototype.onPointerMove = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointermove") {
                     this._moveFinger(event, event.pointerId);
                 }
             };
@@ -20361,7 +20578,7 @@ var Kiwi;
             * @private
             */
             Touch.prototype.onPointerEnd = function (event) {
-                if (event.type === 'touch') {
+                if (event.type === 'touch' || event.type === "pointerup") {
                     this._deregisterFinger(event, event.pointerId);
                 }
             };
@@ -20397,7 +20614,10 @@ var Kiwi;
                     if (Kiwi.DEVICE.pointerEnabled) {
                         var pointerUp = 'pointerup', pointerDown = 'pointerdown', pointerEnter = 'pointerenter', pointerLeave = 'pointerleave', pointerCancel = 'pointercancel', pointerMove = 'pointermove';
                         //Is it IE 10?
-                        if ((window.navigator.msPointerEnabled)) {
+                        if (window["PointerEvent"]) {
+                        }
+                        else if ((window["MSPointerEvent"])) {
+                            // IE10 compatibility
                             var pointerUp = 'MSPointerUp', pointerDown = 'MSPointerDown', pointerEnter = 'MSPointerEnter', pointerLeave = 'MSPointerLeave', pointerCancel = 'MSPointerCancel', pointerMove = 'MSPointerMove';
                         }
                         this._domElement.removeEventListener(pointerUp, this._onTouchStartBind, false);
@@ -21592,111 +21812,110 @@ var Kiwi;
     var Geom;
     (function (Geom) {
         /**
-        * Represents a halfline. The ray starts at the first point and extends infinitely in the direction of the second.
+        * A Line object has two meanings depending on the situation you need.
+        * Either an infinte line through space (this is the usual meaning of a Line)
+        * OR it can be a Line Segment which just exists between the TWO points you specify.
         *
-        * @class Ray
+        * @class Line
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [x1=0] {Number} Starting location of the ray on the x-axis.
-        * @param [y1=0] {Number} Starting location of the ray on the y-axis.
-        * @param [x2=0] {Number} End location of the ray on the x-axis. Used to calculate direction so it isn't really the 'end' location.
-        * @param [y2=0] {Number} End location of the ray on the y-axis. Used to calculate direction so it isn't really the 'end' location.
-        * @return {Kiwi.Geom.Ray} This Object
+        * @param [x1=0] {Number} Starting location of the line on the x-axis.
+        * @param [y1=0] {Number} Starting location of the line on the y-axis.
+        * @param [x2=0] {Number} End location of the line on the x-axis.
+        * @param [y2=0] {Number} End location of the line on the y-axis.
+        * @return {Kiwi.Geom.Line} This Object
         *
         */
-        var Ray = (function () {
-            function Ray(x1, y1, x2, y2) {
+        var Line = (function () {
+            function Line(x1, y1, x2, y2) {
                 if (x1 === void 0) { x1 = 0; }
                 if (y1 === void 0) { y1 = 0; }
                 if (x2 === void 0) { x2 = 0; }
                 if (y2 === void 0) { y2 = 0; }
                 /**
-                * The x component of the initial point of the ray
+                * X position of first point on the line.
                 * @property x1
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.x1 = 0;
                 /**
-                * The y component of the initial point of the ray
+                * Y position of first point on the line.
                 * @property y1
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.y1 = 0;
                 /**
-                * The x component of the direction point of the ray
+                * X position of second point.
                 * @property x2
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.x2 = 0;
                 /**
-                * The y component of the direction point of the ray
+                * Y position of second point.
                 * @property y2
                 * @type Number
-                * @default 0
                 * @public
                 */
                 this.y2 = 0;
                 this.setTo(x1, y1, x2, y2);
             }
             /**
-            * The type of this object.
+            * Returns the type of this object
             * @method objType
-            * @return {String} "Ray"
+            * @return {string} "Line"
             * @public
             */
-            Ray.prototype.objType = function () {
-                return "Ray";
+            Line.prototype.objType = function () {
+                return "Line";
             };
             /**
-            * Makes a copy of this Ray either as a new Ray object or,
-            * makes a passed Ray a copy of this one.
+            * Makes a clone of this Line.
+            * The clone can either be a new Line Object,
+            * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
             *
             * @method clone
-            * @param [output] {Kiwi.Geom.Ray}
-            * @return {Kiwi.Geom.Ray}
+            * @param [output=Line] {Kiwi.Geom.Line}
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.clone = function (output) {
-                if (output === void 0) { output = new Ray; }
+            Line.prototype.clone = function (output) {
+                if (output === void 0) { output = new Line; }
                 return output.setTo(this.x1, this.y1, this.x2, this.y2);
             };
             /**
-            * Makes this Ray the same as a passed Ray.
+            * Make this Line a copy of another passed Line.
             * @method copyFrom
-            * @param source {Kiwi.Geom.Ray}
-            * @return {Kiwi.Geom.Ray}
+            * @param source {Kiwi.Geom.Line} source
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.copyFrom = function (source) {
+            Line.prototype.copyFrom = function (source) {
                 return this.setTo(source.x1, source.y1, source.x2, source.y2);
             };
             /**
-            * Makes a passed Ray the same as this Ray object.
+            * Make another passed Line a copy of this one.
             * @method copyTo
-            * @param target {Kiwi.Geom.Ray}
-            * @return {Kiwi.Geom.Ray}
+            * @param target {Kiwi.Geom.Line} target
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.copyTo = function (target) {
+            Line.prototype.copyTo = function (target) {
                 return target.copyFrom(this);
             };
             /**
-            * Sets the origin and the direction of this Ray.
+            * Used to set all components on the line.
             * @method setTo
-            * @param [x1=0] {Number}
-            * @param [y1=0] {Number}
-            * @param [x2=0] {Number}
-            * @param [y2=0] {Number}
-            * @return {Kiwi.Geom.Ray}
+            * @param [x1=0]{Number} X component of first point.
+            * @param [y1=0]{Number} Y component of first point.
+            * @param [x2=0]{Number} X component of second point.
+            * @param [y2=0]{Number} Y component of second point.
+            * @return {Kiwi.Geom.Line}
             * @public
             */
-            Ray.prototype.setTo = function (x1, y1, x2, y2) {
+            Line.prototype.setTo = function (x1, y1, x2, y2) {
                 if (x1 === void 0) { x1 = 0; }
                 if (y1 === void 0) { y1 = 0; }
                 if (x2 === void 0) { x2 = 0; }
@@ -21707,9 +21926,36 @@ var Kiwi;
                 this.y2 = y2;
                 return this;
             };
-            Object.defineProperty(Ray.prototype, "angle", {
+            Object.defineProperty(Line.prototype, "length", {
                 /**
-                * Get the angle of the ray.
+                * Get the length of the Line as a Line Segment.
+                * @property length
+                * @type number
+                * @readOnly
+                * @public
+                */
+                get: function () {
+                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
+            /**
+            * Get the y of a point on the line for a given x.
+            * @method getY
+            * @param x {Number}
+            * @return {Number}
+            * @public
+            */
+            Line.prototype.getY = function (x) {
+                if (this.x1 == this.x2)
+                    return null;
+                else
+                    return this.slope * x + this.yIntercept;
+            };
+            Object.defineProperty(Line.prototype, "angle", {
+                /**
+                * Get the angle of the line.
                 * @property angle
                 * @type Number
                 * @readOnly
@@ -21721,9 +21967,9 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Ray.prototype, "slope", {
+            Object.defineProperty(Line.prototype, "slope", {
                 /**
-                * Get the slope of the ray.
+                * Get the slope of the line (y/x).
                 * @property slope
                 * @type Number
                 * @readOnly
@@ -21735,9 +21981,23 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
-            Object.defineProperty(Ray.prototype, "yIntercept", {
+            Object.defineProperty(Line.prototype, "perpSlope", {
                 /**
-                *
+                * Get the perpendicular slope of the line (x/y).
+                * @propery perpSlope
+                * @type Number
+                * @readOnly
+                * @public
+                */
+                get: function () {
+                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Line.prototype, "yIntercept", {
+                /**
+                * Get the y intercept for the line.
                 * @property yIntercept
                 * @type Number
                 * @readOnly
@@ -21749,6 +22009,158 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            /**
+            * Check if a point is on the line.
+            * @method isPointOnLine
+            * @param x {Number}
+            * @param y {Number}
+            * @return {boolean}
+            * @public
+            */
+            Line.prototype.isPointOnLine = function (x, y) {
+                if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+            /**
+            * Check if the point is both on the line and within the line segment.
+            * @method isPointOnLineSegment
+            * @param x {Number}
+            * @param y {Number}
+            * @return {boolean}
+            * @public
+            */
+            Line.prototype.isPointOnLineSegment = function (x, y) {
+                var xMin = Math.min(this.x1, this.x2);
+                var xMax = Math.max(this.x1, this.x2);
+                var yMin = Math.min(this.y1, this.y2);
+                var yMax = Math.max(this.y1, this.y2);
+                if (this.isPointOnLine(x, y) && (x >= xMin && x <= xMax) && (y >= yMin && y <= yMax)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+            /**
+            * Check to see if this Line object intersects at any point with a passed Line.
+            * Note: Both are treated as extending infinately through space.
+            * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
+            *
+            * @method intersectLineLine
+            * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
+            * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
+            * @public
+            */
+            Line.prototype.intersectLineLine = function (line) {
+                return Kiwi.Geom.Intersect.lineToLine(this, line);
+            };
+            /**
+            * Get a line perpendicular to the line passing through a given point.
+            *
+            * @method perp
+            * @param x {Number}
+            * @param y {Number}
+            * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
+            * @return {Kiwi.Geom.Line}
+            * @public
+            */
+            Line.prototype.perp = function (x, y, output) {
+                if (output === void 0) { output = new Line; }
+                var pt;
+                // For a horizontal line, the output is a vertical line.
+                if (this.y1 === this.y2) {
+                    output.setTo(x, y, x, this.y1);
+                    return output;
+                }
+                // For a vertical line, the output is a horizontal line.
+                if (this.x1 === this.x2) {
+                    output.setTo(x, y, this.x1, y);
+                    return output;
+                }
+                var yInt = (y - this.perpSlope * x);
+                if (x !== 0) {
+                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
+                }
+                else {
+                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 1, y2: yInt + this.perpSlope });
+                }
+                output.setTo(x, y, pt.x, pt.y);
+                return output;
+            };
+            /**
+            * Get a string representation of the line.
+            * @method toString
+            * @return {String}
+            * @public
+            */
+            Line.prototype.toString = function () {
+                return "[{Line (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
+            };
+            return Line;
+        })();
+        Geom.Line = Line;
+    })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
+})(Kiwi || (Kiwi = {}));
+/**
+*
+* @module Kiwi
+* @submodule Geom
+*/
+var Kiwi;
+(function (Kiwi) {
+    var Geom;
+    (function (Geom) {
+        /**
+        * Represents a halfline. The ray starts at the first point
+        * and extends infinitely in the direction of the second.
+        *
+        * @class Ray
+        * @namespace Kiwi.Geom
+        * @extends Kiwi.Geom.Line
+        * @constructor
+        * @param [x1=0] {Number} Starting location of the ray on the x-axis
+        * @param [y1=0] {Number} Starting location of the ray on the y-axis
+        * @param [x2=0] {Number} End location of the ray on the x-axis.
+        *	Used to calculate direction so it isn't really the 'end' location.
+        * @param [y2=0] {Number} End location of the ray on the y-axis.
+        *	Used to calculate direction so it isn't really the 'end' location.
+        * @return {Kiwi.Geom.Ray} This object
+        */
+        var Ray = (function (_super) {
+            __extends(Ray, _super);
+            function Ray(x1, y1, x2, y2) {
+                if (x1 === void 0) { x1 = 0; }
+                if (y1 === void 0) { y1 = 0; }
+                if (x2 === void 0) { x2 = 0; }
+                if (y2 === void 0) { y2 = 0; }
+                _super.call(this, x1, y1, x2, y2);
+            }
+            /**
+            * The type of this object.
+            * @method objType
+            * @return {String} "Ray"
+            * @public
+            */
+            Ray.prototype.objType = function () {
+                return "Ray";
+            };
+            /**
+            * Makes a copy of this Ray, either as a new Ray object, or
+            * makes a passed Ray a copy of this one.
+            *
+            * @method clone
+            * @param [output] {Kiwi.Geom.Ray}
+            * @return {Kiwi.Geom.Ray}
+            * @public
+            */
+            Ray.prototype.clone = function (output) {
+                if (output === void 0) { output = new Ray; }
+                return output.setTo(this.x1, this.y1, this.x2, this.y2);
+            };
             /**
             * Check if the Ray passes through a point.
             * @method isPointOnRay
@@ -21775,7 +22187,7 @@ var Kiwi;
                 return "[{Ray (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
             };
             return Ray;
-        })();
+        })(Geom.Line);
         Geom.Ray = Ray;
     })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
 })(Kiwi || (Kiwi = {}));
@@ -22201,6 +22613,35 @@ var Kiwi;
             * -------------------------------------------------------------------------------------------
             **/
             /**
+            * Check to see if a Ray intersects at any point with a Circle.
+            *
+            * @method rayToCircle
+            * @param ray {Kiwi.Geom.Ray} Ray object to check
+            * @param circle {Kiwi.Geom.Circle} Circle object to check
+            * @param [output] {Kiwi.Geom.IntersectResult} Optional object
+            *	to store the intersection values. Created if not supplied.
+            * @return {Kiwi.Geom.IntersectResult} Results of this intersection
+            * @public
+            * @static
+            */
+            Intersect.rayToCircle = function (ray, circle, output) {
+                if (output === void 0) { output = new Geom.IntersectResult; }
+                var dx = circle.x - ray.x1, dy = circle.y - ray.y1;
+                output.result = false;
+                // Does the Ray begin within the Circle?
+                if (Math.sqrt(dx * dx + dy * dy) <= circle.radius) {
+                    output.result = true;
+                    return output;
+                }
+                // Is the Ray aiming towards the Circle?
+                if (Math.abs(Kiwi.Utils.GameMath.nearestAngleBetween(ray.angle, Math.atan2(dy, dx))) >= Math.PI / 2) {
+                    return output;
+                }
+                // Inefficient, but the quickest way to get Line functions on a Ray
+                Intersect.lineToCircle(ray, circle, output);
+                return output;
+            };
+            /**
             * Check to see if a Ray intersects at any point with a Rectangle.
             *
             * @method rayToRectangle
@@ -22476,325 +22917,34 @@ var Kiwi;
     var Geom;
     (function (Geom) {
         /**
-        * A Line object has two meanings depending on the situation you need.
-        * Either an infinte line through space (this is the usual meaning of a Line)
-        * OR it can be a Line Segment which just exists between the TWO points you specify.
-        *
-        * @class Line
-        * @namespace Kiwi.Geom
-        * @constructor
-        * @param [x1=0] {Number} Starting location of the line on the x-axis.
-        * @param [y1=0] {Number} Starting location of the line on the y-axis.
-        * @param [x2=0] {Number} End location of the line on the x-axis.
-        * @param [y2=0] {Number} End location of the line on the y-axis.
-        * @return {Kiwi.Geom.Line} This Object
-        *
-        */
-        var Line = (function () {
-            function Line(x1, y1, x2, y2) {
-                if (x1 === void 0) { x1 = 0; }
-                if (y1 === void 0) { y1 = 0; }
-                if (x2 === void 0) { x2 = 0; }
-                if (y2 === void 0) { y2 = 0; }
-                /**
-                * X position of first point on the line.
-                * @property x1
-                * @type Number
-                * @public
-                */
-                this.x1 = 0;
-                /**
-                * Y position of first point on the line.
-                * @property y1
-                * @type Number
-                * @public
-                */
-                this.y1 = 0;
-                /**
-                * X position of second point.
-                * @property x2
-                * @type Number
-                * @public
-                */
-                this.x2 = 0;
-                /**
-                * Y position of second point.
-                * @property y2
-                * @type Number
-                * @public
-                */
-                this.y2 = 0;
-                this.setTo(x1, y1, x2, y2);
-            }
-            /**
-            * Returns the type of this object
-            * @method objType
-            * @return {string} "Line"
-            * @public
-            */
-            Line.prototype.objType = function () {
-                return "Line";
-            };
-            /**
-            * Makes a clone of this Line.
-            * The clone can either be a new Line Object,
-            * Otherwise you can pass a existing Line Object that you want to be a clone of this one.
-            *
-            * @method clone
-            * @param [output=Line] {Kiwi.Geom.Line}
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.clone = function (output) {
-                if (output === void 0) { output = new Line; }
-                return output.setTo(this.x1, this.y1, this.x2, this.y2);
-            };
-            /**
-            * Make this Line a copy of another passed Line.
-            * @method copyFrom
-            * @param source {Kiwi.Geom.Line} source
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.copyFrom = function (source) {
-                return this.setTo(source.x1, source.y1, source.x2, source.y2);
-            };
-            /**
-            * Make another passed Line a copy of this one.
-            * @method copyTo
-            * @param target {Kiwi.Geom.Line} target
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.copyTo = function (target) {
-                return target.copyFrom(this);
-            };
-            /**
-            * Used to set all components on the line.
-            * @method setTo
-            * @param [x1=0]{Number} X component of first point.
-            * @param [y1=0]{Number} Y component of first point.
-            * @param [x2=0]{Number} X component of second point.
-            * @param [y2=0]{Number} Y component of second point.
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.setTo = function (x1, y1, x2, y2) {
-                if (x1 === void 0) { x1 = 0; }
-                if (y1 === void 0) { y1 = 0; }
-                if (x2 === void 0) { x2 = 0; }
-                if (y2 === void 0) { y2 = 0; }
-                this.x1 = x1;
-                this.y1 = y1;
-                this.x2 = x2;
-                this.y2 = y2;
-                return this;
-            };
-            Object.defineProperty(Line.prototype, "length", {
-                /**
-                * Get the length of the Line as a Line Segment.
-                * @property length
-                * @type number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return Math.sqrt((this.x2 - this.x1) * (this.x2 - this.x1) + (this.y2 - this.y1) * (this.y2 - this.y1));
-                },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-            * Get the y of a point on the line for a given x.
-            * @method getY
-            * @param x {Number}
-            * @return {Number}
-            * @public
-            */
-            Line.prototype.getY = function (x) {
-                if (this.x1 == this.x2)
-                    return null;
-                else
-                    return this.slope * x + this.yIntercept;
-            };
-            Object.defineProperty(Line.prototype, "angle", {
-                /**
-                * Get the angle of the line.
-                * @property angle
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return Math.atan2(this.y2 - this.y1, this.x2 - this.x1);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(Line.prototype, "slope", {
-                /**
-                * Get the slope of the line (y/x).
-                * @property slope
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return (this.y2 - this.y1) / (this.x2 - this.x1);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(Line.prototype, "perpSlope", {
-                /**
-                * Get the perpendicular slope of the line (x/y).
-                * @propery perpSlope
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return -((this.x2 - this.x1) / (this.y2 - this.y1));
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(Line.prototype, "yIntercept", {
-                /**
-                * Get the y intercept for the line.
-                * @property yIntercept
-                * @type Number
-                * @readOnly
-                * @public
-                */
-                get: function () {
-                    return (this.y1 - this.slope * this.x1);
-                },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-            * Check if a point is on the line.
-            * @method isPointOnLine
-            * @param x {Number}
-            * @param y {Number}
-            * @return {boolean}
-            * @public
-            */
-            Line.prototype.isPointOnLine = function (x, y) {
-                if ((x - this.x1) * (this.y2 - this.y1) === (this.x2 - this.x1) * (y - this.y1)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
-            /**
-            * Check if the point is both on the line and within the line segment.
-            * @method isPointOnLineSegment
-            * @param x {Number}
-            * @param y {Number}
-            * @return {boolean}
-            * @public
-            */
-            Line.prototype.isPointOnLineSegment = function (x, y) {
-                var xMin = Math.min(this.x1, this.x2);
-                var xMax = Math.max(this.x1, this.x2);
-                var yMin = Math.min(this.y1, this.y2);
-                var yMax = Math.max(this.y1, this.y2);
-                if (this.isPointOnLine(x, y) && (x >= xMin && x <= xMax) && (y >= yMin && y <= yMax)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
-            /**
-            * Check to see if this Line object intersects at any point with a passed Line.
-            * Note: Both are treated as extending infinately through space.
-            * Functions as an alias for the 'Kiwi.Geom.Intersect.lineToLine' method.
-            *
-            * @method intersectLineLine
-            * @param line {Kiwi.Geom.Line} The line you want to check for a Intersection with.
-            * @return {Kiwi.Geom.IntersectResult} The Intersect Result containing the collision information.
-            * @public
-            */
-            Line.prototype.intersectLineLine = function (line) {
-                return Kiwi.Geom.Intersect.lineToLine(this, line);
-            };
-            /**
-            * Get a line perpendicular to the line passing through a given point.
-            *
-            * @method perp
-            * @param x {Number}
-            * @param y {Number}
-            * @param [output] {Kiwi.Geom.Line} The line object that the result should be output to. Creates a new Line if one is not passed.
-            * @return {Kiwi.Geom.Line}
-            * @public
-            */
-            Line.prototype.perp = function (x, y, output) {
-                if (output === void 0) { output = new Line; }
-                var pt;
-                // For a horizontal line, the output is a vertical line.
-                if (this.y1 === this.y2) {
-                    output.setTo(x, y, x, this.y1);
-                    return output;
-                }
-                // For a vertical line, the output is a horizontal line.
-                if (this.x1 === this.x2) {
-                    output.setTo(x, y, this.x1, y);
-                    return output;
-                }
-                var yInt = (y - this.perpSlope * x);
-                if (x !== 0) {
-                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 0, y2: yInt });
-                }
-                else {
-                    pt = this.intersectLineLine({ x1: x, y1: y, x2: 1, y2: yInt + this.perpSlope });
-                }
-                output.setTo(x, y, pt.x, pt.y);
-                return output;
-            };
-            /**
-            * Get a string representation of the line.
-            * @method toString
-            * @return {String}
-            * @public
-            */
-            Line.prototype.toString = function () {
-                return "[{Line (x1=" + this.x1 + " y1=" + this.y1 + " x2=" + this.x2 + " y2=" + this.y2 + ")}]";
-            };
-            return Line;
-        })();
-        Geom.Line = Line;
-    })(Geom = Kiwi.Geom || (Kiwi.Geom = {}));
-})(Kiwi || (Kiwi = {}));
-/**
-*
-* @module Kiwi
-* @submodule Geom
-*/
-var Kiwi;
-(function (Kiwi) {
-    var Geom;
-    (function (Geom) {
-        /**
-        * Represents a 2d transformation matrix. This can be used to map points between different coordinate spaces. Matrices are used
-        * by Transform objects to represent translation, scale and rotation transformations, and to determine where objects are in world space or camera space.
-        * Objects such as entities and groups may be nested, and their associated transforms may represent how they are scaled, translated and rotated relative to a parent
-        * transform.
-        * By concatenating an object's transformation matrix with its ancestors matrices, it is possible to determine the absolute position of the object in world space.
-        * See http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics for an in depth discussion of 2d tranformation matrices.
+        * Represents a 2d transformation matrix. This can be used to map points
+        * between different coordinate spaces. Matrices are used by Transform
+        * objects to represent translation, scale and rotation transformations,
+        * and to determine where objects are in world space or camera space.
+        * Objects such as entities and groups may be nested, and their associated
+        * transforms may represent how they are scaled, translated and rotated
+        * relative to a parent transform. By concatenating an object's
+        * transformation matrix with its ancestors matrices, it is possible to
+        * determine the absolute position of the object in world space.
+        * See
+        * http://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2D_graphics
+        * for an in depth discussion of 2d tranformation matrices.
         *
         * @class Matrix
         * @namespace Kiwi.Geom
         * @constructor
-        * @param [a=1] {Number}  position 0,0 of the matrix, affects scaling and rotation.
-        * @param [b=0] {Number}  position 0,1 of the matrix, affects scaling and rotation.
-        * @param [c=0] {Number}  position 1,0 of the matrix, affects scaling and rotation.
-        * @param [d=1] {Number}  position 1,1 of the matrix, affects scaling and rotation.
-        * @param [tx=0] {Number}  position 2,0 of the matrix, affects translation on x axis.
-        * @param [ty=0] {Number}  position 2,1 of the matrix, affects translation on y axis.
+        * @param [a=1] {Number}  position 0,0 of the matrix,
+        *	affects scaling and rotation.
+        * @param [b=0] {Number}  position 0,1 of the matrix,
+        *	affects scaling and rotation.
+        * @param [c=0] {Number}  position 1,0 of the matrix,
+        *	affects scaling and rotation.
+        * @param [d=1] {Number}  position 1,1 of the matrix,
+        *	affects scaling and rotation.
+        * @param [tx=0] {Number}  position 2,0 of the matrix,
+        *	affects translation on x axis.
+        * @param [ty=0] {Number}  position 2,1 of the matrix,
+        *	affects translation on y axis.
         * @return (Object) This object.
         *
         */
@@ -23219,6 +23369,17 @@ var Kiwi;
                 enumerable: true,
                 configurable: true
             });
+            /**
+            * Check whether this matrix equals another matrix.
+            *
+            * @method equals
+            * @param matrix {Kiwi.Geom.Matrix}
+            * @return boolean
+            * @public
+            */
+            Matrix.prototype.equals = function (matrix) {
+                return (this.a === matrix.a && this.b === matrix.b && this.c === matrix.c && this.d === matrix.d && this.tx === matrix.tx && this.ty === matrix.ty);
+            };
             return Matrix;
         })();
         Geom.Matrix = Matrix;
@@ -24318,11 +24479,39 @@ var Kiwi;
                 * @since 1.2.0
                 */
                 this._ignoreParent = false;
+                /**
+                * Private copy.
+                * Whether to prevent children from acquiring this as a parent
+                * when concatenating matrices. This can save computation,
+                * but prevents it from passing any transform data to children.
+                *
+                * Use this to save some processor cycles if this is a Group
+                * that does not control its children, and the state does not
+                * transform.
+                *
+                * @property _ignoreChild
+                * @type boolean
+                * @default false
+                * @private
+                * @since 1.3.1
+                */
+                this._ignoreChild = false;
+                /**
+                * Whether the transform has been altered since the last time
+                * it was used to create a matrix. Used to determine whether to rebuild
+                * the matrix or not.
+                *
+                * @property _dirty
+                * @type boolean
+                * @default true
+                * @private
+                * @since 1.3.1
+                */
+                this._dirty = true;
                 this.setTransform(x, y, scaleX, scaleY, rotation, rotPointX, rotPointY);
                 this._matrix = new Geom.Matrix();
+                this._cachedConcatenatedMatrix = new Geom.Matrix();
                 this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
-                this._cachedConcatenatedMatrix = this.getConcatenatedMatrix();
-                this._concatMatrix = new Geom.Matrix();
             }
             /**
             * The type of this object.
@@ -24345,6 +24534,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._x = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24361,6 +24551,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._y = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24377,6 +24568,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._scaleX = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24393,6 +24585,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._scaleY = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24409,6 +24602,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._rotation = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24426,6 +24620,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._rotPointX = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24442,6 +24637,7 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._rotPointY = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24465,7 +24661,7 @@ var Kiwi;
             });
             Object.defineProperty(Transform.prototype, "anchorPointY", {
                 get: function () {
-                    return (this._rotPointY);
+                    return (this.rotPointY);
                 },
                 /**
                 * Return the anchor point value from the Y axis. (Aliases to rotPointY.)
@@ -24475,7 +24671,7 @@ var Kiwi;
                 * @since 1.1.0
                 */
                 set: function (value) {
-                    this._rotPointY = value;
+                    this.rotPointY = value;
                 },
                 enumerable: true,
                 configurable: true
@@ -24536,6 +24732,7 @@ var Kiwi;
                 set: function (value) {
                     if (!this.checkAncestor(value)) {
                         this._parent = value;
+                        this._dirty = true;
                     }
                 },
                 enumerable: true,
@@ -24575,6 +24772,7 @@ var Kiwi;
                 * If true, it won't compute parent matrices.
                 * This can save computation, but prevents it from following
                 * its parent's transforms.
+                *
                 * Use this to save some processor cycles if the transform isn't
                 * following a parent and the state does not transform.
                 * @property ignoreParent
@@ -24585,6 +24783,31 @@ var Kiwi;
                 */
                 set: function (value) {
                     this._ignoreParent = value;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Transform.prototype, "ignoreChild", {
+                /**
+                * Whether to prevent children from acquiring this as a parent
+                * when concatenating matrices. This can save computation,
+                * but prevents it from passing any transform data to children.
+                *
+                * Use this to save some processor cycles if this is a Group
+                * that does not control its children, and the state does not
+                * transform.
+                *
+                * @property ignoreChild
+                * @type boolean
+                * @default false
+                * @public
+                * @since 1.3.1
+                */
+                get: function () {
+                    return this._ignoreChild;
+                },
+                set: function (value) {
+                    this._ignoreChild = value;
                 },
                 enumerable: true,
                 configurable: true
@@ -24600,7 +24823,7 @@ var Kiwi;
             Transform.prototype.setPosition = function (x, y) {
                 this._x = x;
                 this._y = y;
-                //this.owner.dirty = true;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24613,7 +24836,7 @@ var Kiwi;
             Transform.prototype.setPositionFromPoint = function (point) {
                 this._x = point.x;
                 this._y = point.y;
-                //this.owner.dirty = true;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24626,7 +24849,7 @@ var Kiwi;
             Transform.prototype.translatePositionFromPoint = function (point) {
                 this._x += point.x;
                 this._y += point.y;
-                //this.owner.dirty = true;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24655,6 +24878,7 @@ var Kiwi;
                 set: function (value) {
                     this._scaleX = value;
                     this._scaleY = value;
+                    this._dirty = true;
                 },
                 enumerable: true,
                 configurable: true
@@ -24688,6 +24912,7 @@ var Kiwi;
                 this._rotation = rotation;
                 this._rotPointX = rotPointX;
                 this._rotPointY = rotPointY;
+                this._dirty = true;
                 return this;
             };
             /**
@@ -24712,33 +24937,45 @@ var Kiwi;
             * @public
             */
             Transform.prototype.getConcatenatedMatrix = function () {
-                // this._matrix.setFromOffsetTransform(this._x, this._y, this._scaleX, this._scaleY, this._rotation, this._rotPointX, this._rotPointY);
-                // var parentMatrix = this.getParentMatrix();
-                // if (parentMatrix) {
-                //     var matrix = this._matrix.clone();
-                //     matrix.prependMatrix(parentMatrix);
-                //     this._cachedConcatenatedMatrix.copyFrom(matrix);
-                //     return matrix;
-                // }
-                // return this._matrix;
-                var parentMatrix;
-                if (!this._locked) {
-                    if (this._parent) {
-                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX - this._parent.anchorPointX, this.anchorPointY - this._parent.anchorPointY);
-                    }
-                    else {
-                        this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
-                    }
+                /*
+    
+                Matrix caching
+    
+                Potential cases:
+                - This dirty, parent dirty	:	Update matrix, build concat
+                - This dirty, parent clean	:	Update matrix, build concat
+                - This dirty, no parent		:	Update matrix
+                - This clean, parent dirty	:	Build concat
+                - This clean, parent clean	:	Use cachedConcatenated
+                - This clean, no parent		:	Use cachedConcatenated
+    
+                Simplifies to four cases:
+                - This dirty, has parent	:	Update matrix, build concat
+                - This dirty, no parent		:	Update matrix
+                - This clean, parent dirty	:	Build concat
+                - Otherwise					:	Use cachedConcatenated
+    
+                This has been further simplified because of some issues.
+                Now, the matrix is updated if it's dirty;
+                and the parent is applied if it exists.
+                Parent dirtiness is not considered, as this appeared to be
+                causing issues.
+    
+                */
+                // Set correct local matrix
+                if (this._dirty && !this.locked) {
+                    this._matrix.setFromOffsetTransform(this.x, this.y, this.scaleX, this.scaleY, this.rotation, this.anchorPointX, this.anchorPointY);
                 }
-                if (!this._ignoreParent) {
-                    parentMatrix = this.getParentMatrix();
-                    if (parentMatrix) {
-                        this._concatMatrix.copyFrom(this._matrix);
-                        this._concatMatrix.prependMatrix(parentMatrix);
-                        return this._concatMatrix;
-                    }
+                // Get local matrix
+                this._cachedConcatenatedMatrix.copyFrom(this._matrix);
+                // Apply parent transform
+                if (this._parent && !this._parent.ignoreChild && !this.ignoreParent) {
+                    this._cachedConcatenatedMatrix.tx -= this._parent.anchorPointX;
+                    this._cachedConcatenatedMatrix.ty -= this._parent.anchorPointY;
+                    this._cachedConcatenatedMatrix.prependMatrix(this.getParentMatrix());
                 }
-                return this._matrix;
+                this._dirty = false;
+                return this._cachedConcatenatedMatrix;
             };
             /**
             * Apply this matrix to a an object with x and y properties representing a point and return the transformed point.
@@ -27831,7 +28068,12 @@ var Kiwi;
                     this._unlockedSource = this.context.createBufferSource();
                     this._unlockedSource.buffer = buffer;
                     this._unlockedSource.connect(this.context.destination);
-                    this._unlockedSource.noteOn(0);
+                    if (this._unlockedSource.start === undefined) {
+                        this._unlockedSource.noteOn(0);
+                    }
+                    else {
+                        this._unlockedSource.start(0);
+                    }
                 }
             };
             Object.defineProperty(AudioManager.prototype, "mute", {
@@ -28120,12 +28362,12 @@ var Kiwi;
                 */
                 this._decoded = false;
                 /**
-                * An array of all of the markers that are on this piece of audio.
+                * A collection of all of the markers that are on this piece of audio.
                 * @property _markers
-                * @type Array
+                * @type object
                 * @private
                 */
-                this._markers = [];
+                this._markers = {};
                 /**
                 * The current marker that is being used.
                 * @property _currentMarker
@@ -28419,8 +28661,6 @@ var Kiwi;
                         this.totalDuration = this._sound.buffer.duration;
                         if (this.duration == 0)
                             this.duration = this.totalDuration * 1000;
-                        if (this._loop)
-                            this._sound.loop = true;
                         //start
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start, this.duration / 1000);
@@ -28431,7 +28671,6 @@ var Kiwi;
                         this.isPlaying = true;
                         this._startTime = this._game.time.now();
                         this._currentTime = 0;
-                        this._stopTime = this._startTime + this.duration;
                         this.onPlay.dispatch();
                     }
                     else {
@@ -28452,7 +28691,6 @@ var Kiwi;
                         this.isPlaying = true;
                         this._startTime = this._game.time.now();
                         this._currentTime = 0;
-                        this._stopTime = this._startTime + this.duration;
                         if (!this.paused)
                             this.onPlay.dispatch();
                     }
@@ -28510,8 +28748,6 @@ var Kiwi;
                         this._sound = this.context.createBufferSource();
                         this._sound.buffer = this._buffer;
                         this._sound.connect(this.gainNode);
-                        if (this._loop)
-                            this._sound.loop = true;
                         if (this._sound.start === undefined) {
                             this._sound.noteGrainOn(0, this._markers[this._currentMarker].start + (this._currentTime / 1000), this.duration / 1000);
                         }
@@ -28544,43 +28780,25 @@ var Kiwi;
                         this._pending = false;
                         this.play();
                     }
-                    else if (this._usingAudioTag && !isNaN(this._sound.duration) || this._game.deviceTargetOption == Kiwi.TARGET_COCOON && this._sound.duration !== 0) {
+                    else if (this._usingAudioTag && !isNaN(this._sound.duration) && this._sound.duration !== 0) {
                         this.totalDuration = this._sound.duration;
                         this._markers['default'].duration = this.totalDuration;
-                        this._pending = false; //again shouldn't need once audio tag loader works.
+                        this._pending = false;
                         if (this.isPlaying && this._currentMarker == 'default')
-                            this.duration = this.totalDuration;
+                            this.duration = this.totalDuration * 1000;
                     }
                 }
                 //if the audio is playing
                 if (this.isPlaying) {
                     this._currentTime = this._game.time.now() - this._startTime;
                     if (this._currentTime >= this.duration) {
-                        if (this._usingWebAudio) {
-                            if (this._loop) {
-                                if (this._currentMarker == 'default') {
-                                    this._currentTime = 0;
-                                    this._startTime = this._game.time.now();
-                                }
-                                else {
-                                    this.play(this._currentMarker, true);
-                                }
-                                this.onLoop.dispatch();
-                            }
-                            else {
-                                this.onComplete.dispatch();
-                                this.stop();
-                            }
+                        if (this._loop) {
+                            this.play(this._currentMarker, true);
+                            this.onLoop.dispatch();
                         }
-                        else if (this._usingAudioTag) {
-                            if (this._loop) {
-                                this.play(this._currentMarker, true);
-                                this.onLoop.dispatch();
-                            }
-                            else {
-                                this.onComplete.dispatch();
-                                this.stop();
-                            }
+                        else {
+                            this.onComplete.dispatch();
+                            this.stop();
                         }
                     }
                 }
@@ -28618,7 +28836,6 @@ var Kiwi;
                 delete this._sound;
                 delete this._currentTime;
                 delete this._startTime;
-                delete this._stopTime;
                 delete this._pending;
                 delete this.masterGainNode;
                 delete this.gainNode;
@@ -33423,6 +33640,14 @@ var Kiwi;
                 * @public
                 */
                 this.isRunning = false;
+                /**
+                * ID of the RAF, used to stop the RAF
+                * @property _rafId
+                * @type ???
+                * @default null
+                * @private
+                */
+                this._rafId = null;
                 this._callback = callback;
                 var vendors = ['ms', 'moz', 'webkit', 'o'];
                 for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
@@ -33489,7 +33714,7 @@ var Kiwi;
                 }
                 else {
                     this._isSetTimeOut = false;
-                    window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
+                    this._rafId = window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
                 }
                 this.isRunning = true;
             };
@@ -33503,7 +33728,7 @@ var Kiwi;
                     clearTimeout(this._timeOutID);
                 }
                 else {
-                    window.cancelAnimationFrame;
+                    window.cancelAnimationFrame(this._rafId);
                 }
                 this.isRunning = false;
             };
@@ -33520,7 +33745,7 @@ var Kiwi;
                     this._callback();
                 }
                 var timeToCall = Math.max(0, 16 - (this.currentTime - this.lastTime));
-                window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
+                this._rafId = window.requestAnimationFrame(function () { return _this.RAFUpdate(); });
                 this.lastTime = this.currentTime + timeToCall;
             };
             /**
@@ -34222,10 +34447,10 @@ var Kiwi;
 /// <reference path="input/Finger.ts" />
 /// <reference path="geom/AABB.ts" />
 /// <reference path="geom/Circle.ts" />
+/// <reference path="geom/Line.ts" />
 /// <reference path="geom/Ray.ts" />
 /// <reference path="geom/Intersect.ts" />
 /// <reference path="geom/IntersectResult.ts" />
-/// <reference path="geom/Line.ts" />
 /// <reference path="geom/Matrix.ts" />
 /// <reference path="geom/Point.ts" />
 /// <reference path="geom/Rectangle.ts" />
@@ -34285,7 +34510,7 @@ var Kiwi;
     * @type string
     * @public
     */
-    Kiwi.VERSION = "1.3.0";
+    Kiwi.VERSION = "1.4.0";
     //DIFFERENT RENDERER STATIC VARIABLES
     /**
     * A Static property that contains the number associated with the CANVAS RENDERER.
@@ -34465,7 +34690,11 @@ var Kiwi;
         return GameManager;
     })();
     Kiwi.GameManager = GameManager;
-    Kiwi.Plugins = {};
+    var Plugins;
+    (function (Plugins) {
+        null;
+    })(Plugins = Kiwi.Plugins || (Kiwi.Plugins = {}));
+    ;
     Kiwi.extend = function (d, b) {
         for (var p in b)
             if (b.hasOwnProperty(p))
@@ -34669,16 +34898,6 @@ var Kiwi;
             function DataFile(game, params) {
                 if (params === void 0) { params = {}; }
                 _super.call(this, game, params);
-                /**
-                * If the response should be parsed (using the appropriate method) after loading.
-                * Example: If set to the true and the dataType set is json, then the response will be sent through a JSON.parse call.
-                *
-                * @property parse
-                * @type boolean
-                * @default false
-                * @public
-                */
-                this.parse = false;
                 this.useTagLoader = false;
                 this._loadInParallel = false;
             }
@@ -34699,6 +34918,9 @@ var Kiwi;
                 _super.prototype.parseParams.call(this, params);
                 if (!Kiwi.Utils.Common.isUndefined(params.parse)) {
                     this.parse = params.parse;
+                }
+                else {
+                    this.parse = false;
                 }
             };
             //this.dataType === File.XML || this.dataType === File.JSON || this.dataType === File.TEXT_DATA || this.dataType === File.BINARY_DATA
@@ -34790,11 +35012,12 @@ var Kiwi;
                 Kiwi.Log.log('Kiwi.Files.DataFile: Data loaded is being parsed as JSON.', '#loading', '#parsing');
                 try {
                     this.data = JSON.parse(data);
-                    this.loadSuccess();
                 }
                 catch (e) {
                     this.loadError(e);
+                    return;
                 }
+                this.loadSuccess();
             };
             return DataFile;
         })(Kiwi.Files.File);
@@ -34954,32 +35177,3 @@ var Kiwi;
         Files.TextureFile = TextureFile;
     })(Files = Kiwi.Files || (Kiwi.Files = {}));
 })(Kiwi || (Kiwi = {}));
-
-/**
- * @fileoverview gl-matrix - High performance matrix and vector operations
- * @author Brandon Jones
- * @author Colin MacKenzie IV
- * @version 2.2.0
- */
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-(function(e){"use strict";var t={};typeof exports=="undefined"?typeof define=="function"&&typeof define.amd=="object"&&define.amd?(t.exports={},define(function(){return t.exports})):t.exports=typeof window!="undefined"?window:e:t.exports=exports,function(e){if(!t)var t=1e-6;if(!n)var n=typeof Float32Array!="undefined"?Float32Array:Array;if(!r)var r=Math.random;var i={};i.setMatrixArrayType=function(e){n=e},typeof e!="undefined"&&(e.glMatrix=i);var s={};s.create=function(){var e=new n(2);return e[0]=0,e[1]=0,e},s.clone=function(e){var t=new n(2);return t[0]=e[0],t[1]=e[1],t},s.fromValues=function(e,t){var r=new n(2);return r[0]=e,r[1]=t,r},s.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e},s.set=function(e,t,n){return e[0]=t,e[1]=n,e},s.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e},s.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e},s.sub=s.subtract,s.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e},s.mul=s.multiply,s.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e},s.div=s.divide,s.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e},s.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e},s.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e},s.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e},s.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return Math.sqrt(n*n+r*r)},s.dist=s.distance,s.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1];return n*n+r*r},s.sqrDist=s.squaredDistance,s.length=function(e){var t=e[0],n=e[1];return Math.sqrt(t*t+n*n)},s.len=s.length,s.squaredLength=function(e){var t=e[0],n=e[1];return t*t+n*n},s.sqrLen=s.squaredLength,s.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e},s.normalize=function(e,t){var n=t[0],r=t[1],i=n*n+r*r;return i>0&&(i=1/Math.sqrt(i),e[0]=t[0]*i,e[1]=t[1]*i),e},s.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]},s.cross=function(e,t,n){var r=t[0]*n[1]-t[1]*n[0];return e[0]=e[1]=0,e[2]=r,e},s.lerp=function(e,t,n,r){var i=t[0],s=t[1];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e},s.random=function(e,t){t=t||1;var n=r()*2*Math.PI;return e[0]=Math.cos(n)*t,e[1]=Math.sin(n)*t,e},s.transformMat2=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i,e[1]=n[1]*r+n[3]*i,e},s.transformMat2d=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[2]*i+n[4],e[1]=n[1]*r+n[3]*i+n[5],e},s.transformMat3=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[3]*i+n[6],e[1]=n[1]*r+n[4]*i+n[7],e},s.transformMat4=function(e,t,n){var r=t[0],i=t[1];return e[0]=n[0]*r+n[4]*i+n[12],e[1]=n[1]*r+n[5]*i+n[13],e},s.forEach=function(){var e=s.create();return function(t,n,r,i,s,o){var u,a;n||(n=2),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],s(e,e,o),t[u]=e[0],t[u+1]=e[1];return t}}(),s.str=function(e){return"vec2("+e[0]+", "+e[1]+")"},typeof e!="undefined"&&(e.vec2=s);var o={};o.create=function(){var e=new n(3);return e[0]=0,e[1]=0,e[2]=0,e},o.clone=function(e){var t=new n(3);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t},o.fromValues=function(e,t,r){var i=new n(3);return i[0]=e,i[1]=t,i[2]=r,i},o.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e},o.set=function(e,t,n,r){return e[0]=t,e[1]=n,e[2]=r,e},o.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e},o.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e},o.sub=o.subtract,o.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e},o.mul=o.multiply,o.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e},o.div=o.divide,o.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e},o.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e},o.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e},o.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e},o.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return Math.sqrt(n*n+r*r+i*i)},o.dist=o.distance,o.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2];return n*n+r*r+i*i},o.sqrDist=o.squaredDistance,o.length=function(e){var t=e[0],n=e[1],r=e[2];return Math.sqrt(t*t+n*n+r*r)},o.len=o.length,o.squaredLength=function(e){var t=e[0],n=e[1],r=e[2];return t*t+n*n+r*r},o.sqrLen=o.squaredLength,o.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e},o.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=n*n+r*r+i*i;return s>0&&(s=1/Math.sqrt(s),e[0]=t[0]*s,e[1]=t[1]*s,e[2]=t[2]*s),e},o.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]},o.cross=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2];return e[0]=i*a-s*u,e[1]=s*o-r*a,e[2]=r*u-i*o,e},o.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e},o.random=function(e,t){t=t||1;var n=r()*2*Math.PI,i=r()*2-1,s=Math.sqrt(1-i*i)*t;return e[0]=Math.cos(n)*s,e[1]=Math.sin(n)*s,e[2]=i*t,e},o.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12],e[1]=n[1]*r+n[5]*i+n[9]*s+n[13],e[2]=n[2]*r+n[6]*i+n[10]*s+n[14],e},o.transformMat3=function(e,t,n){var r=t[0],i=t[1],s=t[2];return e[0]=r*n[0]+i*n[3]+s*n[6],e[1]=r*n[1]+i*n[4]+s*n[7],e[2]=r*n[2]+i*n[5]+s*n[8],e},o.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},o.forEach=function(){var e=o.create();return function(t,n,r,i,s,o){var u,a;n||(n=3),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2];return t}}(),o.str=function(e){return"vec3("+e[0]+", "+e[1]+", "+e[2]+")"},typeof e!="undefined"&&(e.vec3=o);var u={};u.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=0,e},u.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},u.fromValues=function(e,t,r,i){var s=new n(4);return s[0]=e,s[1]=t,s[2]=r,s[3]=i,s},u.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},u.set=function(e,t,n,r,i){return e[0]=t,e[1]=n,e[2]=r,e[3]=i,e},u.add=function(e,t,n){return e[0]=t[0]+n[0],e[1]=t[1]+n[1],e[2]=t[2]+n[2],e[3]=t[3]+n[3],e},u.subtract=function(e,t,n){return e[0]=t[0]-n[0],e[1]=t[1]-n[1],e[2]=t[2]-n[2],e[3]=t[3]-n[3],e},u.sub=u.subtract,u.multiply=function(e,t,n){return e[0]=t[0]*n[0],e[1]=t[1]*n[1],e[2]=t[2]*n[2],e[3]=t[3]*n[3],e},u.mul=u.multiply,u.divide=function(e,t,n){return e[0]=t[0]/n[0],e[1]=t[1]/n[1],e[2]=t[2]/n[2],e[3]=t[3]/n[3],e},u.div=u.divide,u.min=function(e,t,n){return e[0]=Math.min(t[0],n[0]),e[1]=Math.min(t[1],n[1]),e[2]=Math.min(t[2],n[2]),e[3]=Math.min(t[3],n[3]),e},u.max=function(e,t,n){return e[0]=Math.max(t[0],n[0]),e[1]=Math.max(t[1],n[1]),e[2]=Math.max(t[2],n[2]),e[3]=Math.max(t[3],n[3]),e},u.scale=function(e,t,n){return e[0]=t[0]*n,e[1]=t[1]*n,e[2]=t[2]*n,e[3]=t[3]*n,e},u.scaleAndAdd=function(e,t,n,r){return e[0]=t[0]+n[0]*r,e[1]=t[1]+n[1]*r,e[2]=t[2]+n[2]*r,e[3]=t[3]+n[3]*r,e},u.distance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return Math.sqrt(n*n+r*r+i*i+s*s)},u.dist=u.distance,u.squaredDistance=function(e,t){var n=t[0]-e[0],r=t[1]-e[1],i=t[2]-e[2],s=t[3]-e[3];return n*n+r*r+i*i+s*s},u.sqrDist=u.squaredDistance,u.length=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return Math.sqrt(t*t+n*n+r*r+i*i)},u.len=u.length,u.squaredLength=function(e){var t=e[0],n=e[1],r=e[2],i=e[3];return t*t+n*n+r*r+i*i},u.sqrLen=u.squaredLength,u.negate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=-t[3],e},u.normalize=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s;return o>0&&(o=1/Math.sqrt(o),e[0]=t[0]*o,e[1]=t[1]*o,e[2]=t[2]*o,e[3]=t[3]*o),e},u.dot=function(e,t){return e[0]*t[0]+e[1]*t[1]+e[2]*t[2]+e[3]*t[3]},u.lerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3];return e[0]=i+r*(n[0]-i),e[1]=s+r*(n[1]-s),e[2]=o+r*(n[2]-o),e[3]=u+r*(n[3]-u),e},u.random=function(e,t){return t=t||1,e[0]=r(),e[1]=r(),e[2]=r(),e[3]=r(),u.normalize(e,e),u.scale(e,e,t),e},u.transformMat4=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3];return e[0]=n[0]*r+n[4]*i+n[8]*s+n[12]*o,e[1]=n[1]*r+n[5]*i+n[9]*s+n[13]*o,e[2]=n[2]*r+n[6]*i+n[10]*s+n[14]*o,e[3]=n[3]*r+n[7]*i+n[11]*s+n[15]*o,e},u.transformQuat=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=n[0],u=n[1],a=n[2],f=n[3],l=f*r+u*s-a*i,c=f*i+a*r-o*s,h=f*s+o*i-u*r,p=-o*r-u*i-a*s;return e[0]=l*f+p*-o+c*-a-h*-u,e[1]=c*f+p*-u+h*-o-l*-a,e[2]=h*f+p*-a+l*-u-c*-o,e},u.forEach=function(){var e=u.create();return function(t,n,r,i,s,o){var u,a;n||(n=4),r||(r=0),i?a=Math.min(i*n+r,t.length):a=t.length;for(u=r;u<a;u+=n)e[0]=t[u],e[1]=t[u+1],e[2]=t[u+2],e[3]=t[u+3],s(e,e,o),t[u]=e[0],t[u+1]=e[1],t[u+2]=e[2],t[u+3]=e[3];return t}}(),u.str=function(e){return"vec4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.vec4=u);var a={};a.create=function(){var e=new n(4);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.clone=function(e){var t=new n(4);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t},a.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e},a.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e},a.transpose=function(e,t){if(e===t){var n=t[1];e[1]=t[2],e[2]=n}else e[0]=t[0],e[1]=t[2],e[2]=t[1],e[3]=t[3];return e},a.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*s-i*r;return o?(o=1/o,e[0]=s*o,e[1]=-r*o,e[2]=-i*o,e[3]=n*o,e):null},a.adjoint=function(e,t){var n=t[0];return e[0]=t[3],e[1]=-t[1],e[2]=-t[2],e[3]=n,e},a.determinant=function(e){return e[0]*e[3]-e[2]*e[1]},a.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*u+i*f,e[1]=r*a+i*l,e[2]=s*u+o*f,e[3]=s*a+o*l,e},a.mul=a.multiply,a.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=r*-u+i*a,e[2]=s*a+o*u,e[3]=s*-u+o*a,e},a.scale=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1];return e[0]=r*u,e[1]=i*a,e[2]=s*u,e[3]=o*a,e},a.str=function(e){return"mat2("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.mat2=a);var f={};f.create=function(){var e=new n(6);return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.clone=function(e){var t=new n(6);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t},f.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e},f.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=1,e[4]=0,e[5]=0,e},f.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=n*s-r*i;return a?(a=1/a,e[0]=s*a,e[1]=-r*a,e[2]=-i*a,e[3]=n*a,e[4]=(i*u-s*o)*a,e[5]=(r*o-n*u)*a,e):null},f.determinant=function(e){return e[0]*e[3]-e[1]*e[2]},f.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=n[0],l=n[1],c=n[2],h=n[3],p=n[4],d=n[5];return e[0]=r*f+i*c,e[1]=r*l+i*h,e[2]=s*f+o*c,e[3]=s*l+o*h,e[4]=f*u+c*a+p,e[5]=l*u+h*a+d,e},f.mul=f.multiply,f.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=Math.sin(n),l=Math.cos(n);return e[0]=r*l+i*f,e[1]=-r*f+i*l,e[2]=s*l+o*f,e[3]=-s*f+l*o,e[4]=l*u+f*a,e[5]=l*a-f*u,e},f.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=t[0]*r,e[1]=t[1]*i,e[2]=t[2]*r,e[3]=t[3]*i,e[4]=t[4]*r,e[5]=t[5]*i,e},f.translate=function(e,t,n){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4]+n[0],e[5]=t[5]+n[1],e},f.str=function(e){return"mat2d("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+")"},typeof e!="undefined"&&(e.mat2d=f);var l={};l.create=function(){var e=new n(9);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.fromMat4=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[4],e[4]=t[5],e[5]=t[6],e[6]=t[8],e[7]=t[9],e[8]=t[10],e},l.clone=function(e){var t=new n(9);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t},l.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=1,e[5]=0,e[6]=0,e[7]=0,e[8]=1,e},l.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[5];e[1]=t[3],e[2]=t[6],e[3]=n,e[5]=t[7],e[6]=r,e[7]=i}else e[0]=t[0],e[1]=t[3],e[2]=t[6],e[3]=t[1],e[4]=t[4],e[5]=t[7],e[6]=t[2],e[7]=t[5],e[8]=t[8];return e},l.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=l*o-u*f,h=-l*s+u*a,p=f*s-o*a,d=n*c+r*h+i*p;return d?(d=1/d,e[0]=c*d,e[1]=(-l*r+i*f)*d,e[2]=(u*r-i*o)*d,e[3]=h*d,e[4]=(l*n-i*a)*d,e[5]=(-u*n+i*s)*d,e[6]=p*d,e[7]=(-f*n+r*a)*d,e[8]=(o*n-r*s)*d,e):null},l.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8];return e[0]=o*l-u*f,e[1]=i*f-r*l,e[2]=r*u-i*o,e[3]=u*a-s*l,e[4]=n*l-i*a,e[5]=i*s-n*u,e[6]=s*f-o*a,e[7]=r*a-n*f,e[8]=n*o-r*s,e},l.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8];return t*(f*s-o*a)+n*(-f*i+o*u)+r*(a*i-s*u)},l.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8];return e[0]=h*r+p*o+d*f,e[1]=h*i+p*u+d*l,e[2]=h*s+p*a+d*c,e[3]=v*r+m*o+g*f,e[4]=v*i+m*u+g*l,e[5]=v*s+m*a+g*c,e[6]=y*r+b*o+w*f,e[7]=y*i+b*u+w*l,e[8]=y*s+b*a+w*c,e},l.mul=l.multiply,l.translate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=n[0],p=n[1];return e[0]=r,e[1]=i,e[2]=s,e[3]=o,e[4]=u,e[5]=a,e[6]=h*r+p*o+f,e[7]=h*i+p*u+l,e[8]=h*s+p*a+c,e},l.rotate=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=Math.sin(n),p=Math.cos(n);return e[0]=p*r+h*o,e[1]=p*i+h*u,e[2]=p*s+h*a,e[3]=p*o-h*r,e[4]=p*u-h*i,e[5]=p*a-h*s,e[6]=f,e[7]=l,e[8]=c,e},l.scale=function(e,t,n){var r=n[0],i=n[1];return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=i*t[3],e[4]=i*t[4],e[5]=i*t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e},l.fromMat2d=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=0,e[3]=t[2],e[4]=t[3],e[5]=0,e[6]=t[4],e[7]=t[5],e[8]=1,e},l.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[3]=l+g,e[6]=c-m,e[1]=l-g,e[4]=1-(f+d),e[7]=p+v,e[2]=c+m,e[5]=p-v,e[8]=1-(f+h),e},l.normalFromMat4=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(a*C-o*A-f*N)*O,e[2]=(o*L-u*C+f*T)*O,e[3]=(i*L-r*A-s*k)*O,e[4]=(n*A-i*C+s*N)*O,e[5]=(r*C-n*L-s*T)*O,e[6]=(v*x-m*S+g*E)*O,e[7]=(m*w-d*x-g*b)*O,e[8]=(d*S-v*w+g*y)*O,e):null},l.str=function(e){return"mat3("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+")"},typeof e!="undefined"&&(e.mat3=l);var c={};c.create=function(){var e=new n(16);return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.clone=function(e){var t=new n(16);return t[0]=e[0],t[1]=e[1],t[2]=e[2],t[3]=e[3],t[4]=e[4],t[5]=e[5],t[6]=e[6],t[7]=e[7],t[8]=e[8],t[9]=e[9],t[10]=e[10],t[11]=e[11],t[12]=e[12],t[13]=e[13],t[14]=e[14],t[15]=e[15],t},c.copy=function(e,t){return e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.identity=function(e){return e[0]=1,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=1,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=1,e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.transpose=function(e,t){if(e===t){var n=t[1],r=t[2],i=t[3],s=t[6],o=t[7],u=t[11];e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=n,e[6]=t[9],e[7]=t[13],e[8]=r,e[9]=s,e[11]=t[14],e[12]=i,e[13]=o,e[14]=u}else e[0]=t[0],e[1]=t[4],e[2]=t[8],e[3]=t[12],e[4]=t[1],e[5]=t[5],e[6]=t[9],e[7]=t[13],e[8]=t[2],e[9]=t[6],e[10]=t[10],e[11]=t[14],e[12]=t[3],e[13]=t[7],e[14]=t[11],e[15]=t[15];return e},c.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15],y=n*u-r*o,b=n*a-i*o,w=n*f-s*o,E=r*a-i*u,S=r*f-s*u,x=i*f-s*a,T=l*v-c*d,N=l*m-h*d,C=l*g-p*d,k=c*m-h*v,L=c*g-p*v,A=h*g-p*m,O=y*A-b*L+w*k+E*C-S*N+x*T;return O?(O=1/O,e[0]=(u*A-a*L+f*k)*O,e[1]=(i*L-r*A-s*k)*O,e[2]=(v*x-m*S+g*E)*O,e[3]=(h*S-c*x-p*E)*O,e[4]=(a*C-o*A-f*N)*O,e[5]=(n*A-i*C+s*N)*O,e[6]=(m*w-d*x-g*b)*O,e[7]=(l*x-h*w+p*b)*O,e[8]=(o*L-u*C+f*T)*O,e[9]=(r*C-n*L-s*T)*O,e[10]=(d*S-v*w+g*y)*O,e[11]=(c*w-l*S-p*y)*O,e[12]=(u*N-o*k-a*T)*O,e[13]=(n*k-r*N+i*T)*O,e[14]=(v*b-d*E-m*y)*O,e[15]=(l*E-c*b+h*y)*O,e):null},c.adjoint=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=t[4],u=t[5],a=t[6],f=t[7],l=t[8],c=t[9],h=t[10],p=t[11],d=t[12],v=t[13],m=t[14],g=t[15];return e[0]=u*(h*g-p*m)-c*(a*g-f*m)+v*(a*p-f*h),e[1]=-(r*(h*g-p*m)-c*(i*g-s*m)+v*(i*p-s*h)),e[2]=r*(a*g-f*m)-u*(i*g-s*m)+v*(i*f-s*a),e[3]=-(r*(a*p-f*h)-u*(i*p-s*h)+c*(i*f-s*a)),e[4]=-(o*(h*g-p*m)-l*(a*g-f*m)+d*(a*p-f*h)),e[5]=n*(h*g-p*m)-l*(i*g-s*m)+d*(i*p-s*h),e[6]=-(n*(a*g-f*m)-o*(i*g-s*m)+d*(i*f-s*a)),e[7]=n*(a*p-f*h)-o*(i*p-s*h)+l*(i*f-s*a),e[8]=o*(c*g-p*v)-l*(u*g-f*v)+d*(u*p-f*c),e[9]=-(n*(c*g-p*v)-l*(r*g-s*v)+d*(r*p-s*c)),e[10]=n*(u*g-f*v)-o*(r*g-s*v)+d*(r*f-s*u),e[11]=-(n*(u*p-f*c)-o*(r*p-s*c)+l*(r*f-s*u)),e[12]=-(o*(c*m-h*v)-l*(u*m-a*v)+d*(u*h-a*c)),e[13]=n*(c*m-h*v)-l*(r*m-i*v)+d*(r*h-i*c),e[14]=-(n*(u*m-a*v)-o*(r*m-i*v)+d*(r*a-i*u)),e[15]=n*(u*h-a*c)-o*(r*h-i*c)+l*(r*a-i*u),e},c.determinant=function(e){var t=e[0],n=e[1],r=e[2],i=e[3],s=e[4],o=e[5],u=e[6],a=e[7],f=e[8],l=e[9],c=e[10],h=e[11],p=e[12],d=e[13],v=e[14],m=e[15],g=t*o-n*s,y=t*u-r*s,b=t*a-i*s,w=n*u-r*o,E=n*a-i*o,S=r*a-i*u,x=f*d-l*p,T=f*v-c*p,N=f*m-h*p,C=l*v-c*d,k=l*m-h*d,L=c*m-h*v;return g*L-y*k+b*C+w*N-E*T+S*x},c.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=t[4],a=t[5],f=t[6],l=t[7],c=t[8],h=t[9],p=t[10],d=t[11],v=t[12],m=t[13],g=t[14],y=t[15],b=n[0],w=n[1],E=n[2],S=n[3];return e[0]=b*r+w*u+E*c+S*v,e[1]=b*i+w*a+E*h+S*m,e[2]=b*s+w*f+E*p+S*g,e[3]=b*o+w*l+E*d+S*y,b=n[4],w=n[5],E=n[6],S=n[7],e[4]=b*r+w*u+E*c+S*v,e[5]=b*i+w*a+E*h+S*m,e[6]=b*s+w*f+E*p+S*g,e[7]=b*o+w*l+E*d+S*y,b=n[8],w=n[9],E=n[10],S=n[11],e[8]=b*r+w*u+E*c+S*v,e[9]=b*i+w*a+E*h+S*m,e[10]=b*s+w*f+E*p+S*g,e[11]=b*o+w*l+E*d+S*y,b=n[12],w=n[13],E=n[14],S=n[15],e[12]=b*r+w*u+E*c+S*v,e[13]=b*i+w*a+E*h+S*m,e[14]=b*s+w*f+E*p+S*g,e[15]=b*o+w*l+E*d+S*y,e},c.mul=c.multiply,c.translate=function(e,t,n){var r=n[0],i=n[1],s=n[2],o,u,a,f,l,c,h,p,d,v,m,g;return t===e?(e[12]=t[0]*r+t[4]*i+t[8]*s+t[12],e[13]=t[1]*r+t[5]*i+t[9]*s+t[13],e[14]=t[2]*r+t[6]*i+t[10]*s+t[14],e[15]=t[3]*r+t[7]*i+t[11]*s+t[15]):(o=t[0],u=t[1],a=t[2],f=t[3],l=t[4],c=t[5],h=t[6],p=t[7],d=t[8],v=t[9],m=t[10],g=t[11],e[0]=o,e[1]=u,e[2]=a,e[3]=f,e[4]=l,e[5]=c,e[6]=h,e[7]=p,e[8]=d,e[9]=v,e[10]=m,e[11]=g,e[12]=o*r+l*i+d*s+t[12],e[13]=u*r+c*i+v*s+t[13],e[14]=a*r+h*i+m*s+t[14],e[15]=f*r+p*i+g*s+t[15]),e},c.scale=function(e,t,n){var r=n[0],i=n[1],s=n[2];return e[0]=t[0]*r,e[1]=t[1]*r,e[2]=t[2]*r,e[3]=t[3]*r,e[4]=t[4]*i,e[5]=t[5]*i,e[6]=t[6]*i,e[7]=t[7]*i,e[8]=t[8]*s,e[9]=t[9]*s,e[10]=t[10]*s,e[11]=t[11]*s,e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15],e},c.rotate=function(e,n,r,i){var s=i[0],o=i[1],u=i[2],a=Math.sqrt(s*s+o*o+u*u),f,l,c,h,p,d,v,m,g,y,b,w,E,S,x,T,N,C,k,L,A,O,M,_;return Math.abs(a)<t?null:(a=1/a,s*=a,o*=a,u*=a,f=Math.sin(r),l=Math.cos(r),c=1-l,h=n[0],p=n[1],d=n[2],v=n[3],m=n[4],g=n[5],y=n[6],b=n[7],w=n[8],E=n[9],S=n[10],x=n[11],T=s*s*c+l,N=o*s*c+u*f,C=u*s*c-o*f,k=s*o*c-u*f,L=o*o*c+l,A=u*o*c+s*f,O=s*u*c+o*f,M=o*u*c-s*f,_=u*u*c+l,e[0]=h*T+m*N+w*C,e[1]=p*T+g*N+E*C,e[2]=d*T+y*N+S*C,e[3]=v*T+b*N+x*C,e[4]=h*k+m*L+w*A,e[5]=p*k+g*L+E*A,e[6]=d*k+y*L+S*A,e[7]=v*k+b*L+x*A,e[8]=h*O+m*M+w*_,e[9]=p*O+g*M+E*_,e[10]=d*O+y*M+S*_,e[11]=v*O+b*M+x*_,n!==e&&(e[12]=n[12],e[13]=n[13],e[14]=n[14],e[15]=n[15]),e)},c.rotateX=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[4],o=t[5],u=t[6],a=t[7],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[0]=t[0],e[1]=t[1],e[2]=t[2],e[3]=t[3],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[4]=s*i+f*r,e[5]=o*i+l*r,e[6]=u*i+c*r,e[7]=a*i+h*r,e[8]=f*i-s*r,e[9]=l*i-o*r,e[10]=c*i-u*r,e[11]=h*i-a*r,e},c.rotateY=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[8],l=t[9],c=t[10],h=t[11];return t!==e&&(e[4]=t[4],e[5]=t[5],e[6]=t[6],e[7]=t[7],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i-f*r,e[1]=o*i-l*r,e[2]=u*i-c*r,e[3]=a*i-h*r,e[8]=s*r+f*i,e[9]=o*r+l*i,e[10]=u*r+c*i,e[11]=a*r+h*i,e},c.rotateZ=function(e,t,n){var r=Math.sin(n),i=Math.cos(n),s=t[0],o=t[1],u=t[2],a=t[3],f=t[4],l=t[5],c=t[6],h=t[7];return t!==e&&(e[8]=t[8],e[9]=t[9],e[10]=t[10],e[11]=t[11],e[12]=t[12],e[13]=t[13],e[14]=t[14],e[15]=t[15]),e[0]=s*i+f*r,e[1]=o*i+l*r,e[2]=u*i+c*r,e[3]=a*i+h*r,e[4]=f*i-s*r,e[5]=l*i-o*r,e[6]=c*i-u*r,e[7]=h*i-a*r,e},c.fromRotationTranslation=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=r+r,a=i+i,f=s+s,l=r*u,c=r*a,h=r*f,p=i*a,d=i*f,v=s*f,m=o*u,g=o*a,y=o*f;return e[0]=1-(p+v),e[1]=c+y,e[2]=h-g,e[3]=0,e[4]=c-y,e[5]=1-(l+v),e[6]=d+m,e[7]=0,e[8]=h+g,e[9]=d-m,e[10]=1-(l+p),e[11]=0,e[12]=n[0],e[13]=n[1],e[14]=n[2],e[15]=1,e},c.fromQuat=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n+n,u=r+r,a=i+i,f=n*o,l=n*u,c=n*a,h=r*u,p=r*a,d=i*a,v=s*o,m=s*u,g=s*a;return e[0]=1-(h+d),e[1]=l+g,e[2]=c-m,e[3]=0,e[4]=l-g,e[5]=1-(f+d),e[6]=p+v,e[7]=0,e[8]=c+m,e[9]=p-v,e[10]=1-(f+h),e[11]=0,e[12]=0,e[13]=0,e[14]=0,e[15]=1,e},c.frustum=function(e,t,n,r,i,s,o){var u=1/(n-t),a=1/(i-r),f=1/(s-o);return e[0]=s*2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s*2*a,e[6]=0,e[7]=0,e[8]=(n+t)*u,e[9]=(i+r)*a,e[10]=(o+s)*f,e[11]=-1,e[12]=0,e[13]=0,e[14]=o*s*2*f,e[15]=0,e},c.perspective=function(e,t,n,r,i){var s=1/Math.tan(t/2),o=1/(r-i);return e[0]=s/n,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=s,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=(i+r)*o,e[11]=-1,e[12]=0,e[13]=0,e[14]=2*i*r*o,e[15]=0,e},c.ortho=function(e,t,n,r,i,s,o){var u=1/(t-n),a=1/(r-i),f=1/(s-o);return e[0]=-2*u,e[1]=0,e[2]=0,e[3]=0,e[4]=0,e[5]=-2*a,e[6]=0,e[7]=0,e[8]=0,e[9]=0,e[10]=2*f,e[11]=0,e[12]=(t+n)*u,e[13]=(i+r)*a,e[14]=(o+s)*f,e[15]=1,e},c.lookAt=function(e,n,r,i){var s,o,u,a,f,l,h,p,d,v,m=n[0],g=n[1],y=n[2],b=i[0],w=i[1],E=i[2],S=r[0],x=r[1],T=r[2];return Math.abs(m-S)<t&&Math.abs(g-x)<t&&Math.abs(y-T)<t?c.identity(e):(h=m-S,p=g-x,d=y-T,v=1/Math.sqrt(h*h+p*p+d*d),h*=v,p*=v,d*=v,s=w*d-E*p,o=E*h-b*d,u=b*p-w*h,v=Math.sqrt(s*s+o*o+u*u),v?(v=1/v,s*=v,o*=v,u*=v):(s=0,o=0,u=0),a=p*u-d*o,f=d*s-h*u,l=h*o-p*s,v=Math.sqrt(a*a+f*f+l*l),v?(v=1/v,a*=v,f*=v,l*=v):(a=0,f=0,l=0),e[0]=s,e[1]=a,e[2]=h,e[3]=0,e[4]=o,e[5]=f,e[6]=p,e[7]=0,e[8]=u,e[9]=l,e[10]=d,e[11]=0,e[12]=-(s*m+o*g+u*y),e[13]=-(a*m+f*g+l*y),e[14]=-(h*m+p*g+d*y),e[15]=1,e)},c.str=function(e){return"mat4("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+", "+e[4]+", "+e[5]+", "+e[6]+", "+e[7]+", "+e[8]+", "+e[9]+", "+e[10]+", "+e[11]+", "+e[12]+", "+e[13]+", "+e[14]+", "+e[15]+")"},typeof e!="undefined"&&(e.mat4=c);var h={};h.create=function(){var e=new n(4);return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.rotationTo=function(){var e=o.create(),t=o.fromValues(1,0,0),n=o.fromValues(0,1,0);return function(r,i,s){var u=o.dot(i,s);return u<-0.999999?(o.cross(e,t,i),o.length(e)<1e-6&&o.cross(e,n,i),o.normalize(e,e),h.setAxisAngle(r,e,Math.PI),r):u>.999999?(r[0]=0,r[1]=0,r[2]=0,r[3]=1,r):(o.cross(e,i,s),r[0]=e[0],r[1]=e[1],r[2]=e[2],r[3]=1+u,h.normalize(r,r))}}(),h.setAxes=function(){var e=l.create();return function(t,n,r,i){return e[0]=r[0],e[3]=r[1],e[6]=r[2],e[1]=i[0],e[4]=i[1],e[7]=i[2],e[2]=n[0],e[5]=n[1],e[8]=n[2],h.normalize(t,h.fromMat3(t,e))}}(),h.clone=u.clone,h.fromValues=u.fromValues,h.copy=u.copy,h.set=u.set,h.identity=function(e){return e[0]=0,e[1]=0,e[2]=0,e[3]=1,e},h.setAxisAngle=function(e,t,n){n*=.5;var r=Math.sin(n);return e[0]=r*t[0],e[1]=r*t[1],e[2]=r*t[2],e[3]=Math.cos(n),e},h.add=u.add,h.multiply=function(e,t,n){var r=t[0],i=t[1],s=t[2],o=t[3],u=n[0],a=n[1],f=n[2],l=n[3];return e[0]=r*l+o*u+i*f-s*a,e[1]=i*l+o*a+s*u-r*f,e[2]=s*l+o*f+r*a-i*u,e[3]=o*l-r*u-i*a-s*f,e},h.mul=h.multiply,h.scale=u.scale,h.rotateX=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+o*u,e[1]=i*a+s*u,e[2]=s*a-i*u,e[3]=o*a-r*u,e},h.rotateY=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a-s*u,e[1]=i*a+o*u,e[2]=s*a+r*u,e[3]=o*a-i*u,e},h.rotateZ=function(e,t,n){n*=.5;var r=t[0],i=t[1],s=t[2],o=t[3],u=Math.sin(n),a=Math.cos(n);return e[0]=r*a+i*u,e[1]=i*a-r*u,e[2]=s*a+o*u,e[3]=o*a-s*u,e},h.calculateW=function(e,t){var n=t[0],r=t[1],i=t[2];return e[0]=n,e[1]=r,e[2]=i,e[3]=-Math.sqrt(Math.abs(1-n*n-r*r-i*i)),e},h.dot=u.dot,h.lerp=u.lerp,h.slerp=function(e,t,n,r){var i=t[0],s=t[1],o=t[2],u=t[3],a=n[0],f=n[1],l=n[2],c=n[3],h,p,d,v,m;return p=i*a+s*f+o*l+u*c,p<0&&(p=-p,a=-a,f=-f,l=-l,c=-c),1-p>1e-6?(h=Math.acos(p),d=Math.sin(h),v=Math.sin((1-r)*h)/d,m=Math.sin(r*h)/d):(v=1-r,m=r),e[0]=v*i+m*a,e[1]=v*s+m*f,e[2]=v*o+m*l,e[3]=v*u+m*c,e},h.invert=function(e,t){var n=t[0],r=t[1],i=t[2],s=t[3],o=n*n+r*r+i*i+s*s,u=o?1/o:0;return e[0]=-n*u,e[1]=-r*u,e[2]=-i*u,e[3]=s*u,e},h.conjugate=function(e,t){return e[0]=-t[0],e[1]=-t[1],e[2]=-t[2],e[3]=t[3],e},h.length=u.length,h.len=h.length,h.squaredLength=u.squaredLength,h.sqrLen=h.squaredLength,h.normalize=u.normalize,h.fromMat3=function(){var e=typeof Int8Array!="undefined"?new Int8Array([1,2,0]):[1,2,0];return function(t,n){var r=n[0]+n[4]+n[8],i;if(r>0)i=Math.sqrt(r+1),t[3]=.5*i,i=.5/i,t[0]=(n[7]-n[5])*i,t[1]=(n[2]-n[6])*i,t[2]=(n[3]-n[1])*i;else{var s=0;n[4]>n[0]&&(s=1),n[8]>n[s*3+s]&&(s=2);var o=e[s],u=e[o];i=Math.sqrt(n[s*3+s]-n[o*3+o]-n[u*3+u]+1),t[s]=.5*i,i=.5/i,t[3]=(n[u*3+o]-n[o*3+u])*i,t[o]=(n[o*3+s]+n[s*3+o])*i,t[u]=(n[u*3+s]+n[s*3+u])*i}return t}}(),h.str=function(e){return"quat("+e[0]+", "+e[1]+", "+e[2]+", "+e[3]+")"},typeof e!="undefined"&&(e.quat=h)}(t.exports)})(this);
